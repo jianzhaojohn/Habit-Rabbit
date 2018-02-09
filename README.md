@@ -1,29 +1,30 @@
 # Habit-Rabbit
 
-# Project Description
-## MVP:
-
-- Users will be able to create/login their own personal accounts. 
-- In each individual's account, users would have the options to create, edit and delete habits on their own wills. 
-- A cute little rabbit will be born whenever a habit is created, rabbit's growth is used as a motivation to encourge users to acheive their goals. The rabbit could potentially pass away if users stay in-active for too long. 
-- Users would also be able to create notes or alarms for reminders or progress-tracking purposes. 
-- The information of notes would be display in calendar or agenda layout.
-
-## Add on Features:
-
-1. Pushing established habits on to Google Calendar.
-
-2. Able to Sync with others apps such as MyFitnessPal, Fitbit, etc to keep track of progress.
-
-3. Inviting friends/family to help monitor their habits to certain they are being honest.
-
-4. Suggesting hot habits.
-
-5. Recording some habits automatically, eg. running.
-
-# User Story
-- I want to build/cut habits.
-- I want to keep track of my habits.
-- I want to be stimulated.
-
 [![Join the chat at https://gitter.im/Habit_Rabbit/Lobby](https://badges.gitter.im/Habit_Rabbit/Lobby.svg)](https://gitter.im/Habit_Rabbit/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
+
+## User story:
+* As a user, I can download this app on my android device to keep track of habits that I wish to make/break, and hold myself accountable.
+* I can enter habits into the app and have them repeat at custom intervals, and edit them later if I want to change the frequency, or delete them altogether eventually. 
+* I can view what I need to do for the day in a visually layout. 
+	* appealing agenda layout
+	* a diagram
+* I want to be stimulated by my Habit Rabbit.
+	* Habit Rabbit will guilt me into keeping to my habits by accusing me of "murdering" my virtual rabbits if I do not do what I promised I would.
+
+
+## Project Description:
+
+### Minimal Viable Product
+Users will be able to 
+* create/login
+* input, remove and edit habits
+* view habits in an agenda layout
+* view Rabbit Hutch, which is filled with rabbits as you complete a habit, but kills the rabbits when you don’t (and notifies the user that they murdered their rabbits)
+    
+### Add-on features
+* sync with other apps to be kept accountable (such as Fitbit, MyFitnessPal, etc)
+* push selected habits to google calendar
+* add “friends” who will be able to shame them when they falsely enter that they did something that they didn’t
+* bet money,using paypal, that they will complete all their habits for a given period of time. If they fail, the money is donated to a charity of their choice.
+
