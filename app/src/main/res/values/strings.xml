@@ -13,4 +13,6 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="title_habit_list">Habits</string>
+    <string name="title_habit_detail">Habit Detail</string>
 </resources>
