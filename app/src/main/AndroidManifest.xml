@@ -23,7 +23,29 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".HabitListActivity"
+            android:label="@string/title_habit_list"
+            android:parentActivityName=".LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit.LoginActivity" />
+        </activity>
+        <activity
+            android:name=".HabitDetailActivity"
+            android:label="@string/title_habit_detail"
+            android:parentActivityName=".HabitListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit.HabitListActivity" />
+        </activity>
+        <activity android:name=".EditHabitActivity"></activity>
+
         <activity android:name=".CalandarActivity"></activity>
+
     </application>
 
 </manifest>
