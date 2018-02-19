@@ -23,6 +23,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".HabitListActivity"
             android:label="@string/title_habit_list"
@@ -42,6 +43,9 @@
                 android:value="comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit.HabitListActivity" />
         </activity>
         <activity android:name=".EditHabitActivity"></activity>
+
+        <activity android:name=".CalandarActivity"></activity>
+
     </application>
 
 </manifest>

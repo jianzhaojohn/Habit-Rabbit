@@ -1,0 +1,14 @@
+Meeting date and time:
+•	12:00 – 1:00 PM, February 12, 2018
+Meeting attendance:
+•	Alison absent, everyone else present
+Synopsis of meeting:
+•	We decided to all work on different parts of the minimum viable product prototype. It was decided that we should begin working on the backend ASAP. Discussed layout of app. Allocated tasks to members.
+List explicitly and in detail what each individual team member accomplished since the last meeting:
+•	First meeting, no previous meetings.
+List explicitly and in detail what each individual team member will accomplish before the next meeting. All team members must have at least 1 task listed here and each task must have a GitHub issue associated with it in the project repository:
+•	Sunny: Profile page
+•	John: Login button and rabbit drawing
+•	Xiaoyun: Task page
+•	Alison: Google Calendar page
+•	Jonathan: Rabbit creation
