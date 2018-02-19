@@ -3,6 +3,7 @@ package comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -280,6 +281,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
 
+    /** Called when the user taps the tmp button. temporarily used. */
+    public void gotoHabit(View view) {
+        Intent intent = new Intent(LoginActivity.this, HabitListActivity.class);
+        LoginActivity.this.startActivity(intent);
+    }
+
+
     private interface ProfileQuery {
         String[] PROJECTION = {
                 ContactsContract.CommonDataKinds.Email.ADDRESS,
@@ -345,6 +353,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = null;
             showProgress(false);
         }
+
     }
 }
 

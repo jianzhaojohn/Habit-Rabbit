@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit">
+
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
@@ -22,6 +23,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".HabitListActivity"
+            android:label="@string/title_habit_list"
+            android:parentActivityName=".LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit.LoginActivity" />
+        </activity>
+        <activity
+            android:name=".HabitDetailActivity"
+            android:label="@string/title_habit_detail"
+            android:parentActivityName=".HabitListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit.HabitListActivity" />
+        </activity>
+        <activity android:name=".EditHabitActivity"></activity>
     </application>
 
 </manifest>
