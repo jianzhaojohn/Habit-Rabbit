@@ -13,4 +13,22 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="title_habit_list">Habits</string>
+    <string name="title_habit_detail">Habit Detail</string>
+    <string name="btn_tmp">tmp</string>
+    <string name="btn_delete">delete</string>
+    <string name="label_title">Title:</string>
+    <string name="txt_title">My New Habit</string>
+    <string name="label_description">Description:</string>
+    <string name="txt_description">Description here.</string>
+    <string name="label_freq">Frequency:</string>
+    <string name="freq_prompt">choose a frequency:</string>
+    <string name="label_reminder">Reminder:</string>
+
+    <string-array name="freq_array">
+        <item>once a day</item>
+        <item>once a week</item>
+        <item>once a month</item>
+        <item>customize</item>
+    </string-array>
 </resources>
