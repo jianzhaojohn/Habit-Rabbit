@@ -7,10 +7,10 @@
     tools:context="comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit.EditHabitActivity">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textView_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="@string/label_title"
         android:textSize="18sp"
@@ -18,40 +18,52 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textView_des"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="@string/label_description"
         android:textSize="18sp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/textView_title" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/textView_freq"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="@string/label_period"
+        android:text="@string/label_freq"
         android:textSize="18sp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText2" />
+        app:layout_constraintTop_toBottomOf="@+id/editText_description" />
+
+    <TextView
+        android:id="@+id/textView_reminder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/label_reminder"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_freq" />
 
     <AutoCompleteTextView
         android:id="@+id/autoCompleteTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginStart="8dp"
         android:text="@string/txt_title"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView_title"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView" />
+        app:layout_constraintStart_toEndOf="@+id/textView_title"
+        tools:ignore="LabelFor" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/editText_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -60,53 +72,43 @@
         android:inputType="textMultiLine"
         android:text="@string/txt_description"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView2"
-        app:layout_constraintTop_toTopOf="@+id/textView2" />
+        app:layout_constraintStart_toEndOf="@+id/textView_des"
+        app:layout_constraintTop_toTopOf="@+id/textView_des"
+        tools:ignore="LabelFor" />
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/spinner_f"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="32dp"
-        android:entries="@array/period_array"
-        android:prompt="@string/period_prompt"
+        android:entries="@array/freq_array"
+        android:prompt="@string/freq_prompt"
         android:spinnerMode="dialog"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView3"
-        app:layout_constraintTop_toTopOf="@+id/textView3" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/label_reminder"
-        android:textSize="18sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintStart_toEndOf="@+id/textView_freq"
+        app:layout_constraintTop_toTopOf="@+id/textView_freq" />
 
     <Switch
-        android:id="@+id/switch1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="16dp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView4"
-        app:layout_constraintRight_toRightOf="parent" />
-
-    <Button
-        android:id="@+id/button2"
+        android:id="@+id/switch_reminder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
-        android:text="@android:string/no"
-        app:layout_constraintBaseline_toBaselineOf="@+id/button3"
-        app:layout_constraintEnd_toStartOf="@+id/button3" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView_reminder"
+        app:layout_constraintRight_toRightOf="parent" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/button_habit_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="@android:string/cancel"
+        app:layout_constraintBaseline_toBaselineOf="@+id/button_habit_ok"
+        app:layout_constraintEnd_toStartOf="@+id/button_habit_ok" />
+
+    <Button
+        android:id="@+id/button_habit_ok"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"

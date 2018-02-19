@@ -23,7 +23,7 @@ public class DummyContent {
      */
     public static final Map<String, DummyItem> ITEM_MAP = new HashMap<String, DummyItem>();
 
-    private static final int COUNT = 5;
+    private static final int COUNT = 15;
 
     static {
         // Add some sample items.
@@ -45,7 +45,7 @@ public class DummyContent {
         StringBuilder builder = new StringBuilder();
         builder.append("Details about Habit ").append(position);
         builder.append("\nDescription:");
-        builder.append("\nPeriod:");
+        builder.append("\nFrequency:");
         builder.append("\nNumber of tasks in succession:");
         builder.append("\n\nShow task history below:");
         /*for (int i = 0; i < position; i++) {
