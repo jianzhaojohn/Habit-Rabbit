@@ -8,6 +8,7 @@
     android:layout_height="match_parent"
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
+    android:scrollbars="none|vertical"
     app:layoutManager="LinearLayoutManager"
     tools:context="comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit.HabitListActivity"
     tools:listitem="@layout/habit_list_content" />

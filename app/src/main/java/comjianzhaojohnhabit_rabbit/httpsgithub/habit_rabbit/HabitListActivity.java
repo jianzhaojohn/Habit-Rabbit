@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +19,7 @@ import java.util.List;
 
 import comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit.dummy.DummyContent;
 
+import static android.app.PendingIntent.getActivity;
 import static android.support.v4.app.NavUtils.navigateUpFromSameTask;
 
 /**
@@ -48,13 +48,22 @@ public class HabitListActivity extends AppCompatActivity {
         toolbar.setTitle(getTitle());
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        /*fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
+        */
+        // jump to newHabitActivity in responding to click the fab
+        fab.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HabitListActivity.this, EditHabitActivity.class));
+            }
+        });
+        // fab.setTooltipText("Add a new habit.");
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -152,6 +161,13 @@ public class HabitListActivity extends AppCompatActivity {
             return mValues.size();
         }
 
+        public void deleteHabit(View view) {
+            // respond the delete button with a dialog box
+            //AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            //AlertDialog dialog = builder.create();
+
+        }
+
         class ViewHolder extends RecyclerView.ViewHolder {
             final TextView mIdView;
             final TextView mContentView;
@@ -162,5 +178,6 @@ public class HabitListActivity extends AppCompatActivity {
                 mContentView = (TextView) view.findViewById(R.id.content);
             }
         }
+
     }
 }
