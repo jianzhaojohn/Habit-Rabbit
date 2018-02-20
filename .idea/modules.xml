@@ -2,13 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-
       <module fileurl="file://D:\Yun\StudioProjects\Habit-Rabbit\HABITRABBIT.iml" filepath="D:\Yun\StudioProjects\Habit-Rabbit\HABITRABBIT.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/Habit-Rabbit.iml" filepath="$PROJECT_DIR$/.idea/Habit-Rabbit.iml" />
-
       <module fileurl="file://C:\Users\notachimo\Documents\GitHub\Habit-Rabbit\HABITRABBIT.iml" filepath="C:\Users\notachimo\Documents\GitHub\Habit-Rabbit\HABITRABBIT.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Habit-Rabbit.iml" filepath="$PROJECT_DIR$/Habit-Rabbit.iml" />
-
+      <module fileurl="file://C:\Users\SunnyD\Desktop\Spring 2018\cse442\Habit-Rabbit-develop (1)\Habit-Rabbit-develop\.idea\Habit-Rabbit.iml" filepath="C:\Users\SunnyD\Desktop\Spring 2018\cse442\Habit-Rabbit-develop (1)\Habit-Rabbit-develop\.idea\Habit-Rabbit.iml" />
+      <module fileurl="file://C:\Users\SunnyD\Desktop\Spring 2018\cse442\Habit-Rabbit-develop (1)\Habit-Rabbit-develop\Habit-Rabbit.iml" filepath="C:\Users\SunnyD\Desktop\Spring 2018\cse442\Habit-Rabbit-develop (1)\Habit-Rabbit-develop\Habit-Rabbit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Habit-Rabbit-develop.iml" filepath="$PROJECT_DIR$/Habit-Rabbit-develop.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://C:\Users\notachimo\Documents\GitHub\Habit-Rabbit\app\app.iml" filepath="C:\Users\notachimo\Documents\GitHub\Habit-Rabbit\app\app.iml" />
     </modules>
