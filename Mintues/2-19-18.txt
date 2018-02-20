@@ -1,0 +1,32 @@
+# Attendance
+Xiayung - present
+Alison - present
+Jonathan - absent, needs to study
+John - present
+Sunny - present
+
+# Done Since Last Meeting
+Xiayung - created a list view and a menu for editing habits
+Alison - created an agenda view that shows habits sorted by daily, weekly and monthly tasks entered
+Jonathan -
+John - created the “hutch”, which represents habits that have been completed
+Sunny - created profile page with user info
+
+# Discussed Today
+
+## How we are saving/representing user data
+Users can now only enter daily and weekly
+How the lines will be represented to build/save
+
+## Merging everyone’s work
+We merged everyone’s work during the meeting
+
+## Logging in
+Using Facebook or Google to log in, maybe have making a new account be an add-on feature
+
+# Issues for next meeting
+Xiayung - navigation between pages
+Alison - reading/writing information in the agenda view
+Jonathan - update readme so that a technical user can download and run our program
+John - navigation between pages
+Sunny - video and release
