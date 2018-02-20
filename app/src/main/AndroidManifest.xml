@@ -45,6 +45,8 @@
         <activity android:name=".EditHabitActivity"></activity>
 
         <activity android:name=".CalandarActivity"></activity>
+        <activity android:name=".MainActivity"
+            android:exported="true"></activity>
 
     </application>
 
