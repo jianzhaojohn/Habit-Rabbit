@@ -23,7 +23,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".HabitListActivity"
             android:label="@string/title_habit_list"
@@ -42,12 +41,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit.HabitListActivity" />
         </activity>
-        <activity android:name=".EditHabitActivity"></activity>
-
-        <activity android:name=".CalandarActivity"></activity>
-        <activity android:name=".MainActivity"
-            android:exported="true"></activity>
-
+        <activity android:name=".EditHabitActivity" />
+        <activity android:name=".CalandarActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
+        <activity android:name=".ProfileActivity"></activity>
     </application>
 
 </manifest>
