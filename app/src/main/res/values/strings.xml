@@ -24,6 +24,8 @@
     <string name="label_freq">Frequency:</string>
     <string name="freq_prompt">choose a frequency:</string>
     <string name="label_reminder">Reminder:</string>
+    <string name="open">Open</string>
+    <string name="closed">Closed</string>
 
     <string-array name="freq_array">
         <item>once a day</item>
