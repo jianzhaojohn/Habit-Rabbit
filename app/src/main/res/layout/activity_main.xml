@@ -31,14 +31,18 @@
             android:layout_centerInParent="true"
             android:layout_marginBottom="188dp"
             android:background="@null"
+            android:onClick="openrabbit"
             app:srcCompat="@drawable/rabbithouse" />
     </RelativeLayout>
 
     <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
         android:layout_height="match_parent"
         android:layout_width="wrap_content"
+        android:fitsSystemWindows="true"
         app:menu="@menu/navigation_menu"
-        android:layout_gravity="start">
+        android:layout_gravity="start"
+        >
     </android.support.design.widget.NavigationView>
 
 
