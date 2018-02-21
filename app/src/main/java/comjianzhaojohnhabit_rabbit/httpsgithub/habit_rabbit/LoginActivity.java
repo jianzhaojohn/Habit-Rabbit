@@ -3,6 +3,7 @@ package comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
@@ -30,6 +31,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,7 +60,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * TODO: remove after connecting to a real authentication system.
      */
     private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
+            "foo@example.com:hello", "bar@example.com:world", "test@example.com:test"
     };
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -198,7 +208,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return password.length() > 4;
+        return password.length() > 3;
     }
 
     /**
@@ -281,13 +291,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
 
-    /** Called when the user taps the tmp button. temporarily used. */
-    public void gotoHabit(View view) {
-        Intent intent = new Intent(LoginActivity.this, HabitListActivity.class);
-        LoginActivity.this.startActivity(intent);
-    }
-
-
     private interface ProfileQuery {
         String[] PROJECTION = {
                 ContactsContract.CommonDataKinds.Email.ADDRESS,
@@ -316,6 +319,39 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
 
+
+            /*// send login request
+            RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
+            String url = "https://habit-rabbit.000webhostapp.com/Login.php";
+
+            StringRequest loginReq = new StringRequest(Request.Method.POST, url,
+                    new Response.Listener<String>(){
+                @Override
+                public void onResponse(String response) {
+                    try {
+                        // parse the response
+                        JSONObject jsonRes = new JSONObject(response);
+                        boolean success = jsonRes.getBoolean("success");
+
+                        if (success) {
+                            // jump to main page
+                            LoginActivity.this.startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        } else {
+                            AlertDialog.Builder alert = new AlertDialog.Builder(LoginActivity.this);
+                            alert.setMessage("Longin Failed!")
+                                    .setNegativeButton("Retry", null)
+                                    .create()
+                                    .show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, null);
+
+            queue.add(loginReq);
+            */
+
             try {
                 // Simulate network access.
                 Thread.sleep(2000);
@@ -331,7 +367,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 }
             }
 
+
             // TODO: register the new account here.
+            //LoginActivity.this.startActivity(new Intent(LoginActivity.this, ReghhellisterActivity.class));
+
             return true;
         }
 
@@ -342,10 +381,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (success) {
                 finish();
+                LoginActivity.this.startActivity(new Intent(LoginActivity.this, HabitListActivity.class));
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
             }
+
         }
 
         @Override

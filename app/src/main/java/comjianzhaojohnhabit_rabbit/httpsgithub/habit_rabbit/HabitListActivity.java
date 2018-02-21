@@ -63,7 +63,15 @@ public class HabitListActivity extends AppCompatActivity {
                 startActivity(new Intent(HabitListActivity.this, EditHabitActivity.class));
             }
         });
-        // fab.setTooltipText("Add a new habit.");
+
+        FloatingActionButton fab2 = (FloatingActionButton) findViewById(R.id.fab_agenda);
+        fab2.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HabitListActivity.this, CalendarActivity.class));
+            }
+        });
+
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
