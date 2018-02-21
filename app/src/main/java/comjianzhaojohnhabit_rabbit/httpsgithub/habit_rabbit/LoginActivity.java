@@ -34,6 +34,7 @@ import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -41,7 +42,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -320,39 +323,51 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // TODO: attempt authentication against a network service.
 
 
-            /*// send login request
+            // send login request
             RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
-            String url = "https://habit-rabbit.000webhostapp.com/Login.php";
+            String url_login = "https://habit-rabbit.000webhostapp.com/Login.php";
+//            String url_reg = "https://habit-rabbit.000webhostapp.com/Register.php";
 
-            StringRequest loginReq = new StringRequest(Request.Method.POST, url,
+            StringRequest loginReq = new StringRequest(Request.Method.POST, url_login,
                     new Response.Listener<String>(){
-                @Override
-                public void onResponse(String response) {
-                    try {
-                        // parse the response
-                        JSONObject jsonRes = new JSONObject(response);
-                        boolean success = jsonRes.getBoolean("success");
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                // parse the response
+                                JSONObject jsonRes = new JSONObject(response);
+                                Boolean success = jsonRes.getBoolean("success");
 
-                        if (success) {
-                            // jump to main page
-                            LoginActivity.this.startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                        } else {
-                            AlertDialog.Builder alert = new AlertDialog.Builder(LoginActivity.this);
-                            alert.setMessage("Longin Failed!")
-                                    .setNegativeButton("Retry", null)
-                                    .create()
-                                    .show();
+                                if (success) {
+                                    // jump to main page
+                                    LoginActivity.this.startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                } else {
+                                    android.support.v7.app.AlertDialog.Builder alert = new android.support.v7.app.AlertDialog.Builder(LoginActivity.this);
+                                    alert.setMessage("Login Failed!")
+                                            .setNegativeButton("Retry", null)
+                                            .create()
+                                            .show();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
                 }
-            }, null);
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("username", mEmail);
+                    params.put("password", mPassword);
+                    return params;
+                }
+            };
 
             queue.add(loginReq);
-            */
 
-            try {
+            /*try {
                 // Simulate network access.
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
@@ -365,11 +380,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     // Account exists, return true if the password matches.
                     return pieces[1].equals(mPassword);
                 }
-            }
+            }*/
 
 
             // TODO: register the new account here.
-            //LoginActivity.this.startActivity(new Intent(LoginActivity.this, ReghhellisterActivity.class));
+            //LoginActivity.this.startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
 
             return true;
         }
@@ -380,8 +395,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
+                //LoginActivity.this.startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 finish();
-                LoginActivity.this.startActivity(new Intent(LoginActivity.this, MainActivity.class));
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
