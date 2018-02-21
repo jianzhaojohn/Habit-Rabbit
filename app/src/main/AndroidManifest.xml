@@ -47,7 +47,11 @@
         <activity
             android:name=".MainActivity"
             android:exported="true" />
-        <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".ProfileActivity" />
+        <activity
+            android:name=".RabbitReview"
+            android:label="@string/title_activity_rabbit_review"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

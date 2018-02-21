@@ -33,4 +33,5 @@
         <item>once a month</item>
         <item>customize</item>
     </string-array>
+    <string name="title_activity_rabbit_review">RabbitReview</string>
 </resources>
