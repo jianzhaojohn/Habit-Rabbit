@@ -28,3 +28,5 @@ Users will be able to
 * add “friends” who will be able to shame them when they falsely enter that they did something that they didn’t
 * bet money,using paypal, that they will complete all their habits for a given period of time. If they fail, the money is donated to a charity of their choice.
 
+## Prototype 
+https://youtu.be/g607Lzud3Ss
