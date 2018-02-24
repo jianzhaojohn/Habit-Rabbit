@@ -30,6 +30,11 @@ Users will be able to
 
 ### How to Run
 
+Test e-mail: test@example.com
+Test password: test
+
+You need these to log in once you have run the app.
+
 1. Download Android Studio at https://developer.android.com/studio/index.html
 2. Clone or fork repository, and open using Android Studio.
 3. Build and run app, as shown below:
