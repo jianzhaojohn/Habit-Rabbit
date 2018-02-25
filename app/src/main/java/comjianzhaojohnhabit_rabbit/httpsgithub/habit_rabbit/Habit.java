@@ -5,6 +5,7 @@ package comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit;
  */
 
 public class Habit {
+    //public enum Period {DAILY, WEEKLY, MONTHLY} was having trouble with enumeration
     public String description;
     public String period;
     public int timesPerPeriod;

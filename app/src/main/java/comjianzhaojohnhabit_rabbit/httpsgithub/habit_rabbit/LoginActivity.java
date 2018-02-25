@@ -23,6 +23,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -92,8 +93,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         boolean loggingInExistingAccount = true; //make a function to determine this next time
         if (loggingInExistingAccount){
             //Dummy info, in the future we will  access from database
-            //credit to https://www.youtube.com/watch?v=xv_JJbjDQ3M
-
             Set<String> habits = new LinkedHashSet<String>();
             habits.add("Brush the cat,w,1,0,0");//name,period,timesPerPeriod,timesCompletedInPeriod,streak
             habits.add("Grind Leetcode,d,1,0,5");
@@ -103,6 +102,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             SharedPreferences sharedPref = getSharedPreferences("UserData", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.putStringSet("habits",habits);
+            editor.commit();
+
         }
         //TODO: created else block for new account, setting username and password
 
