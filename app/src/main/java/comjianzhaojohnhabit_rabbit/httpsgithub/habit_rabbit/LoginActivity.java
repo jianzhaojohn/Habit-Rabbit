@@ -78,11 +78,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
 
-        mPasswordView = (EditText) findViewById(R.id.password1);
+        mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == EditorInfo.IME_ACTION_DONE) {
+                if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
                     attemptLogin();
                     return true;
                 }
@@ -227,11 +227,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             } else {
                                 mPasswordView.setError("Email and password do not match");
                                 mPasswordView.requestFocus();
-//                                android.support.v7.app.AlertDialog.Builder alert = new android.support.v7.app.AlertDialog.Builder(LoginActivity.this);
-//                                alert.setMessage("Login Failed!")
-//                                        .setNegativeButton("Retry", null)
-//                                        .create()
-//                                        .show();
                             }
                         } catch (JSONException e) {
                             Snackbar.make(mLoginFormView, e.toString(), Snackbar.LENGTH_LONG)

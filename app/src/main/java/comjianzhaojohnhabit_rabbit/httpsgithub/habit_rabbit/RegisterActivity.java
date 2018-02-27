@@ -17,7 +17,6 @@ public class RegisterActivity extends Activity {
     private EditText mEmailView;
     private EditText mPassword1View;
     private EditText mPassword2View;
-    private View mLoginFormView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +30,7 @@ public class RegisterActivity extends Activity {
         mPassword2View.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == EditorInfo.IME_ACTION_DONE) {
-//                    if (mPassword1View.getText().toString() == mPassword2View.getText().toString())
+                if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
                     attemptRegister();
                     return true;
                 }
