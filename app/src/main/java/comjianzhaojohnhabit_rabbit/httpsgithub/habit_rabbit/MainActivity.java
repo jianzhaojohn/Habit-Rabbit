@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.navigation_menu, menu);
+        menu.add(Menu.NONE, Menu.FIRST, 0, "Logout");
         return true;
     }
     @Override
@@ -47,19 +48,41 @@ public class MainActivity extends AppCompatActivity
         if (mToggle.onOptionsItemSelected(item)) {
             return true;
         }
+        switch (item.getItemId()) {
+            case Menu.FIRST:
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                break;
+            case R.id.nav_Profile:
+                startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+                break;
+            case  R.id.nav_agenda:
+                startActivity(new Intent(MainActivity.this, CalendarActivity.class));
+                break;
+            case  R.id.nav_habits:
+                startActivity(new Intent(MainActivity.this, HabitListActivity.class));
+                break;
+            default:
+        }
         return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if(id==R.id.nav_Profile){
-            startActivity(new Intent(MainActivity.this, ProfileActivity.class));
-        }
-        else if(id==R.id.nav_habits){
-            startActivity(new Intent(MainActivity.this, CalendarActivity.class));
+        switch (item.getItemId()) {
+            case R.id.nav_Profile:
+                startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+                break;
+            case  R.id.nav_agenda:
+                startActivity(new Intent(MainActivity.this, CalendarActivity.class));
+                break;
+            case  R.id.nav_habits:
+                startActivity(new Intent(MainActivity.this, HabitListActivity.class));
+                break;
+            case R.id.nav_Friends:
+                // jump to friends
+                break;
+            default:
         }
         return true;
 
