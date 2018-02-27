@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -19,6 +20,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -41,8 +43,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -77,6 +81,25 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
+
+
+        boolean loggingInExistingAccount = true; //make a function to determine this next time
+        if (loggingInExistingAccount){
+            //Dummy info, in the future we will  access from database
+            Set<String> habits = new LinkedHashSet<String>();
+            habits.add("Brush the cat,w,1,0,0");//name,period,timesPerPeriod,timesCompletedInPeriod,streak
+            habits.add("Grind Leetcode,d,1,0,5");
+            habits.add("Sharpen kitchen knives,m,2,1,1");
+            habits.add("Jog one mile,w,3,2,2");
+
+            SharedPreferences sharedPref = getSharedPreferences("UserData", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putStringSet("habits",habits);
+            editor.commit();
+
+        }
+        //TODO: created else block for new account, setting username and password
+
 
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
