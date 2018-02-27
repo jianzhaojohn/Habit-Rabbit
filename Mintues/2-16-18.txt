@@ -1,0 +1,18 @@
+# Attendance
+Xiayung - present
+Alison - present
+Jonathan - present
+John - present
+Sunny - present
+
+# Done Since Last Meeting
+Since this meeting is outside of our normal meeting pattern, what we have already done will be assigned at the next meeting so that the normal
+
+# To do for next meeting
+Figure out how to access amazon web services and how to make a server (for Alison)
+Make sure that the tasks assigned at the Monday meeting are completed for this Monday (everyone)
+
+# Done at this meeting
+Discussed our progress so far
+Went into detail about what menus our app will have and how we will move between different menus
+Reaffirmed tasks assigned at last meeting
