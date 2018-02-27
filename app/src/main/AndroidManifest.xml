@@ -51,7 +51,8 @@
         <activity
             android:name=".RabbitReview"
             android:label="@string/title_activity_rabbit_review"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".RegisterActivity"></activity>
     </application>
 
 </manifest>
