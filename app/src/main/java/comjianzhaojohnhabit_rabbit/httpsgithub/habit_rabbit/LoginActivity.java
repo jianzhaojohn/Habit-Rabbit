@@ -65,10 +65,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world", "test@example.com:test"
     };
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
-    private UserLoginTask mAuthTask = null;
 
     // UI references.
     private AutoCompleteTextView mEmailView;
@@ -158,9 +154,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
-        if (mAuthTask != null) {
-            return;
-        }
 
         // Reset errors.
         mEmailView.setError(null);
@@ -199,9 +192,73 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+            requestLogin(email, password);
         }
+    }
+
+    private void requestLogin(String email, String password) {
+        // get email and password
+        final String mEmail = email;
+        final String mPassword = password;
+
+        // send login request
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url_login = "https://habit-rabbit.000webhostapp.com/Login.php";
+//        String url_reg = "https://habit-rabbit.000webhostapp.com/Register.php";
+
+        StringRequest loginReq = new StringRequest(Request.Method.POST, url_login,
+                new Response.Listener<String>(){
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            // parse the response
+                            JSONObject jsonRes = new JSONObject(response);
+                            Boolean success = jsonRes.getBoolean("success");
+//                            TODO: show response, should be deleted later
+                            Snackbar.make(mLoginFormView, response, Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
+
+                            showProgress(false);
+
+                            if (success) {
+                                // TODO: parse jsonRes here, then pass to intent
+
+                                // jump to main page
+                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                finish();
+                            } else {
+                                mPasswordView.setError("Email and password do not match");
+                                mPasswordView.requestFocus();
+//                                android.support.v7.app.AlertDialog.Builder alert = new android.support.v7.app.AlertDialog.Builder(LoginActivity.this);
+//                                alert.setMessage("Login Failed!")
+//                                        .setNegativeButton("Retry", null)
+//                                        .create()
+//                                        .show();
+                            }
+                        } catch (JSONException e) {
+                            Snackbar.make(mLoginFormView, e.toString(), Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                showProgress(false);
+                Snackbar.make(mLoginFormView, error.toString(), Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("username", mEmail);
+                params.put("password", mPassword);
+                return params;
+            }
+        };
+
+        queue.add(loginReq);
     }
 
     private boolean isEmailValid(String email) {
@@ -304,112 +361,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         int IS_PRIMARY = 1;
     }
 
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final String mEmail;
-        private final String mPassword;
-
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-
-            // send login request
-            RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
-            String url_login = "https://habit-rabbit.000webhostapp.com/Login.php";
-//            String url_reg = "https://habit-rabbit.000webhostapp.com/Register.php";
-
-            StringRequest loginReq = new StringRequest(Request.Method.POST, url_login,
-                    new Response.Listener<String>(){
-                        @Override
-                        public void onResponse(String response) {
-                            try {
-                                // parse the response
-                                JSONObject jsonRes = new JSONObject(response);
-                                Boolean success = jsonRes.getBoolean("success");
-
-                                if (success) {
-                                    // jump to main page
-                                    LoginActivity.this.startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                                } else {
-                                    android.support.v7.app.AlertDialog.Builder alert = new android.support.v7.app.AlertDialog.Builder(LoginActivity.this);
-                                    alert.setMessage("Login Failed!")
-                                            .setNegativeButton("Retry", null)
-                                            .create()
-                                            .show();
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                }
-            }) {
-                @Override
-                protected Map<String, String> getParams() {
-                    Map<String, String> params = new HashMap<>();
-                    params.put("username", mEmail);
-                    params.put("password", mPassword);
-                    return params;
-                }
-            };
-
-            queue.add(loginReq);
-
-            /*try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }*/
-
-
-            // TODO: register the new account here.
-            //LoginActivity.this.startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
-
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-                //LoginActivity.this.startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
-        }
-
-    }
 }
 
