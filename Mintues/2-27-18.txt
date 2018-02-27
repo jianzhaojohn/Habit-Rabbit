@@ -1,0 +1,23 @@
+# Attendance
+Xiayung - present
+Alison - present
+Jonathan - present
+John - present
+Sunny - present
+
+# Done Since Last Meeting
+Xiayung - worked with John to ensure that all feature branches worked together
+Alison - used SharedPrefernces to store and access user info, made habits class
+Jonathan - edited README.md to prepare for release
+John - merged all feature branches, worked with Xiayung to make sure that they worked together
+Sunny - created video of working product and GitHub release
+
+# Doing For Next Week
+Xiayung - improving SharedPreferences file to be easier to access
+Alison - assist Sunny in managing local database and accessing local habits, creating a text file for test user information
+Jonathan - editing Calendar view, making it more visually appealing
+John - allowing users to be auto logged in
+Sunny - make accessing habits easier, manage local database
+
+# Discussed at meeting
+Discussed how we were going to represent our data, and possible improvements

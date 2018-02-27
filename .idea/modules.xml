@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/Habit-Rabbit.iml" filepath="$PROJECT_DIR$/Habit-Rabbit.iml" />
-=======
-      <module fileurl="file://D:\Yun\StudioProjects\Habit-Rabbit\HABITRABBIT.iml" filepath="D:\Yun\StudioProjects\Habit-Rabbit\HABITRABBIT.iml" />
-      <module fileurl="file://C:\Users\notachimo\Documents\GitHub\Habit-Rabbit\HABITRABBIT.iml" filepath="C:\Users\notachimo\Documents\GitHub\Habit-Rabbit\HABITRABBIT.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Habit-Rabbit.iml" filepath="$PROJECT_DIR$/Habit-Rabbit.iml" />
-      <module fileurl="file://C:\Users\notachimo\Documents\GitHub\Habit-Rabbit\.idea\Habit-Rabbit.iml" filepath="C:\Users\notachimo\Documents\GitHub\Habit-Rabbit\.idea\Habit-Rabbit.iml" />
->>>>>>> b4f55a752eaebe3bdc7f599c23b6212e1a094f6d
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
