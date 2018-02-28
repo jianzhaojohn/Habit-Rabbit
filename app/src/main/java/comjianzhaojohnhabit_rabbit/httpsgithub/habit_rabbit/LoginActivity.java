@@ -3,6 +3,7 @@ package comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
