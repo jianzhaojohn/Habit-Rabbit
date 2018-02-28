@@ -11,6 +11,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.io.File;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -39,8 +41,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.navigation_menu, menu);
-        menu.add(Menu.NONE, Menu.FIRST, 0, "Logout");
+       // getMenuInflater().inflate(R.menu.navigation_menu, menu);
+       // menu.add(Menu.NONE, Menu.FIRST, 0, "Logout");
         return true;
     }
     @Override
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity
             return true;
         }
         switch (item.getItemId()) {
+
             case Menu.FIRST:
                 startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 break;
@@ -57,6 +60,14 @@ public class MainActivity extends AppCompatActivity
                 break;
             case  R.id.nav_agenda:
                 startActivity(new Intent(MainActivity.this, CalendarActivity.class));
+                break;
+            case  R.id.nav_logout:
+                try{
+                   // getApplicationContext().deleteFile("autionloginfile");
+                    File autologin = getApplicationContext().getFileStreamPath("autionloginfile");
+                    autologin.delete();
+                   startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                }catch(Exception e){}
                 break;
             case  R.id.nav_habits:
                 startActivity(new Intent(MainActivity.this, HabitListActivity.class));
@@ -79,6 +90,15 @@ public class MainActivity extends AppCompatActivity
             case  R.id.nav_habits:
                 startActivity(new Intent(MainActivity.this, HabitListActivity.class));
                 break;
+            case  R.id.nav_logout:
+                try{
+                    // getApplicationContext().deleteFile("autionloginfile");
+                    File autologin = getApplicationContext().getFileStreamPath("autionloginfile");
+                    autologin.delete();
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                }catch(Exception e){}
+                break;
+
             case R.id.nav_Friends:
                 // jump to friends
                 break;
