@@ -3,6 +3,7 @@ package comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -41,6 +42,10 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -79,11 +84,26 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
+
+        boolean loggingInExistingAccount = true; //make a function to determine this next time
+
+
+        try {
+            File autologin = getApplicationContext().getFileStreamPath("autionloginfile");
+            if(autologin.exists())
+             {
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            }
+        }
+        catch(Exception e){
+
+        }
+
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
 
 
-        boolean loggingInExistingAccount = true; //make a function to determine this next time
+/*
         if (loggingInExistingAccount){
             //Dummy info, in the future we will  access from database
             Set<String> habits = new LinkedHashSet<String>();
@@ -100,7 +120,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
         //TODO: created else block for new account, setting username and password
 
-
+*/
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -245,6 +265,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                 // TODO: parse jsonRes here, then pass to intent
 
                                 // jump to main page
+                                try {
+                                    OutputStream outputStream;
+                                    outputStream = openFileOutput("autionloginfile", Context.MODE_PRIVATE);
+                                    outputStream.write("ok".getBytes());
+                                    outputStream.close();
+                                }catch (Exception e){}
+
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                 finish();
                             } else {
