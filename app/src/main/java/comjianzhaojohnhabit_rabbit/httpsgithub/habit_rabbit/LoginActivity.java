@@ -202,7 +202,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // send login request
         RequestQueue queue = Volley.newRequestQueue(this);
         String url_login = "https://habit-rabbit.000webhostapp.com/Login.php";
-//        String url_reg = "https://habit-rabbit.000webhostapp.com/Register.php";
 
         StringRequest loginReq = new StringRequest(Request.Method.POST, url_login,
                 new Response.Listener<String>(){
@@ -213,18 +212,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             JSONObject jsonRes = new JSONObject(response);
                             Boolean success = jsonRes.getBoolean("success");
 //                            TODO: show response, should be deleted later
-                            Snackbar.make(mLoginFormView, response, Snackbar.LENGTH_LONG)
-                                    .setAction("Action", null).show();
-
-                            showProgress(false);
+//                            Snackbar.make(mLoginFormView, response, Snackbar.LENGTH_LONG)
+//                                    .setAction("Action", null).show();
 
                             if (success) {
-                                // TODO: parse jsonRes here, then pass to intent
-
                                 // jump to main page
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                showProgress(false);
                                 finish();
                             } else {
+                                showProgress(false);
                                 mPasswordView.setError("Email and password do not match");
                                 mPasswordView.requestFocus();
                             }
