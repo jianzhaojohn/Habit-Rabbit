@@ -124,8 +124,8 @@ public class RegisterActivity extends Activity {
 
         // send login request
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url_reg = "https://habit-rabbit.000webhostapp.com/Register.php";
-//        String url_reg = "https://habit-rabbit.000webhostapp.com/Register_encrypt.php";
+//        String url_reg = "https://habit-rabbit.000webhostapp.com/Register.php";
+        String url_reg = "https://habit-rabbit.000webhostapp.com/Register_encrypt.php";
 
         StringRequest loginReq = new StringRequest(Request.Method.POST, url_reg,
                 new Response.Listener<String>(){
@@ -140,7 +140,8 @@ public class RegisterActivity extends Activity {
                                 // jump to next page
 //                                Snackbar.make(mEmailView, "Registration success!", Snackbar.LENGTH_LONG)
 //                                        .setAction("Action", null).show();
-                                startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+
+                                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                                 finish();
 
                             } else {
