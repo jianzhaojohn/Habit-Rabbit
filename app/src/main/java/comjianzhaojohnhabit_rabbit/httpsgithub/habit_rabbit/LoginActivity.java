@@ -244,7 +244,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         // send login request
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url_login = "https://habit-rabbit.000webhostapp.com/Login.php";
+//        String url_login = "https://habit-rabbit.000webhostapp.com/Login.php";
+        String url_login = "https://habit-rabbit.000webhostapp.com/Login_encrypt.php";
 
         StringRequest loginReq = new StringRequest(Request.Method.POST, url_login,
                 new Response.Listener<String>(){
@@ -254,9 +255,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             // parse the response
                             JSONObject jsonRes = new JSONObject(response);
                             Boolean success = jsonRes.getBoolean("success");
-//                            TODO: show response, should be deleted later
-//                            Snackbar.make(mLoginFormView, response, Snackbar.LENGTH_LONG)
-//                                    .setAction("Action", null).show();
 
                             if (success) {
                                 // jump to main page
@@ -276,8 +274,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                 mPasswordView.requestFocus();
                             }
                         } catch (JSONException e) {
-                            Snackbar.make(mLoginFormView, e.toString(), Snackbar.LENGTH_LONG)
-                                    .setAction("Action", null).show();
+                            showProgress(false);
+//                            Snackbar.make(mLoginFormView, e.toString(), Snackbar.LENGTH_LONG)
+//                                    .setAction("Action", null).show();
                             e.printStackTrace();
                         }
                     }

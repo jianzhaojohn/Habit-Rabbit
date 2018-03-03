@@ -1,6 +1,8 @@
 package comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -122,7 +124,8 @@ public class RegisterActivity extends Activity {
 
         // send login request
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url_reg = "https://habit-rabbit.000webhostapp.com/Register.php";
+//        String url_reg = "https://habit-rabbit.000webhostapp.com/Register.php";
+        String url_reg = "https://habit-rabbit.000webhostapp.com/Register_encrypt.php";
 
         StringRequest loginReq = new StringRequest(Request.Method.POST, url_reg,
                 new Response.Listener<String>(){
@@ -134,9 +137,13 @@ public class RegisterActivity extends Activity {
                             Boolean success = jsonRes.getBoolean("success");
 
                             if (success) {
-                                // jump to login page
+                                // jump to next page
+//                                Snackbar.make(mEmailView, "Registration success!", Snackbar.LENGTH_LONG)
+//                                        .setAction("Action", null).show();
+
                                 startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                                 finish();
+
                             } else {
                                 mEmailView.setError("Email already exist");
                                 mEmailView.requestFocus();
@@ -145,7 +152,7 @@ public class RegisterActivity extends Activity {
                             mEmailView.requestFocus();
                             Snackbar.make(mEmailView, e.toString(), Snackbar.LENGTH_LONG)
                                     .setAction("Action", null).show();
-                            mEmailView.setText(e.toString());
+//                            mEmailView.setText(e.toString());
                             e.printStackTrace();
                         }
                     }
@@ -153,7 +160,7 @@ public class RegisterActivity extends Activity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 mEmailView.requestFocus();
-                Snackbar.make(mEmailView, error.toString(), Snackbar.LENGTH_LONG)
+                Snackbar.make(mEmailView, "Check internet connection", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         }) {
