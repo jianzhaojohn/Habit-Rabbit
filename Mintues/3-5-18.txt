@@ -1,0 +1,17 @@
+# Attendees
+Xiayung - present
+Alison - present
+Jonathan - present
+John - present
+Sunny - present
+
+# What was assigned
+Xiayung - making changes on local database appear on server
+Alison - representing habits on local database, editing and changing habits
+Jonathan - fixing bug in hutch which causes app to crash, adding utility bars to pages so that navigation is easier
+John - building pages from local database
+Sunny - adding delete/add/edit functionality
+
+# What was discussed
+How data was going to be represented - unique key for every habit, string of important data parsed by Habit class
+How rabbits were going to be represented - one large habit that dies when streaks are not kept
