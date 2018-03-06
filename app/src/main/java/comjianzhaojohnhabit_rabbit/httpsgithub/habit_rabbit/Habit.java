@@ -7,7 +7,7 @@ import android.content.SharedPreferences;
 /**
  * Created by notachimo on 2/25/2018.
  */
-
+//TODO: Make a local var in database holding whether or not the database has been changed, have changes in Habit changed the variable
 public class Habit {
     private String ID;
     private String nameOfHabit;
