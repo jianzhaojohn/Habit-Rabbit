@@ -2,7 +2,6 @@ package comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 
 /**
@@ -10,26 +9,65 @@ import android.preference.PreferenceManager;
  */
 
 public class Habit {
-    //public enum Period {DAILY, WEEKLY, MONTHLY} was having trouble with enumeration
-    public String description;
-    public String period;
-    public int timesPerPeriod;
-    public int timesCompletedInPeriod;
-    public int streak;
+    private String ID;
+    private String nameOfHabit;
+    private String period;
+    private int timesPerPeriod;
+    private int timesCompletedInPeriod;
     private SharedPreferences.Editor editor;
-
+    private static Context sharedContext;
     public Habit(String habit_ID){
         //"name,period,timesPerPeriod,timesCompletedInPeriod,streak"
+        SharedPreferences sharedPref = sharedContext.getSharedPreferences("HabitInfo", Context.MODE_PRIVATE);
+        this.editor = sharedPref.edit();
+        this.ID = habit_ID;
+        this.nameOfHabit = sharedPref.getString(habit_ID+"_NameOfHabit","");
+        this.period = sharedPref.getString(habit_ID+"_Period","");
+        this.timesPerPeriod = sharedPref.getInt(habit_ID+"_TimesToDoPerPeriod",-1);
+        this.timesCompletedInPeriod = sharedPref.getInt(habit_ID+"_TimesCompletedSoFar",-1);
+    }
+    public String getNameOfHabit() {
+        return nameOfHabit;
+    }
 
-        SharedPreferences sharedPref = getSharedPreferences("HabitInfo", Context.MODE_PRIVATE);
-        editor = sharedPref.edit();
+    public void setNameOfHabit(String nameOfHabit) {
+        editor.putString(ID+"_NameOfHabit",nameOfHabit);
+        editor.commit();
+        this.nameOfHabit = nameOfHabit;
+    }
+    public String getPeriod() {
+        return period;
+    }
+    public void setPeriod(String period) {
+        editor.putString(ID+"_Period",period);
+        editor.commit();
+        this.period = period;
+    }
 
-        SharedPreferences temp =
-        this.description = info[0];
-        this.period = info[1];
-        this.timesPerPeriod = Integer.parseInt(info[2]);
-        this.timesCompletedInPeriod = Integer.parseInt(info[3]);
-        this.streak = Integer.parseInt(info[4]);
+    public int getTimesPerPeriod() {
+        return timesPerPeriod;
+    }
 
+    public void setTimesPerPeriod(int timesPerPeriod) {
+        editor.putInt(ID+"_TimesToDoPerPeriod",timesPerPeriod);
+        editor.commit();
+        this.timesPerPeriod = timesPerPeriod;
+    }
+
+    public int getTimesCompletedInPeriod() {
+        return timesCompletedInPeriod;
+    }
+
+    public void setTimesCompletedInPeriod(int timesCompletedInPeriod) {
+        editor.putInt(ID+"_TimesToDoPerPeriod",timesCompletedInPeriod);
+        editor.commit();
+        this.timesCompletedInPeriod = timesCompletedInPeriod;
+    }
+
+    public void delete(){
+        //TODO: make a method that deletes all necessary info about the habit
+    }
+    public static void setSharedContext(Context inputContext){
+        sharedContext = inputContext;
     }
 }

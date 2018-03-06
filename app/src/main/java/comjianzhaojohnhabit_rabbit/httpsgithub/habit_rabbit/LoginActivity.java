@@ -118,11 +118,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 editor.putString(current_ID+"_NameOfHabit",habitData[0]);
                 editor.putString(current_ID+"_Period",habitData[1]);
                 editor.putInt(current_ID+"_TimesToDoPerPeriod",Integer.parseInt(habitData[2]));
-                editor.putInt(current_ID+"_TimesCompletedInPeriod",Integer.parseInt(habitData[3]));
+                editor.putInt(current_ID+"_TimesCompletedSoFar",Integer.parseInt(habitData[3]));
             }
 
             editor.putStringSet("habit_IDs",habit_IDs);
             editor.commit();
+            Habit.setSharedContext(getApplicationContext());
+            Habit testHabit = new Habit("ID1");
 
         }
         //TODO: created else block for new account, setting username and password
