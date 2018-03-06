@@ -103,24 +103,31 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         populateAutoComplete();
 
 
-/*
-        if (loggingInExistingAccount){
-            //Dummy info, in the future we will  access from database
-            Set<String> habits = new LinkedHashSet<String>();
-            habits.add("Brush the cat,w,1,0,0");//name,period,timesPerPeriod,timesCompletedInPeriod,streak
-            habits.add("Grind Leetcode,d,1,0,5");
-            habits.add("Sharpen kitchen knives,m,2,1,1");
-            habits.add("Jog one mile,w,3,2,2");
 
-            SharedPreferences sharedPref = getSharedPreferences("UserData", Context.MODE_PRIVATE);
+        if (loggingInExistingAccount){
+            SharedPreferences sharedPref = getSharedPreferences("HabitInfo", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putStringSet("habits",habits);
+
+            Set<String> habit_IDs = new LinkedHashSet<String>();
+            String[] IDs = {"ID1","ID2","ID3","ID4"};
+            String[] habitData = {"Brush the cat,w,1,0","Grind Leetcode,d,1,0","Sharpen kitchen knives,m,2,1","Jog one mile,w,3,2"};
+            for (int i=0;i<IDs.length;i++){
+                String current_ID = IDs[i];
+                String[] info = habitData[i].split(",");
+                habit_IDs.add(current_ID);
+                editor.putString(current_ID+"_NameOfHabit",habitData[0]);
+                editor.putString(current_ID+"_Period",habitData[1]);
+                editor.putInt(current_ID+"_TimesToDoPerPeriod",Integer.parseInt(habitData[2]));
+                editor.putInt(current_ID+"_TimesCompletedInPeriod",Integer.parseInt(habitData[3]));
+            }
+
+            editor.putStringSet("habit_IDs",habit_IDs);
             editor.commit();
 
         }
         //TODO: created else block for new account, setting username and password
 
-*/
+
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
