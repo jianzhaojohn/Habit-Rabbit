@@ -21,4 +21,6 @@ public class CalendarActivity extends AppCompatActivity {
         CalendarActivity.this.startActivity(intent);
     }
 
+
+    //need code for fetching habit data locally or from server
 }
