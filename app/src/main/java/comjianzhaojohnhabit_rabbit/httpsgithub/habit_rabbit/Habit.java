@@ -3,6 +3,9 @@ package comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+import java.util.UUID;
 
 /**
  * Created by notachimo on 2/25/2018.
@@ -20,16 +23,29 @@ public class Habit {
         //"name,period,timesPerPeriod,timesCompletedInPeriod,streak"
         SharedPreferences sharedPref = sharedContext.getSharedPreferences("HabitInfo", Context.MODE_PRIVATE);
         this.editor = sharedPref.edit();
-        this.ID = habit_ID;
-        this.nameOfHabit = sharedPref.getString(habit_ID+"_NameOfHabit","");
-        this.period = sharedPref.getString(habit_ID+"_Period","");
-        this.timesPerPeriod = sharedPref.getInt(habit_ID+"_TimesToDoPerPeriod",-1);
-        this.timesCompletedInPeriod = sharedPref.getInt(habit_ID+"_TimesCompletedSoFar",-1);
+        if (habit_ID == "new habit"){
+            generateUniqueID();
+            Set<String> habit_IDs = sharedPref.getStringSet("habit_IDs",new LinkedHashSet<String>());
+            habit_IDs.add(this.ID);
+            editor.putStringSet("habit_IDs", habit_IDs);
+            editor.commit();
+        }
+        else {
+            this.ID = habit_ID;
+        }
+        this.nameOfHabit = sharedPref.getString(this.ID + "_NameOfHabit", "");
+        this.period = sharedPref.getString(this.ID + "_Period", "");
+        this.timesPerPeriod = sharedPref.getInt(this.ID + "_TimesToDoPerPeriod", -1);
+        this.timesCompletedInPeriod = sharedPref.getInt(this.ID + "_TimesCompletedSoFar", -1);
+
+    }
+
+    private void generateUniqueID() {
+       this.ID = UUID.randomUUID().toString();
     }
     public String getNameOfHabit() {
         return nameOfHabit;
     }
-
     public void setNameOfHabit(String nameOfHabit) {
         editor.putString(ID+"_NameOfHabit",nameOfHabit);
         editor.commit();

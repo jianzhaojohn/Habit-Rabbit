@@ -103,7 +103,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         populateAutoComplete();
 
 
-
+        
         if (loggingInExistingAccount){
             SharedPreferences sharedPref = getSharedPreferences("HabitInfo", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
@@ -125,6 +125,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             editor.commit();
             Habit.setSharedContext(getApplicationContext());
             Habit testHabit = new Habit("ID1");
+            Log.d("Testing Habits","name: "+testHabit.getNameOfHabit());
+            testHabit.setNameOfHabit("New habit name");
+            Log.d("Testing Habits","name: "+testHabit.getNameOfHabit());
 
         }
         //TODO: created else block for new account, setting username and password
