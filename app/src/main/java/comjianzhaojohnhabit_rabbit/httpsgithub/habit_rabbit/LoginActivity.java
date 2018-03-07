@@ -103,31 +103,33 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         populateAutoComplete();
 
 
-        
+        //Log.d("TestingHabits","Logging into existing account");
         if (loggingInExistingAccount){
             SharedPreferences sharedPref = getSharedPreferences("HabitInfo", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
-
+            Habit.setSharedContextAndPreferences(getApplicationContext());
             Set<String> habit_IDs = new LinkedHashSet<String>();
             String[] IDs = {"ID1","ID2","ID3","ID4"};
+            for (int i=0;i<IDs.length;i++){
+                habit_IDs.add(IDs[i]);
+            }
+            editor.putStringSet("habit_IDs",habit_IDs);
+            editor.commit();
+
+
             String[] habitData = {"Brush the cat,w,1,0","Grind Leetcode,d,1,0","Sharpen kitchen knives,m,2,1","Jog one mile,w,3,2"};
             for (int i=0;i<IDs.length;i++){
                 String current_ID = IDs[i];
                 String[] info = habitData[i].split(",");
-                habit_IDs.add(current_ID);
-                editor.putString(current_ID+"_NameOfHabit",habitData[0]);
-                editor.putString(current_ID+"_Period",habitData[1]);
-                editor.putInt(current_ID+"_TimesToDoPerPeriod",Integer.parseInt(habitData[2]));
-                editor.putInt(current_ID+"_TimesCompletedSoFar",Integer.parseInt(habitData[3]));
+                editor.putString(current_ID+"_NameOfHabit",info[0]);
+                editor.putString(current_ID+"_Period",info[1]);
+                editor.putInt(current_ID+"_TimesCompletedSoFar",Integer.parseInt(info[3]));
+
             }
 
-            editor.putStringSet("habit_IDs",habit_IDs);
-            editor.commit();
-            Habit.setSharedContextAndPreferences(getApplicationContext());
             Habit testHabit = new Habit("ID1");
-            Log.d("Testing Habits","name: "+testHabit.getNameOfHabit());
-            testHabit.setNameOfHabit("New habit name");
-            Log.d("Testing Habits","name: "+testHabit.getNameOfHabit());
+            testHabit.setPeriod("d");
+            Log.d("TestingHabits","List of IDs");
 
         }
         //TODO: created else block for new account, setting username and password
