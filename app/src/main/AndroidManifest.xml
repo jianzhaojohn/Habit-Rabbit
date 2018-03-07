@@ -42,7 +42,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit.HabitListActivity" />
         </activity>
-        <activity android:name=".EditHabitActivity" />
+        <activity android:name=".AddHabitActivity" />
         <activity android:name=".CalendarActivity" />
         <activity
             android:name=".MainActivity"

@@ -1,6 +1,5 @@
 package comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -61,7 +60,7 @@ public class HabitListActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HabitListActivity.this, EditHabitActivity.class));
+                startActivity(new Intent(HabitListActivity.this, AddHabitActivity.class));
             }
         });
 
