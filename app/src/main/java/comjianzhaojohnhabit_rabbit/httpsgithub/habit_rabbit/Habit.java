@@ -17,18 +17,13 @@ public class Habit {
     private String period;
     private int timesPerPeriod;
     private int timesCompletedInPeriod;
-    private SharedPreferences.Editor editor;
+    private static SharedPreferences.Editor editor;
+    private static SharedPreferences sharedPref;
     private static Context sharedContext;
     public Habit(String habit_ID){
         //"name,period,timesPerPeriod,timesCompletedInPeriod,streak"
-        SharedPreferences sharedPref = sharedContext.getSharedPreferences("HabitInfo", Context.MODE_PRIVATE);
-        this.editor = sharedPref.edit();
         if (habit_ID == "new habit"){
-            generateUniqueID();
-            Set<String> habit_IDs = sharedPref.getStringSet("habit_IDs",new LinkedHashSet<String>());
-            habit_IDs.add(this.ID);
-            editor.putStringSet("habit_IDs", habit_IDs);
-            editor.commit();
+            makeNewHabit();
         }
         else {
             this.ID = habit_ID;
@@ -40,8 +35,12 @@ public class Habit {
 
     }
 
-    private void generateUniqueID() {
+    private void makeNewHabit() {
        this.ID = UUID.randomUUID().toString();
+        Set<String> habit_IDs = sharedPref.getStringSet("habit_IDs",new LinkedHashSet<String>());
+        habit_IDs.add(this.ID);
+        editor.putStringSet("habit_IDs", habit_IDs);
+        editor.commit();
     }
     public String getNameOfHabit() {
         return nameOfHabit;
@@ -81,9 +80,21 @@ public class Habit {
     }
 
     public void delete(){
-        //TODO: make a method that deletes all necessary info about the habit
+        editor.remove(ID + "_NameOfHabit");
+        editor.remove(ID + "_Period");
+        editor.remove(ID + "_TimesToDoPerPeriod");
+        editor.remove(ID + "_TimesCompletedSoFar");
+
+        Set<String> habit_IDs = sharedPref.getStringSet("habit_IDs",new LinkedHashSet<String>());
+        habit_IDs.remove(ID);
+        editor.putStringSet("habit_IDs", habit_IDs);
+
+        editor.commit();
+
     }
-    public static void setSharedContext(Context inputContext){
+    public static void setSharedContextAndPreferences(Context inputContext){
         sharedContext = inputContext;
+        sharedPref = sharedContext.getSharedPreferences("HabitInfo", Context.MODE_PRIVATE);
+        editor = sharedPref.edit();
     }
 }

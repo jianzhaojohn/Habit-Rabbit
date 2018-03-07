@@ -123,7 +123,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             editor.putStringSet("habit_IDs",habit_IDs);
             editor.commit();
-            Habit.setSharedContext(getApplicationContext());
+            Habit.setSharedContextAndPreferences(getApplicationContext());
             Habit testHabit = new Habit("ID1");
             Log.d("Testing Habits","name: "+testHabit.getNameOfHabit());
             testHabit.setNameOfHabit("New habit name");
