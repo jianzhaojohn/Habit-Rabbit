@@ -1,5 +1,6 @@
 package comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -171,8 +172,13 @@ public class HabitListActivity extends AppCompatActivity {
 
         public void deleteHabit(View view) {
             // respond the delete button with a dialog box
-            //AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            //AlertDialog dialog = builder.create();
+//            AlertDialog.Builder builder = new AlertDialog.Builder(HabitListActivity.this);
+//            builder.setTitle("Delete Habit")
+//                    .setMessage("Do you really want to delete this habit?")
+//                    .setNegativeButton("No", null)
+//                    .setPositiveButton("Yes", null)
+//                    .create()
+//                    .show();
 
         }
 

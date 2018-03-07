@@ -33,5 +33,11 @@
         <item>once a month</item>
         <item>customize</item>
     </string-array>
+    <string-array name="period_array">
+        <item>day</item>
+        <item>week</item>
+        <item>month</item>
+        <item>customize</item>
+    </string-array>
     <string name="title_activity_rabbit_review">RabbitReview</string>
 </resources>

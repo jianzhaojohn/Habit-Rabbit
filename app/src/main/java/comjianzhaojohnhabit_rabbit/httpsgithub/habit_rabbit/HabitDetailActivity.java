@@ -1,5 +1,6 @@
 package comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -8,6 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
 /**
  * An activity representing a single Habit detail screen. This
@@ -24,7 +29,16 @@ public class HabitDetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        /*GraphView graph = (GraphView) findViewById(R.id.graph);
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
+                new DataPoint(0, 1),
+                new DataPoint(1, 5),
+                new DataPoint(2, 3)
+        });
+        graph.addSeries(series);
+        */
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.edit_fab);
         /*fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -38,7 +52,13 @@ public class HabitDetailActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HabitDetailActivity.this, EditHabitActivity.class));
+                AlertDialog.Builder builder = new AlertDialog.Builder(HabitDetailActivity.this);
+                builder.setTitle("Edit Habit")
+                        .setMessage("Do you want to save your change on this habit?")
+                        .setNegativeButton("NO", null)
+                        .setPositiveButton("YES", null)
+                        .create()
+                        .show();
             }
         });
         // Show the Up button in the action bar.

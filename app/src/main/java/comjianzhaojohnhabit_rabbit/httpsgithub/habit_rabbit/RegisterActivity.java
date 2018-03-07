@@ -125,7 +125,7 @@ public class RegisterActivity extends Activity {
         // send login request
         RequestQueue queue = Volley.newRequestQueue(this);
 //        String url_reg = "https://habit-rabbit.000webhostapp.com/Register.php";
-        String url_reg = "https://habit-rabbit.000webhostapp.com/Register_encrypt.php";
+        final String url_reg = "https://habit-rabbit.000webhostapp.com/Register_encrypt.php";
 
         StringRequest loginReq = new StringRequest(Request.Method.POST, url_reg,
                 new Response.Listener<String>(){
@@ -149,19 +149,24 @@ public class RegisterActivity extends Activity {
                                 mEmailView.requestFocus();
                             }
                         } catch (JSONException e) {
-                            mEmailView.requestFocus();
-                            Snackbar.make(mEmailView, e.toString(), Snackbar.LENGTH_LONG)
-                                    .setAction("Action", null).show();
-//                            mEmailView.setText(e.toString());
+                            AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                            builder.setMessage(e.toString())
+                                    .setTitle("Response error")
+                                    .setNegativeButton("", null)
+                                    .create()
+                                    .show();
                             e.printStackTrace();
                         }
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mEmailView.requestFocus();
-                Snackbar.make(mEmailView, "Check internet connection", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                builder.setMessage(error.toString())
+                        .setTitle("Volley Error")
+                        .setNegativeButton("OK", null)
+                        .create()
+                        .show();
             }
         }) {
             @Override

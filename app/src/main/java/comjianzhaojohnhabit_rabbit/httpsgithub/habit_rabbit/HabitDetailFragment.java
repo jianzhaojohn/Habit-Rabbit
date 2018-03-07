@@ -9,6 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
+
 import comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit.dummy.DummyContent;
 
 /**
@@ -50,6 +54,7 @@ public class HabitDetailFragment extends Fragment {
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
                 appBarLayout.setTitle(mItem.content);
+//                appBarLayout.setTitle("Habit");
             }
         }
     }
@@ -60,10 +65,16 @@ public class HabitDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.habit_detail, container, false);
 
         // Show the dummy content as text in a TextView.
-        if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.habit_detail)).setText(mItem.details);
-        }
-
+//        if (mItem != null) {
+//            ((TextView) rootView.findViewById(R.id.habit_detail)).setText(mItem.details);
+//        }
+        GraphView graph = (GraphView) rootView.findViewById(R.id.graph);
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
+                new DataPoint(0, 1),
+                new DataPoint(1, 5),
+                new DataPoint(2, 3)
+        });
+        graph.addSeries(series);
         return rootView;
     }
 }

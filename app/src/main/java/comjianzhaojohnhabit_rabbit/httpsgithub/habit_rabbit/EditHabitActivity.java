@@ -10,5 +10,6 @@ public class EditHabitActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_habit);
 
+
     }
 }
