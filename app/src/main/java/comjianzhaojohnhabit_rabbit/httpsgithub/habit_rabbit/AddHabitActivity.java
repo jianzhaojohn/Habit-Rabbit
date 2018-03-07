@@ -68,6 +68,9 @@ public class AddHabitActivity extends Activity {
         final String period = mPeriodView.getSelectedItem().toString();
         final String reminder = mRemider.isChecked()?"true":"false";
 
+        // TODO: update local file to store this new habit
+
+        // request server to add this habit to database
         StringRequest loginReq = new StringRequest(Request.Method.POST, add_habit_url,
                 new Response.Listener<String>(){
                     @Override
