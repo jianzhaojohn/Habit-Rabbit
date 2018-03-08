@@ -107,7 +107,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         if (loggingInExistingAccount){
             SharedPreferences sharedPref = getSharedPreferences("HabitInfo", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
-            Habit.setSharedContextAndPreferences(getApplicationContext());
             Set<String> habit_IDs = new LinkedHashSet<String>();
             String[] IDs = {"ID1","ID2","ID3","ID4"};
             for (int i=0;i<IDs.length;i++){
@@ -124,11 +123,19 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 editor.putString(current_ID+"_NameOfHabit",info[0]);
                 editor.putString(current_ID+"_Period",info[1]);
                 editor.putInt(current_ID+"_TimesCompletedSoFar",Integer.parseInt(info[3]));
+            }
+            editor.commit();
+            HabitList.initialize(getApplicationContext());
+            Log.d("TestingHabits",HabitList.habitlist.toString());
 
+            for (Habit h:HabitList.habitlist.values()){
+                Log.d("TestingHabits",h.makeString());
+            }
+            HabitList.addHabit();
+            for (Habit h:HabitList.habitlist.values()){
+                Log.d("TestingHabits",h.makeString());
             }
 
-            Habit testHabit = new Habit("ID1");
-            testHabit.setPeriod("d");
             Log.d("TestingHabits","List of IDs");
 
         }

@@ -7,10 +7,6 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.UUID;
 
-/**
- * Created by notachimo on 2/25/2018.
- */
-//TODO: Make a local var in database holding whether or not the database has been changed, have changes in Habit changed the variable
 public class Habit {
     private String ID;
     private String nameOfHabit;
@@ -22,25 +18,22 @@ public class Habit {
     private static Context sharedContext;
     public Habit(String habit_ID){
         //"name,period,timesPerPeriod,timesCompletedInPeriod,streak"
-        if (habit_ID == "new habit"){
-            makeNewHabit();
-        }
-        else {
-            this.ID = habit_ID;
-        }
-        this.nameOfHabit = sharedPref.getString(this.ID + "_NameOfHabit", "");
-        this.period = sharedPref.getString(this.ID + "_Period", "");
+        this.ID = habit_ID;
+        this.nameOfHabit = sharedPref.getString(this.ID + "_NameOfHabit", "error");
+        this.period = sharedPref.getString(this.ID + "_Period", "error");
         this.timesPerPeriod = sharedPref.getInt(this.ID + "_TimesToDoPerPeriod", -1);
         this.timesCompletedInPeriod = sharedPref.getInt(this.ID + "_TimesCompletedSoFar", -1);
 
     }
 
-    private void makeNewHabit() {
-       this.ID = UUID.randomUUID().toString();
+    public static String makeNewHabit() {
+        String newID = UUID.randomUUID().toString();
         Set<String> habit_IDs = sharedPref.getStringSet("habit_IDs",new LinkedHashSet<String>());
-        habit_IDs.add(this.ID);
+        habit_IDs.add(newID);
         editor.putStringSet("habit_IDs", habit_IDs);
         editor.commit();
+        HabitList.update();
+        return newID;
     }
     public String getNameOfHabit() {
         return nameOfHabit;
@@ -49,6 +42,7 @@ public class Habit {
         editor.putString(ID+"_NameOfHabit",nameOfHabit);
         editor.commit();
         this.nameOfHabit = nameOfHabit;
+        HabitList.update();
     }
     public String getPeriod() {
         return period;
@@ -57,26 +51,27 @@ public class Habit {
         editor.putString(ID+"_Period",period);
         editor.commit();
         this.period = period;
+        HabitList.update();
     }
 
     public int getTimesPerPeriod() {
         return timesPerPeriod;
     }
-
     public void setTimesPerPeriod(int timesPerPeriod) {
         editor.putInt(ID+"_TimesToDoPerPeriod",timesPerPeriod);
         editor.commit();
         this.timesPerPeriod = timesPerPeriod;
+        HabitList.update();
     }
 
     public int getTimesCompletedInPeriod() {
         return timesCompletedInPeriod;
     }
-
     public void setTimesCompletedInPeriod(int timesCompletedInPeriod) {
         editor.putInt(ID+"_TimesToDoPerPeriod",timesCompletedInPeriod);
         editor.commit();
         this.timesCompletedInPeriod = timesCompletedInPeriod;
+        HabitList.update();
     }
 
     public void delete(){
@@ -90,11 +85,16 @@ public class Habit {
         editor.putStringSet("habit_IDs", habit_IDs);
 
         editor.commit();
+        HabitList.update();
 
     }
-    public static void setSharedContextAndPreferences(Context inputContext){
+    public static void setSharedContext(Context inputContext){
         sharedContext = inputContext;
         sharedPref = sharedContext.getSharedPreferences("HabitInfo", Context.MODE_PRIVATE);
         editor = sharedPref.edit();
+    }
+
+    public String makeString(){
+        return ID + ',' + nameOfHabit + ',' + this.period;
     }
 }
