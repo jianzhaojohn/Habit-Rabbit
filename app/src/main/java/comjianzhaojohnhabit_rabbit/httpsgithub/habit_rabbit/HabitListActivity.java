@@ -1,6 +1,8 @@
 package comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.List;
@@ -139,6 +142,24 @@ public class HabitListActivity extends AppCompatActivity {
                 }
             }
         };
+        private final View.OnClickListener mDeleteListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // respond the delete button with a dialog box
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                builder.setTitle("Edit Habit")
+                        .setMessage("Do you want to delete this habit?")
+                        .setNegativeButton("NO", null)
+                        .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                deleteHabitRequest(6);
+                            }
+                        })
+                        .create()
+                        .show();
+            }
+        };
 
         SimpleItemRecyclerViewAdapter(HabitListActivity parent,
                                       List<DummyContent.DummyItem> items,
@@ -162,6 +183,9 @@ public class HabitListActivity extends AppCompatActivity {
 
             holder.itemView.setTag(mValues.get(position));
             holder.itemView.setOnClickListener(mOnClickListener);
+
+            holder.mDeleteBtn.setTag(mValues.get(position));
+            holder.mDeleteBtn.setOnClickListener(mDeleteListener);
         }
 
         @Override
@@ -169,26 +193,20 @@ public class HabitListActivity extends AppCompatActivity {
             return mValues.size();
         }
 
-        public void deleteHabit(View view) {
-            // respond the delete button with a dialog box
-//            AlertDialog.Builder builder = new AlertDialog.Builder(HabitListActivity.this);
-//            builder.setTitle("Delete Habit")
-//                    .setMessage("Do you really want to delete this habit?")
-//                    .setNegativeButton("No", null)
-//                    .setPositiveButton("Yes", null)
-//                    .create()
-//                    .show();
-
+        public void deleteHabitRequest(int id) {
+            // TODO: delete habit
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
             final TextView mIdView;
             final TextView mContentView;
+            final Button mDeleteBtn;
 
             ViewHolder(View view) {
                 super(view);
                 mIdView = (TextView) view.findViewById(R.id.id_text);
                 mContentView = (TextView) view.findViewById(R.id.content);
+                mDeleteBtn = (Button)view.findViewById(R.id.delete_button);
             }
         }
 
