@@ -51,10 +51,6 @@ public class AddHabitActivity extends Activity {
 
 
     private void addHabitRequest() {
-        // send login request
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String add_habit_url = "https://habit-rabbit.000webhostapp.com/AddHabit.php";
-
         // get params
         TextView mTitleView = (TextView)findViewById(R.id.editText_title);
         TextView mDesView = (TextView)findViewById(R.id.editText_description);
@@ -62,11 +58,17 @@ public class AddHabitActivity extends Activity {
         Spinner mPeriodView = (Spinner)findViewById(R.id.spinner_f);
         Switch mRemider = (Switch)findViewById(R.id.switch_reminder);
 
+        //TODO: get username
+        final String username = "test@example.com";
         final String title = mTitleView.getText().toString();
         final String description = mDesView.getText().toString();
         final String times = mTimesView.getText().toString();
         final String period = mPeriodView.getSelectedItem().toString();
-        final String reminder = mRemider.isChecked()?"true":"false";
+        final String reminder = mRemider.isChecked()?"1":"0";
+
+        // send add new habit request
+        RequestQueue queue = Volley.newRequestQueue(this);
+        final String add_habit_url = "https://habit-rabbit.000webhostapp.com/add_habit.php";
 
         // TODO: update local file to store this new habit
 
@@ -94,6 +96,7 @@ public class AddHabitActivity extends Activity {
                                 builder.setTitle("Add New Habit")
                                         .setMessage("Add new habit failed!")
                                         .setNegativeButton("Retry", null)
+                                        .setPositiveButton("OK", null)
                                         .create()
                                         .show();
                             }
@@ -121,7 +124,7 @@ public class AddHabitActivity extends Activity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-//                TODO:params.put("ussername", username);
+                params.put("username", username);
                 params.put("habit", title);
                 params.put("description", description);
                 params.put("times", times);

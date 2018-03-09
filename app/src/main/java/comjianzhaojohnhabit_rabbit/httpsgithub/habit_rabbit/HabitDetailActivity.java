@@ -1,6 +1,7 @@
 package comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -9,10 +10,25 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Spinner;
+import android.widget.Switch;
+import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * An activity representing a single Habit detail screen. This
@@ -48,7 +64,7 @@ public class HabitDetailActivity extends AppCompatActivity {
         });
         */
 
-        // jump to newHabitActivity in responding to click the fab
+        // show alert dialog in responding to click the fab
         fab.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -56,7 +72,12 @@ public class HabitDetailActivity extends AppCompatActivity {
                 builder.setTitle("Edit Habit")
                         .setMessage("Do you want to save your change on this habit?")
                         .setNegativeButton("NO", null)
-                        .setPositiveButton("YES", null)
+                        .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                editHabitRequest();
+                            }
+                        })
                         .create()
                         .show();
             }
@@ -105,4 +126,91 @@ public class HabitDetailActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private void editHabitRequest() {
+        //TODO: send request
+        // get params
+        TextView mTitleView = (TextView)findViewById(R.id.editText_title);
+        TextView mDesView = (TextView)findViewById(R.id.editText_description);
+        TextView mTimesView = (TextView)findViewById(R.id.editText_times);
+        Spinner mPeriodView = (Spinner)findViewById(R.id.spinner_f);
+        Switch mRemider = (Switch)findViewById(R.id.switch_reminder);
+
+        //TODO: get username
+        final String username = "test@example.com";
+        final String title = mTitleView.getText().toString();
+        final String description = mDesView.getText().toString();
+        final String times = mTimesView.getText().toString();
+        final String period = mPeriodView.getSelectedItem().toString();
+        final String reminder = mRemider.isChecked()?"1":"0";
+
+        // send edit habit request
+        RequestQueue queue = Volley.newRequestQueue(this);
+        final String add_habit_url = "https://habit-rabbit.000webhostapp.com/edit_habit.php";
+
+        // TODO: update local file to store this new habit
+
+        // request server to add this habit to database
+        StringRequest loginReq = new StringRequest(Request.Method.POST, add_habit_url,
+                new Response.Listener<String>(){
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            // parse the response
+                            JSONObject jsonRes = new JSONObject(response);
+                            Boolean success = jsonRes.getBoolean("success");
+
+                            if (success) {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(HabitDetailActivity.this);
+                                builder.setTitle("Edit Habit")
+                                        .setMessage("Changes have been saved!")
+                                        .setPositiveButton("OK", null)
+                                        .create()
+                                        .show();
+                            } else {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(HabitDetailActivity.this);
+                                builder.setTitle("Edit Habit")
+                                        .setMessage("Edit habit failed!")
+                                        .setNegativeButton("Retry", null)
+                                        .setPositiveButton("OK", null)
+                                        .create()
+                                        .show();
+                            }
+                        } catch (JSONException e) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(HabitDetailActivity.this);
+                            builder.setTitle("Response error")
+                                    .setMessage(e.toString())
+                                    .setNegativeButton("OK", null)
+                                    .create()
+                                    .show();
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(HabitDetailActivity.this);
+                builder.setTitle("Volley Error")
+                        .setMessage(error.toString())
+                        .setNegativeButton("OK", null)
+                        .create()
+                        .show();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("username", username);
+                params.put("habit", title);
+                params.put("description", description);
+                params.put("times", times);
+                params.put("period", period);
+                params.put("reminder", reminder);
+                return params;
+            }
+        };
+
+        queue.add(loginReq);
+    }
+
 }
