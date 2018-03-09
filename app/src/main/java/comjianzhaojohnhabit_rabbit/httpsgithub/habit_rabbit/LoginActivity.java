@@ -104,24 +104,45 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         populateAutoComplete();
 
 
-/*
+        //Log.d("TestingHabits","Logging into existing account");
         if (loggingInExistingAccount){
-            //Dummy info, in the future we will  access from database
-            Set<String> habits = new LinkedHashSet<String>();
-            habits.add("Brush the cat,w,1,0,0");//name,period,timesPerPeriod,timesCompletedInPeriod,streak
-            habits.add("Grind Leetcode,d,1,0,5");
-            habits.add("Sharpen kitchen knives,m,2,1,1");
-            habits.add("Jog one mile,w,3,2,2");
-
-            SharedPreferences sharedPref = getSharedPreferences("UserData", Context.MODE_PRIVATE);
+            SharedPreferences sharedPref = getSharedPreferences("HabitInfo", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putStringSet("habits",habits);
+            Set<String> habit_IDs = new LinkedHashSet<String>();
+            String[] IDs = {"ID1","ID2","ID3","ID4"};
+            for (int i=0;i<IDs.length;i++){
+                habit_IDs.add(IDs[i]);
+            }
+            editor.putStringSet("habit_IDs",habit_IDs);
             editor.commit();
+
+
+            String[] habitData = {"Brush the cat,w,1,0","Grind Leetcode,d,1,0","Sharpen kitchen knives,m,2,1","Jog one mile,w,3,2"};
+            for (int i=0;i<IDs.length;i++){
+                String current_ID = IDs[i];
+                String[] info = habitData[i].split(",");
+                editor.putString(current_ID+"_NameOfHabit",info[0]);
+                editor.putString(current_ID+"_Period",info[1]);
+                editor.putInt(current_ID+"_TimesCompletedSoFar",Integer.parseInt(info[3]));
+            }
+            editor.commit();
+            HabitList.initialize(getApplicationContext());
+            Log.d("TestingHabits",HabitList.habitlist.toString());
+
+            for (Habit h:HabitList.habitlist.values()){
+                Log.d("TestingHabits",h.makeString());
+            }
+            HabitList.addHabit();
+            for (Habit h:HabitList.habitlist.values()){
+                Log.d("TestingHabits",h.makeString());
+            }
+
+            Log.d("TestingHabits","List of IDs");
 
         }
         //TODO: created else block for new account, setting username and password
 
-*/
+
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override

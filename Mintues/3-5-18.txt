@@ -1,0 +1,24 @@
+# Attendance
+Xiayung - present
+Alison - present
+Jonathan - present
+John - present
+Sunny - present
+
+# Done Since Last Meeting
+Xiayung - fixed delay in the login and register page/function, changed storage of password
+Alison - made a textfile of test data
+Jonathan - improved agenda/calendar page
+John - made auto-login possible
+Sunny - design for habit page
+
+# To do for next week
+Xiayung - making changes to non-local database
+Alison - make dummy habits for local server, for John to use
+Jonathan - fixing hutch bug, adding tool bar option to most pages
+John - build agenda/habits page from local data
+Sunny - editing/deleting/adding to local database
+
+# What we discussed today
+Discussed how to represent data locally - list of unique keys for every habit
+Discussed how rabbits are going to be built - one rabbit that gets bigger the longer a streak is kept
