@@ -130,14 +130,15 @@ public class HabitDetailActivity extends AppCompatActivity {
     private void editHabitRequest() {
         //TODO: send request
         // get params
-        TextView mTitleView = (TextView)findViewById(R.id.editText_title);
-        TextView mDesView = (TextView)findViewById(R.id.editText_description);
-        TextView mTimesView = (TextView)findViewById(R.id.editText_times);
-        Spinner mPeriodView = (Spinner)findViewById(R.id.spinner_f);
-        Switch mRemider = (Switch)findViewById(R.id.switch_reminder);
+        TextView mTitleView = (TextView)findViewById(R.id.title_txt);
+        TextView mDesView = (TextView)findViewById(R.id.detail_txt);
+        TextView mTimesView = (TextView)findViewById(R.id.times_txt);
+        Spinner mPeriodView = (Spinner)findViewById(R.id.period_spinner);
+        Switch mRemider = (Switch)findViewById(R.id.reminder_switch);
 
         //TODO: get username
         final String username = "test@example.com";
+        final String habit_id = "6";
         final String title = mTitleView.getText().toString();
         final String description = mDesView.getText().toString();
         final String times = mTimesView.getText().toString();
@@ -200,6 +201,7 @@ public class HabitDetailActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
+                params.put("habit_id", habit_id);
                 params.put("username", username);
                 params.put("habit", title);
                 params.put("description", description);
