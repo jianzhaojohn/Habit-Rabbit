@@ -8,6 +8,10 @@ import java.util.Set;
 import java.util.UUID;
 
 public class Habit {
+    public String getID() {
+        return ID;
+    }
+
     private String ID;
     private String nameOfHabit;
     private String period;
@@ -24,6 +28,13 @@ public class Habit {
         this.timesPerPeriod = sharedPref.getInt(this.ID + "_TimesToDoPerPeriod", -1);
         this.timesCompletedInPeriod = sharedPref.getInt(this.ID + "_TimesCompletedSoFar", -1);
 
+    }
+
+    // temp constructor
+    public Habit(String name, String period, int times){
+        this.nameOfHabit = name;
+        this.period = period;
+        this.timesPerPeriod = times;
     }
 
     public static String makeNewHabit() {

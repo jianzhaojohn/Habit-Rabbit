@@ -71,6 +71,10 @@ public class AddHabitActivity extends Activity {
         final String add_habit_url = "https://habit-rabbit.000webhostapp.com/add_habit.php";
 
         // TODO: update local file to store this new habit
+        Habit habit = new Habit(title, period, Integer.parseInt(times));
+        int pos = HabitList.HABITS.size();
+        HabitList.HABITS.add(pos, habit);
+
 
         // request server to add this habit to database
         StringRequest loginReq = new StringRequest(Request.Method.POST, add_habit_url,
