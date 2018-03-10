@@ -3,6 +3,7 @@ package comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -296,8 +297,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             }
                         } catch (JSONException e) {
                             showProgress(false);
-//                            Snackbar.make(mLoginFormView, e.toString(), Snackbar.LENGTH_LONG)
-//                                    .setAction("Action", null).show();
+                            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                            builder.setMessage(e.toString())
+                                    .setTitle("Response error")
+                                    .setNegativeButton("", null)
+                                    .create()
+                                    .show();;
                             e.printStackTrace();
                         }
                     }
@@ -305,8 +310,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public void onErrorResponse(VolleyError error) {
                 showProgress(false);
-                Snackbar.make(mLoginFormView, error.toString(), Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                builder.setMessage(error.toString())
+                        .setTitle("Volley Error")
+                        .setNegativeButton("OK", null)
+                        .create()
+                        .show();
             }
         }) {
             @Override

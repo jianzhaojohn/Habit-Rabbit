@@ -4,9 +4,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -22,13 +25,15 @@ public class HabitList {
     private static SharedPreferences sharedPref;
     private static Context sharedContext;
 
+    public static List<Habit> HABITS = new ArrayList<Habit>();
+
+
     public static void initialize(Context context){
         sharedContext = context;
         sharedPref = sharedContext.getSharedPreferences("HabitInfo", Context.MODE_PRIVATE);
         editor = sharedPref.edit();
         Habit.setSharedContext(sharedContext);
         update();
-
 
     }
     public static Hashtable<String,Habit> update(){
@@ -37,6 +42,7 @@ public class HabitList {
 
         for (String ID:habit_IDs){
             habitlist.put(ID,new Habit(ID));
+            HABITS.add(new Habit(ID));
         }
         return habitlist;
     }
