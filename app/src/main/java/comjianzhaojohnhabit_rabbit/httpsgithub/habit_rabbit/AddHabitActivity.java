@@ -71,8 +71,8 @@ public class AddHabitActivity extends Activity {
         final String add_habit_url = "https://habit-rabbit.000webhostapp.com/add_habit.php";
 
         // TODO: update local file to store this new habit
-        Habit habit = new Habit(title, period, Integer.parseInt(times));
-        int pos = HabitList.HABITS.size();
+        final Habit habit = new Habit(title, period, Integer.parseInt(times));
+        final int pos = HabitList.HABITS.size();
         HabitList.HABITS.add(pos, habit);
 
 
@@ -91,6 +91,8 @@ public class AddHabitActivity extends Activity {
                                 int habit_id = jsonRes.getInt("habit_id");
 
                                 // TODO: update habit_id in local file
+                                HabitList.HABITS.get(pos).setID(habit_id+"");
+                                HabitList.habitlist.put(habit_id+"", habit);
 
                                 // jump to habit list page
                                 startActivity(new Intent(AddHabitActivity.this, HabitListActivity.class));

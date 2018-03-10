@@ -42,6 +42,7 @@ public class HabitList {
 
         for (String ID:habit_IDs){
             habitlist.put(ID,new Habit(ID));
+            HABITS.add(new Habit(ID));
         }
         return habitlist;
     }

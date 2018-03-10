@@ -141,7 +141,7 @@ public class HabitListActivity extends AppCompatActivity {
                 Habit item = (Habit) view.getTag();
                 if (mTwoPane) {
                     Bundle arguments = new Bundle();
-                    arguments.putString(HabitDetailFragment.ARG_ITEM_ID, item.getID());
+                    arguments.putString(HabitDetailFragment.ARG_ITEM_ID, HabitList.HABITS.indexOf(item)+"");
                     HabitDetailFragment fragment = new HabitDetailFragment();
                     fragment.setArguments(arguments);
                     mParentActivity.getSupportFragmentManager().beginTransaction()
@@ -150,7 +150,8 @@ public class HabitListActivity extends AppCompatActivity {
                 } else {
                     Context context = view.getContext();
                     Intent intent = new Intent(context, HabitDetailActivity.class);
-                    intent.putExtra(HabitDetailFragment.ARG_ITEM_ID, item.getID());
+//                    intent.putExtra(HabitDetailFragment.ARG_ITEM_ID, item.getID());
+                    intent.putExtra(HabitDetailFragment.ARG_ITEM_ID, HabitList.HABITS.indexOf(item)+"");
 
                     context.startActivity(intent);
                 }
@@ -186,7 +187,8 @@ public class HabitListActivity extends AppCompatActivity {
             int currentPosition = position;
             final Habit currentHabit = HabitList.HABITS.get(position);
 
-            holder.mIdView.setText(mValues.get(position).getID());
+//            holder.mIdView.setText(mValues.get(position).getID());
+            holder.mIdView.setText(position+1+"");
             holder.mContentView.setText(mValues.get(position).getNameOfHabit());
 
             holder.itemView.setTag(mValues.get(position));
@@ -199,20 +201,19 @@ public class HabitListActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     // respond the delete button with a dialog box
 
-                    deleteHabit(currentHabit);
-                    deleteHabitRequest(context, currentHabit);
-                /*AlertDialog.Builder builder = new AlertDialog.Builder(context);
+//                    deleteHabitRequest(context, currentHabit);
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle("Edit Habit")
                         .setMessage("Do you want to delete this habit?")
                         .setNegativeButton("NO", null)
                         .setPositiveButton("YES", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                deleteHabitRequest(context, currentHabit); // TODO: get real habit id, replacing the hard coded id
+                                deleteHabitRequest(context, currentHabit);
                             }
                         })
                         .create()
-                        .show();*/
+                        .show();
                 }
             });
         }
@@ -221,6 +222,7 @@ public class HabitListActivity extends AppCompatActivity {
             //TODO: delete habit locally
             int currentPosition = HabitList.HABITS.indexOf(habit);
             HabitList.HABITS.remove(currentPosition);
+            HabitList.habitlist.remove(habit);
             notifyItemRemoved(currentPosition);
         }
 
@@ -229,7 +231,7 @@ public class HabitListActivity extends AppCompatActivity {
             return mValues.size();
         }
 
-        private void deleteHabitRequest(final Context context, Habit habit) {
+        private void deleteHabitRequest(final Context context, final Habit habit) {
             // get params
             final String username = "test@example.com"; //TODO:
             final String habit_id = habit.getID();
@@ -248,6 +250,8 @@ public class HabitListActivity extends AppCompatActivity {
                                 Boolean success = jsonRes.getBoolean("success");
 
                                 if (success) {
+                                    deleteHabit(habit);
+
                                     // jump to habit list page
                                     context.startActivity(new Intent(context, HabitListActivity.class));
                                 } else {

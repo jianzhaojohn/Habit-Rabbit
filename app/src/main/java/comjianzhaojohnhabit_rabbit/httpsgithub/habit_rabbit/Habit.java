@@ -12,6 +12,10 @@ public class Habit {
         return ID;
     }
 
+    public void setID(String ID) {
+        this.ID = ID;
+    }
+
     private String ID;
     private String nameOfHabit;
     private String period;
