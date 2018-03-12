@@ -16,6 +16,7 @@
     <string name="title_habit_list">Habits</string>
     <string name="title_habit_detail">Habit Detail</string>
     <string name="btn_tmp">tmp</string>
+    <string name="event_in_the_day">you dont have any event in this day</string>
     <string name="btn_delete">delete</string>
     <string name="label_title">Title:</string>
     <string name="txt_title">My New Habit</string>
