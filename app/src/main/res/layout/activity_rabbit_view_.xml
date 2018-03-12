@@ -10,7 +10,7 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:clickable="true"
-        android:onClick="movehead"
+        android:onClick="shake"
         android:tag="rabbit1"
         android:src="@mipmap/ic_rabbit1_foreground" />
 
@@ -32,7 +32,7 @@
         android:layout_below="@+id/imageView"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="19dp"
-        android:text="10 days year old"
+        android:text="10 days old"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
 
