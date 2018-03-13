@@ -15,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,8 +31,6 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit.dummy.DummyContent;
 
 import static android.app.PendingIntent.getActivity;
 import static android.support.v4.app.NavUtils.navigateUpFromSameTask;
@@ -126,7 +123,7 @@ public class HabitListActivity extends AppCompatActivity {
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
 //        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, DummyContent.ITEMS, mTwoPane));
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, HabitList.HABITS, mTwoPane));
+        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, HabitList.HABITS_list, mTwoPane));
     }
 
     public static class SimpleItemRecyclerViewAdapter
@@ -141,7 +138,7 @@ public class HabitListActivity extends AppCompatActivity {
                 Habit item = (Habit) view.getTag();
                 if (mTwoPane) {
                     Bundle arguments = new Bundle();
-                    arguments.putString(HabitDetailFragment.ARG_ITEM_ID, HabitList.HABITS.indexOf(item)+"");
+                    arguments.putString(HabitDetailFragment.ARG_ITEM_ID, HabitList.HABITS_list.indexOf(item)+"");
                     HabitDetailFragment fragment = new HabitDetailFragment();
                     fragment.setArguments(arguments);
                     mParentActivity.getSupportFragmentManager().beginTransaction()
@@ -151,7 +148,7 @@ public class HabitListActivity extends AppCompatActivity {
                     Context context = view.getContext();
                     Intent intent = new Intent(context, HabitDetailActivity.class);
 //                    intent.putExtra(HabitDetailFragment.ARG_ITEM_ID, item.getID());
-                    intent.putExtra(HabitDetailFragment.ARG_ITEM_ID, HabitList.HABITS.indexOf(item)+"");
+                    intent.putExtra(HabitDetailFragment.ARG_ITEM_ID, HabitList.HABITS_list.indexOf(item)+"");
 
                     context.startActivity(intent);
                 }
@@ -185,7 +182,7 @@ public class HabitListActivity extends AppCompatActivity {
         public void onBindViewHolder(final ViewHolder holder, final int position) {
             final Context context = holder.itemView.getContext();
             int currentPosition = position;
-            final Habit currentHabit = HabitList.HABITS.get(position);
+            final Habit currentHabit = HabitList.HABITS_list.get(position);
 
 //            holder.mIdView.setText(mValues.get(position).getID());
             holder.mIdView.setText(position+1+"");
@@ -220,9 +217,9 @@ public class HabitListActivity extends AppCompatActivity {
 
         private void deleteHabit(Habit habit) {
             //TODO: delete habit locally
-            int currentPosition = HabitList.HABITS.indexOf(habit);
-            HabitList.HABITS.remove(currentPosition);
-            HabitList.habitlist.remove(habit);
+            int currentPosition = HabitList.HABITS_list.indexOf(habit);
+            HabitList.HABITS_list.remove(currentPosition);
+            HabitList.Habit_table.remove(habit);
             notifyItemRemoved(currentPosition);
         }
 

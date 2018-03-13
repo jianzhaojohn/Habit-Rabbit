@@ -8,6 +8,21 @@ import java.util.Set;
 import java.util.UUID;
 
 public class Habit {
+
+    private String ID;
+    private String nameOfHabit;
+    private String period;
+    private int timesPerPeriod;
+    private int timesCompletedInPeriod;
+
+    // temp constructor
+    public Habit(String id, String name, String period, int times){
+        this.ID = id;
+        this.nameOfHabit = name;
+        this.period = period;
+        this.timesPerPeriod = times;
+    }
+
     public String getID() {
         return ID;
     }
@@ -16,11 +31,39 @@ public class Habit {
         this.ID = ID;
     }
 
-    private String ID;
-    private String nameOfHabit;
-    private String period;
-    private int timesPerPeriod;
-    private int timesCompletedInPeriod;
+    public void setNameOfHabit(String nameOfHabit) {
+        this.nameOfHabit = nameOfHabit;
+    }
+
+    public void setPeriod(String period) {
+        this.period = period;
+    }
+
+    public void setTimesPerPeriod(int timesPerPeriod) {
+        this.timesPerPeriod = timesPerPeriod;
+    }
+
+    public void setTimesCompletedInPeriod(int timesCompletedInPeriod) {
+        this.timesCompletedInPeriod = timesCompletedInPeriod;
+    }
+
+    public String getNameOfHabit() {
+        return nameOfHabit;
+    }
+
+    public String getPeriod() {
+        return period;
+    }
+
+    public int getTimesPerPeriod() {
+        return timesPerPeriod;
+    }
+
+    public int getTimesCompletedInPeriod() {
+        return timesCompletedInPeriod;
+    }
+
+    /*
     private static SharedPreferences.Editor editor;
     private static SharedPreferences sharedPref;
     private static Context sharedContext;
@@ -34,12 +77,6 @@ public class Habit {
 
     }
 
-    // temp constructor
-    public Habit(String name, String period, int times){
-        this.nameOfHabit = name;
-        this.period = period;
-        this.timesPerPeriod = times;
-    }
 
     public static String makeNewHabit() {
         String newID = UUID.randomUUID().toString();
@@ -103,13 +140,15 @@ public class Habit {
         HabitList.update();
 
     }
+
     public static void setSharedContext(Context inputContext){
         sharedContext = inputContext;
         sharedPref = sharedContext.getSharedPreferences("HabitInfo", Context.MODE_PRIVATE);
         editor = sharedPref.edit();
     }
-
+*/
     public String makeString(){
         return ID + ',' + nameOfHabit + ',' + this.period;
     }
+
 }

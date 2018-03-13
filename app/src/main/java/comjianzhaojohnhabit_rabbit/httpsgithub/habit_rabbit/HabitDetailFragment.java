@@ -7,14 +7,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
-
-import comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit.dummy.DummyContent;
 
 /**
  * A fragment representing a single Habit detail screen.
@@ -51,7 +48,7 @@ public class HabitDetailFragment extends Fragment {
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
 //            mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
-            mItem = HabitList.HABITS.get(Integer.parseInt(getArguments().getString(ARG_ITEM_ID)));
+            mItem = HabitList.HABITS_list.get(Integer.parseInt(getArguments().getString(ARG_ITEM_ID)));
 
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);

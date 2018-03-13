@@ -45,9 +45,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -96,6 +94,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
 
+/*
 
         //Log.d("TestingHabits","Logging into existing account");
         if (loggingInExistingAccount){
@@ -120,13 +119,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
             editor.commit();
             HabitList.initialize(getApplicationContext());
-            Log.d("TestingHabits",HabitList.habitlist.toString());
+            Log.d("TestingHabits",HabitList.Habit_table.toString());
 
-            for (Habit h:HabitList.habitlist.values()){
+            for (Habit h:HabitList.Habit_table.values()){
                 Log.d("TestingHabits",h.makeString());
             }
             HabitList.addHabit();
-            for (Habit h:HabitList.habitlist.values()){
+            for (Habit h:HabitList.Habit_table.values()){
                 Log.d("TestingHabits",h.makeString());
             }
 
@@ -135,6 +134,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
         //TODO: created else block for new account, setting username and password
 
+*/
 
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {

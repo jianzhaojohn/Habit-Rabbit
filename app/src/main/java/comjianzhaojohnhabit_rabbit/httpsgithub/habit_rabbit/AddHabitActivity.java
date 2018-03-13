@@ -72,8 +72,8 @@ public class AddHabitActivity extends Activity {
 
         // TODO: update local file to store this new habit
         final Habit habit = new Habit(title, period, Integer.parseInt(times));
-        final int pos = HabitList.HABITS.size();
-        HabitList.HABITS.add(pos, habit);
+        final int pos = HabitList.HABITS_list.size();
+        HabitList.HABITS_list.add(pos, habit);
 
 
         // request server to add this habit to database
@@ -91,8 +91,8 @@ public class AddHabitActivity extends Activity {
                                 int habit_id = jsonRes.getInt("habit_id");
 
                                 // TODO: update habit_id in local file
-                                HabitList.HABITS.get(pos).setID(habit_id+"");
-                                HabitList.habitlist.put(habit_id+"", habit);
+                                HabitList.HABITS_list.get(pos).setID(habit_id+"");
+                                HabitList.Habit_table.put(habit_id+"", habit);
 
                                 // jump to habit list page
                                 startActivity(new Intent(AddHabitActivity.this, HabitListActivity.class));
