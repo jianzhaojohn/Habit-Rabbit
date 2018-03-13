@@ -53,7 +53,7 @@ public class HabitDetailFragment extends Fragment {
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
-                appBarLayout.setTitle(mItem.getNameOfHabit());
+                appBarLayout.setTitle(mItem.getName());
 //                appBarLayout.setTitle("Habit");
             }
         }
@@ -71,7 +71,7 @@ public class HabitDetailFragment extends Fragment {
 
         // Show habit detail
         if (mItem != null) {
-            ((TextView)rootView.findViewById(R.id.title_txt)).setText(mItem.getNameOfHabit());
+            ((TextView)rootView.findViewById(R.id.title_txt)).setText(mItem.getName());
             ((TextView)rootView.findViewById(R.id.times_txt)).setText(mItem.getTimesPerPeriod()+"");
 //            ((Spinner)rootView.findViewById(R.id.period_spinner)).setSelection(0);//TODO
         }

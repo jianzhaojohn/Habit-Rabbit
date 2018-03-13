@@ -266,6 +266,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 new Response.Listener<String>(){
                     @Override
                     public void onResponse(String response) {
+
                         try {
                             // parse the response
                             JSONObject jsonRes = new JSONObject(response);
@@ -289,7 +290,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                 SharedPref.saveHabits(LoginActivity.this, habits);
                                 // initialize HabitList
                                 HabitList.initialize(LoginActivity.this);
-
+                                /*AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                                builder.setTitle("Show response")
+                                        .setMessage(HabitList.HABITS_list.get(0).makeString())
+//                                        .setMessage(habits.get(0).toString())
+                                        .setNegativeButton("OK", null)
+                                        .create()
+                                        .show();*/
                                 // jump to main page
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                 showProgress(false);

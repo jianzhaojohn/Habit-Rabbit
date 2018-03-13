@@ -186,7 +186,7 @@ public class HabitListActivity extends AppCompatActivity {
 
 //            holder.mIdView.setText(mValues.get(position).getID());
             holder.mIdView.setText(position+1+"");
-            holder.mContentView.setText(mValues.get(position).getNameOfHabit());
+            holder.mContentView.setText(mValues.get(position).getName());
 
             holder.itemView.setTag(mValues.get(position));
             holder.itemView.setOnClickListener(mOnClickListener);
@@ -231,7 +231,7 @@ public class HabitListActivity extends AppCompatActivity {
         private void deleteHabitRequest(final Context context, final Habit habit) {
             // get params
             final String username = "test@example.com"; //TODO:
-            final String habit_id = habit.getID();
+            final String habit_id = habit.getID()+"";
             // send add new habit request
             RequestQueue queue = Volley.newRequestQueue(context);
             final String add_habit_url = "https://habit-rabbit.000webhostapp.com/delete_habit.php";

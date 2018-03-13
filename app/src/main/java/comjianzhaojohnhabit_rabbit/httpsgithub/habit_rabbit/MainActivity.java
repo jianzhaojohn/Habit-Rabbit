@@ -66,6 +66,12 @@ public class MainActivity extends AppCompatActivity
                    // getApplicationContext().deleteFile("autionloginfile");
                     File autologin = getApplicationContext().getFileStreamPath("autionloginfile");
                     autologin.delete();
+                    // clear and delete data file, then logout
+                    SharedPref.clearAll(MainActivity.this);
+                    String fileName = SharedPref.FILE_NAME;
+                    File file= new File(MainActivity.this.getFilesDir().getParent()+"/shared_prefs/"+fileName+".xml");
+                    file.delete();
+
                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 }catch(Exception e){}
                 break;
@@ -95,6 +101,7 @@ public class MainActivity extends AppCompatActivity
                     // getApplicationContext().deleteFile("autionloginfile");
                     File autologin = getApplicationContext().getFileStreamPath("autionloginfile");
                     autologin.delete();
+
                     startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 }catch(Exception e){}
                 break;

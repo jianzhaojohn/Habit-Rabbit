@@ -88,7 +88,7 @@ public class AddHabitActivity extends Activity {
                                 int habit_id = jsonRes.getInt("habit_id");
 
                                 // update local file to store this new habit
-                                final Habit habit = new Habit(habit_id+"", title, period, Integer.parseInt(times));
+                                final Habit habit = new Habit(habit_id, title, period, Integer.parseInt(times));
                                 final int pos = HabitList.HABITS_list.size();
                                 HabitList.HABITS_list.add(pos, habit);
                                 HabitList.Habit_table.put(habit_id+"", habit);

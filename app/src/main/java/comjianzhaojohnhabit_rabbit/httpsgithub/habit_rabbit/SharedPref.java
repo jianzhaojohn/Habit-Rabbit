@@ -18,14 +18,10 @@ import com.google.gson.Gson;
  */
 
 public class SharedPref {
-    private static final String FILE_NAME = "HabitInfo";
+    public static final String FILE_NAME = "HabitInfo";
     private static final String USER = "Username";
     private static final String DEFAULT_USER = "test@example.com";
-//    private static final String ID = "_id";
-//    private static final String NAME = "_NameOfHabit";
-//    private static final String PERIOD = "_Period";
-//    private static final String TIMES = "_Times";
-    private static final String STREAK = "_Streak";
+
 
     public static void saveUser(Context mContext, String user) {
         SharedPreferences mPref = mContext.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
@@ -73,6 +69,7 @@ public class SharedPref {
         try {
             // write new habit
             editor.putString("habit_"+habit.getInt("habit_id"), habit.toString());
+            editor.apply();
 
             // update habit_list
             Set<String> list = getHabitList(mContext);
@@ -82,19 +79,18 @@ public class SharedPref {
             e.printStackTrace();
         }
 
-        editor.apply();
     }
 
     public static void saveHabit(Context mContext, Habit habit) {
         SharedPreferences mPref = mContext.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = mPref.edit();
         Gson gson = new Gson();
-        String gHabit = gson.toJson(habit);
-        editor.putString("habit_"+habit.getID(), gHabit);
+        String jHabit = gson.toJson(habit);
+        editor.putString("habit_"+habit.getID(), jHabit);
 
         // update habit_list
         Set<String> list = getHabitList(mContext);
-        list.add(habit.getID());
+        list.add(habit.getID()+"");
         saveHabitList(mContext, list);
 
         editor.apply();
@@ -103,7 +99,7 @@ public class SharedPref {
     public static void saveHabits(Context mContext, JSONArray habits) {
         for(int i = 0; i < habits.length(); i++) {
             try {
-                saveHabit(mContext, habits.getJSONObject(i));
+                saveHabit(mContext, (JSONObject) habits.getJSONObject(i));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -146,13 +142,21 @@ public class SharedPref {
     public static void deleteHabit(Context mContext, Habit habit) {
         SharedPreferences mPref = mContext.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = mPref.edit();
-        String habit_id = habit.getID();
+        String habit_id = habit.getID()+"";
         editor.remove("habit_"+habit_id);
+        editor.apply();
 
         // update habit_list
         Set<String> list = getHabitList(mContext);
         list.remove(habit_id);
         saveHabitList(mContext, list);
 
+    }
+
+    public static void clearAll(Context mContext) {
+        SharedPreferences mPref = mContext.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = mPref.edit();
+        editor.clear();
+        editor.commit();
     }
 }

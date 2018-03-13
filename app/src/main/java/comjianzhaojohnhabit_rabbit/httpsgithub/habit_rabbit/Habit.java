@@ -1,40 +1,37 @@
 package comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-
-import org.json.JSONObject;
-
-import java.util.LinkedHashSet;
-import java.util.Set;
-import java.util.UUID;
+import com.google.gson.annotations.SerializedName;
 
 public class Habit {
 
-    private String ID;
-    private String nameOfHabit;
+    @SerializedName("id")
+    private int ID;
+//    @SerializedName("name")
+    private String name;
     private String period;
+    @SerializedName("times")
     private int timesPerPeriod;
     private transient int timesCompletedInPeriod;
 
     // temp constructor
-    public Habit(String id, String name, String period, int times){
+    public Habit(int id, String name, String period, int times){
         this.ID = id;
-        this.nameOfHabit = name;
+        this.name = name;
         this.period = period;
         this.timesPerPeriod = times;
+        this.timesCompletedInPeriod = 0;
     }
 
-    public String getID() {
+    public Integer getID() {
         return ID;
     }
 
-    public void setID(String ID) {
+    public void setID(Integer ID) {
         this.ID = ID;
     }
 
-    public void setNameOfHabit(String nameOfHabit) {
-        this.nameOfHabit = nameOfHabit;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setPeriod(String period) {
@@ -49,8 +46,8 @@ public class Habit {
         this.timesCompletedInPeriod = timesCompletedInPeriod;
     }
 
-    public String getNameOfHabit() {
-        return nameOfHabit;
+    public String getName() {
+        return name;
     }
 
     public String getPeriod() {
@@ -73,7 +70,7 @@ public class Habit {
     public Habit(String habit_ID){
         //"name,period,timesPerPeriod,timesCompletedInPeriod,streak"
         this.ID = habit_ID;
-        this.nameOfHabit = sharedPref.getString(this.ID + "_NameOfHabit", "error");
+        this.name = sharedPref.getString(this.ID + "_NameOfHabit", "error");
         this.period = sharedPref.getString(this.ID + "_Period", "error");
         this.timesPerPeriod = sharedPref.getInt(this.ID + "_TimesToDoPerPeriod", -1);
         this.timesCompletedInPeriod = sharedPref.getInt(this.ID + "_TimesCompletedSoFar", -1);
@@ -90,13 +87,13 @@ public class Habit {
         HabitList.update();
         return newID;
     }
-    public String getNameOfHabit() {
-        return nameOfHabit;
+    public String getName() {
+        return name;
     }
-    public void setNameOfHabit(String nameOfHabit) {
-        editor.putString(ID+"_NameOfHabit",nameOfHabit);
+    public void setName(String name) {
+        editor.putString(ID+"_NameOfHabit",name);
         editor.commit();
-        this.nameOfHabit = nameOfHabit;
+        this.name = name;
         HabitList.update();
     }
     public String getPeriod() {
@@ -151,7 +148,7 @@ public class Habit {
     }
 */
     public String makeString(){
-        return ID + ',' + nameOfHabit + ',' + this.period;
+        return ID + ',' + name + ',' + this.period;
     }
 
 }
