@@ -6,7 +6,6 @@ public class Habit {
 
     @SerializedName("id")
     private int ID;
-//    @SerializedName("name")
     private String name;
     private String period;
     @SerializedName("times")
