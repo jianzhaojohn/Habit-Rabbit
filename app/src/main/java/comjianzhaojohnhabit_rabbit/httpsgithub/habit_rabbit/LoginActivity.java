@@ -40,6 +40,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -65,14 +66,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Id to identity READ_CONTACTS permission request.
      */
     private static final int REQUEST_READ_CONTACTS = 0;
-
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world", "test@example.com:test"
-    };
 
     // UI references.
     private AutoCompleteTextView mEmailView;
@@ -277,9 +270,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             // parse the response
                             JSONObject jsonRes = new JSONObject(response);
                             Boolean success = jsonRes.getBoolean("success");
+                            // fetch habits from server
+                            JSONArray habits = jsonRes.getJSONArray("habits");
 
                             if (success) {
-                                // jump to main page
+                                // mark login
                                 try {
                                     OutputStream outputStream;
                                     outputStream = openFileOutput("autionloginfile", Context.MODE_PRIVATE);
@@ -287,6 +282,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                     outputStream.close();
                                 }catch (Exception e){}
 
+                                // TODO:store habits in local file
+
+
+                                // jump to main page
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                 showProgress(false);
                                 finish();
@@ -298,11 +297,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         } catch (JSONException e) {
                             showProgress(false);
                             AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                            builder.setMessage(e.toString())
-                                    .setTitle("Response error")
-                                    .setNegativeButton("", null)
+                            builder.setTitle("Response error")
+                                    .setMessage(e.toString())
+                                    .setNegativeButton("OK", null)
                                     .create()
-                                    .show();;
+                                    .show();
                             e.printStackTrace();
                         }
                     }
@@ -436,7 +435,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         int ADDRESS = 0;
         int IS_PRIMARY = 1;
     }
-
 
 }
 
