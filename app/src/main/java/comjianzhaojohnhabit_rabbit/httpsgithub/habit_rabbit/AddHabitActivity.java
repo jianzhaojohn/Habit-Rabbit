@@ -70,10 +70,7 @@ public class AddHabitActivity extends Activity {
         RequestQueue queue = Volley.newRequestQueue(this);
         final String add_habit_url = "https://habit-rabbit.000webhostapp.com/add_habit.php";
 
-        // TODO: update local file to store this new habit
-        final Habit habit = new Habit(title, period, Integer.parseInt(times));
-        final int pos = HabitList.HABITS_list.size();
-        HabitList.HABITS_list.add(pos, habit);
+
 
 
         // request server to add this habit to database
@@ -90,9 +87,12 @@ public class AddHabitActivity extends Activity {
                                 // get habit id
                                 int habit_id = jsonRes.getInt("habit_id");
 
-                                // TODO: update habit_id in local file
-                                HabitList.HABITS_list.get(pos).setID(habit_id+"");
+                                // update local file to store this new habit
+                                final Habit habit = new Habit(habit_id+"", title, period, Integer.parseInt(times));
+                                final int pos = HabitList.HABITS_list.size();
+                                HabitList.HABITS_list.add(pos, habit);
                                 HabitList.Habit_table.put(habit_id+"", habit);
+                                SharedPref.saveHabit(AddHabitActivity.this, habit);
 
                                 // jump to habit list page
                                 startActivity(new Intent(AddHabitActivity.this, HabitListActivity.class));

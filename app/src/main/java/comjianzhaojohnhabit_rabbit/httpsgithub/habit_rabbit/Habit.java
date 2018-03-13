@@ -3,6 +3,8 @@ package comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import org.json.JSONObject;
+
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -13,7 +15,7 @@ public class Habit {
     private String nameOfHabit;
     private String period;
     private int timesPerPeriod;
-    private int timesCompletedInPeriod;
+    private transient int timesCompletedInPeriod;
 
     // temp constructor
     public Habit(String id, String name, String period, int times){
@@ -62,6 +64,7 @@ public class Habit {
     public int getTimesCompletedInPeriod() {
         return timesCompletedInPeriod;
     }
+
 
     /*
     private static SharedPreferences.Editor editor;

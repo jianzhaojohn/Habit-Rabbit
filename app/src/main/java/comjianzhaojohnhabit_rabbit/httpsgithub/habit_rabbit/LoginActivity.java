@@ -271,6 +271,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             JSONObject jsonRes = new JSONObject(response);
                             Boolean success = jsonRes.getBoolean("success");
                             // fetch habits from server
+                            JSONArray habit_list = jsonRes.getJSONArray("habit_ids");
                             JSONArray habits = jsonRes.getJSONArray("habits");
 
                             if (success) {
@@ -282,8 +283,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                     outputStream.close();
                                 }catch (Exception e){}
 
-                                // TODO:store habits in local file
-
+                                // store habits in local file
+                                SharedPref.saveUser(LoginActivity.this, mEmail);
+                                SharedPref.saveHabitList(LoginActivity.this, habit_list);
+                                SharedPref.saveHabits(LoginActivity.this, habits);
+                                // initialize HabitList
+                                HabitList.initialize(LoginActivity.this);
 
                                 // jump to main page
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
