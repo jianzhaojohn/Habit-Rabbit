@@ -4,8 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class Habit {
 
-    @SerializedName("id")
-    private int ID;
+    private int id;
     private String name;
     private String period;
     @SerializedName("times")
@@ -14,19 +13,19 @@ public class Habit {
 
     // temp constructor
     public Habit(int id, String name, String period, int times){
-        this.ID = id;
+        this.id = id;
         this.name = name;
         this.period = period;
         this.timesPerPeriod = times;
         this.timesCompletedInPeriod = 0;
     }
 
-    public Integer getID() {
-        return ID;
+    public Integer getId() {
+        return id;
     }
 
-    public void setID(Integer ID) {
-        this.ID = ID;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public void setName(String name) {
@@ -68,11 +67,11 @@ public class Habit {
     private static Context sharedContext;
     public Habit(String habit_ID){
         //"name,period,timesPerPeriod,timesCompletedInPeriod,streak"
-        this.ID = habit_ID;
-        this.name = sharedPref.getString(this.ID + "_NameOfHabit", "error");
-        this.period = sharedPref.getString(this.ID + "_Period", "error");
-        this.timesPerPeriod = sharedPref.getInt(this.ID + "_TimesToDoPerPeriod", -1);
-        this.timesCompletedInPeriod = sharedPref.getInt(this.ID + "_TimesCompletedSoFar", -1);
+        this.id = habit_ID;
+        this.name = sharedPref.getString(this.id + "_NameOfHabit", "error");
+        this.period = sharedPref.getString(this.id + "_Period", "error");
+        this.timesPerPeriod = sharedPref.getInt(this.id + "_TimesToDoPerPeriod", -1);
+        this.timesCompletedInPeriod = sharedPref.getInt(this.id + "_TimesCompletedSoFar", -1);
 
     }
 
@@ -90,7 +89,7 @@ public class Habit {
         return name;
     }
     public void setName(String name) {
-        editor.putString(ID+"_NameOfHabit",name);
+        editor.putString(id+"_NameOfHabit",name);
         editor.commit();
         this.name = name;
         HabitList.update();
@@ -99,7 +98,7 @@ public class Habit {
         return period;
     }
     public void setPeriod(String period) {
-        editor.putString(ID+"_Period",period);
+        editor.putString(id+"_Period",period);
         editor.commit();
         this.period = period;
         HabitList.update();
@@ -109,7 +108,7 @@ public class Habit {
         return timesPerPeriod;
     }
     public void setTimesPerPeriod(int timesPerPeriod) {
-        editor.putInt(ID+"_TimesToDoPerPeriod",timesPerPeriod);
+        editor.putInt(id+"_TimesToDoPerPeriod",timesPerPeriod);
         editor.commit();
         this.timesPerPeriod = timesPerPeriod;
         HabitList.update();
@@ -119,20 +118,20 @@ public class Habit {
         return timesCompletedInPeriod;
     }
     public void setTimesCompletedInPeriod(int timesCompletedInPeriod) {
-        editor.putInt(ID+"_TimesToDoPerPeriod",timesCompletedInPeriod);
+        editor.putInt(id+"_TimesToDoPerPeriod",timesCompletedInPeriod);
         editor.commit();
         this.timesCompletedInPeriod = timesCompletedInPeriod;
         HabitList.update();
     }
 
     public void delete(){
-        editor.remove(ID + "_NameOfHabit");
-        editor.remove(ID + "_Period");
-        editor.remove(ID + "_TimesToDoPerPeriod");
-        editor.remove(ID + "_TimesCompletedSoFar");
+        editor.remove(id + "_NameOfHabit");
+        editor.remove(id + "_Period");
+        editor.remove(id + "_TimesToDoPerPeriod");
+        editor.remove(id + "_TimesCompletedSoFar");
 
         Set<String> habit_IDs = sharedPref.getStringSet("habit_IDs",new LinkedHashSet<String>());
-        habit_IDs.remove(ID);
+        habit_IDs.remove(id);
         editor.putStringSet("habit_IDs", habit_IDs);
 
         editor.commit();
@@ -147,7 +146,7 @@ public class Habit {
     }
 */
     public String makeString(){
-        return ID + ',' + name + ',' + this.period;
+        return id + ',' + name + ',' + this.period;
     }
 
 }

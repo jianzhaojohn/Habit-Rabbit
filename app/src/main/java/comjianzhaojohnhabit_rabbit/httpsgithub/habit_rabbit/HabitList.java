@@ -1,12 +1,9 @@
 package comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Hashtable;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -26,6 +23,12 @@ public class HabitList {
             Habit_table.put(id, habit);
             HABITS_list.add(habit);
         }
+    }
+
+    public static void deleteHabit(Habit habit) {
+        HABITS_list.remove(habit);
+        Habit_table.remove(habit.getId());
+        ID_set.remove(habit.getId()+"");
     }
 
     /*public static void initialize(Context context){

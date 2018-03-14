@@ -147,7 +147,7 @@ public class HabitListActivity extends AppCompatActivity {
                 } else {
                     Context context = view.getContext();
                     Intent intent = new Intent(context, HabitDetailActivity.class);
-//                    intent.putExtra(HabitDetailFragment.ARG_ITEM_ID, item.getID());
+//                    intent.putExtra(HabitDetailFragment.ARG_ITEM_ID, item.getId());
                     intent.putExtra(HabitDetailFragment.ARG_ITEM_ID, HabitList.HABITS_list.indexOf(item)+"");
 
                     context.startActivity(intent);
@@ -184,7 +184,7 @@ public class HabitListActivity extends AppCompatActivity {
             int currentPosition = position;
             final Habit currentHabit = HabitList.HABITS_list.get(position);
 
-//            holder.mIdView.setText(mValues.get(position).getID());
+//            holder.mIdView.setText(mValues.get(position).getId()+"");
             holder.mIdView.setText(position+1+"");
             holder.mContentView.setText(mValues.get(position).getName());
 
@@ -197,10 +197,8 @@ public class HabitListActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     // respond the delete button with a dialog box
-
-//                    deleteHabitRequest(context, currentHabit);
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle("Edit Habit")
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("Edit Habit")
                         .setMessage("Do you want to delete this habit?")
                         .setNegativeButton("NO", null)
                         .setPositiveButton("YES", new DialogInterface.OnClickListener() {
@@ -215,11 +213,11 @@ public class HabitListActivity extends AppCompatActivity {
             });
         }
 
-        private void deleteHabit(Habit habit) {
-            //TODO: delete habit locally
+        private void deleteHabit(Context mContext, Habit habit) {
+            // delete habit locally
+            SharedPref.deleteHabit(mContext, habit);
+            HabitList.deleteHabit(habit);
             int currentPosition = HabitList.HABITS_list.indexOf(habit);
-            HabitList.HABITS_list.remove(currentPosition);
-            HabitList.Habit_table.remove(habit);
             notifyItemRemoved(currentPosition);
         }
 
@@ -230,8 +228,8 @@ public class HabitListActivity extends AppCompatActivity {
 
         private void deleteHabitRequest(final Context context, final Habit habit) {
             // get params
-            final String username = "test@example.com"; //TODO:
-            final String habit_id = habit.getID()+"";
+            final String username = SharedPref.getUser(context);
+            final String habit_id = habit.getId()+"";
             // send add new habit request
             RequestQueue queue = Volley.newRequestQueue(context);
             final String add_habit_url = "https://habit-rabbit.000webhostapp.com/delete_habit.php";
@@ -247,7 +245,7 @@ public class HabitListActivity extends AppCompatActivity {
                                 Boolean success = jsonRes.getBoolean("success");
 
                                 if (success) {
-                                    deleteHabit(habit);
+                                    deleteHabit(context, habit);
 
                                     // jump to habit list page
                                     context.startActivity(new Intent(context, HabitListActivity.class));

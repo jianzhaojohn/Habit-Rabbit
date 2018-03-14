@@ -10,8 +10,6 @@ import org.json.JSONObject;
 import java.util.HashSet;
 import java.util.Set;
 
-import static android.os.Build.ID;
-
 import com.google.gson.Gson;
 /**
  * Created by Yun on 2018/3/13 0013.
@@ -68,12 +66,12 @@ public class SharedPref {
 
         try {
             // write new habit
-            editor.putString("habit_"+habit.getInt("habit_id"), habit.toString());
+            editor.putString("habit_"+habit.getInt("id"), habit.toString());
             editor.apply();
 
             // update habit_list
             Set<String> list = getHabitList(mContext);
-            list.add(habit.getInt("habit_id")+"");
+            list.add(habit.getInt("id")+"");
             saveHabitList(mContext, list);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -86,11 +84,11 @@ public class SharedPref {
         SharedPreferences.Editor editor = mPref.edit();
         Gson gson = new Gson();
         String jHabit = gson.toJson(habit);
-        editor.putString("habit_"+habit.getID(), jHabit);
+        editor.putString("habit_"+habit.getId(), jHabit);
 
         // update habit_list
         Set<String> list = getHabitList(mContext);
-        list.add(habit.getID()+"");
+        list.add(habit.getId()+"");
         saveHabitList(mContext, list);
 
         editor.apply();
@@ -116,6 +114,13 @@ public class SharedPref {
         return habit;
     }
 
+    public static String getHabitString(Context mContext, String id) {
+        SharedPreferences mPref = mContext.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
+        String jHabit = mPref.getString("habit_"+id, null);
+
+        return mPref.getString("habit_"+id, null);
+    }
+
     public static Integer getStreak(Context mContext, String id) {
         SharedPreferences mPref = mContext.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
 //        SharedPreferences.Editor editor = mPref.edit();
@@ -133,8 +138,8 @@ public class SharedPref {
         SharedPreferences.Editor editor = mPref.edit();
 
         Gson gson = new Gson();
-        String gHabit = gson.toJson(habit);
-        editor.putString("habit_"+habit.getID(), gHabit);
+        String jHabit = gson.toJson(habit);
+        editor.putString("habit_"+habit.getId(), jHabit);
 
         editor.apply();
     }
@@ -142,7 +147,7 @@ public class SharedPref {
     public static void deleteHabit(Context mContext, Habit habit) {
         SharedPreferences mPref = mContext.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = mPref.edit();
-        String habit_id = habit.getID()+"";
+        String habit_id = habit.getId()+"";
         editor.remove("habit_"+habit_id);
         editor.apply();
 
