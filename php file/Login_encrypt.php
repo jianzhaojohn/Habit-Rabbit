@@ -4,8 +4,10 @@
     $password = $_POST["password"];
 
     $response = array();
+    $habit_ids = array();
     $habits = array();
     $response["success"] = false;
+    $response["habit_ids"] = $habit_ids;
     $response["habits"] = $habits;
 
     $statement = mysqli_prepare($con, "SELECT * FROM user WHERE username = ?");
@@ -22,11 +24,13 @@
             mysqli_stmt_execute($stmt);
             mysqli_stmt_bind_result($stmt, $habit_id, $habit, $period, $times);
             while (mysqli_stmt_fetch($stmt)) {
-                $habits[] = ["habit_id"=>$habit_id, "habit_name"=>$habit, "period"=>$period, "times"=>$times];
+                $habits[] = ["id"=>$habit_id, "name"=>$habit, "period"=>$period, "times"=>$times];
+                $habit_ids[] = $habit_id;
             }
 
             $response["success"] = true;
             $response["username"] = $user;
+            $response["habit_ids"] = $habit_ids;
             $response["habits"] = $habits;
         }
     }
