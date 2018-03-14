@@ -119,7 +119,6 @@ public class HabitDetailActivity extends AppCompatActivity {
         Spinner mPeriodView = (Spinner)findViewById(R.id.period_spinner);
         final Switch mReminder = (Switch)findViewById(R.id.reminder_switch);
 
-        //TODO: get username
         final String username = SharedPref.getUser(HabitDetailActivity.this);
         final String habit_id = habit.getId()+"";
         final String title = mTitleView.getText().toString();

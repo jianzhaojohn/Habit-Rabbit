@@ -77,7 +77,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         setContentView(R.layout.activity_login);
         // Set up the login form.
 
-        boolean loggingInExistingAccount = true; //make a function to determine this next time
+//        boolean loggingInExistingAccount = true; //make a function to determine this next time
 
 
         try {

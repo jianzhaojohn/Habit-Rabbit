@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.menu.MenuView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -157,7 +158,21 @@ public class HabitListActivity extends AppCompatActivity {
         private  final View.OnLongClickListener mOnLongClickListener = new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                //TODO
+                // respond the delete button with a dialog box
+                final Context context = v.getContext();
+                final Habit currentHabit = (Habit) v.getTag();
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("Edit Habit")
+                        .setMessage("Do you want to delete this habit?")
+                        .setNegativeButton("NO", null)
+                        .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                deleteHabitRequest(context, currentHabit);
+                            }
+                        })
+                        .create()
+                        .show();
                 return true;
             }
         };
