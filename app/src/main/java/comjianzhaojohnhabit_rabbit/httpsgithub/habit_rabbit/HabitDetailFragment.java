@@ -27,9 +27,8 @@ public class HabitDetailFragment extends Fragment {
     public static final String ARG_ITEM_ID = "item_id";
 
     /**
-     * The dummy content this fragment is presenting.
+     * The habit this fragment is presenting.
      */
-//    private DummyContent.DummyItem mItem;
     private Habit mItem;
 
     /**
@@ -54,7 +53,6 @@ public class HabitDetailFragment extends Fragment {
             CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
                 appBarLayout.setTitle(mItem.getName());
-//                appBarLayout.setTitle("Habit");
             }
         }
     }

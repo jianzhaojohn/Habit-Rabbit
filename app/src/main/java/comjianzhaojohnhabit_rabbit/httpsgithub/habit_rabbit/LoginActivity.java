@@ -84,7 +84,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             File autologin = getApplicationContext().getFileStreamPath("autionloginfile");
             if(autologin.exists())
              {
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                 HabitList.initialize(this);
+                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
             }
         }
         catch(Exception e){
@@ -290,17 +291,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                 SharedPref.saveHabits(LoginActivity.this, habits);
                                 // initialize HabitList
                                 HabitList.initialize(LoginActivity.this);
-                                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                                builder.setTitle("Show response")
-//                                        .setMessage(HabitList.HABITS_list.get(1).makeString())
-                                        .setMessage(SharedPref.getHabitString(LoginActivity.this,"3"))
-                                        .setNegativeButton("OK", null)
-                                        .create()
-                                        .show();
+
                                 // jump to main page
-//                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                 showProgress(false);
-//                                finish();
+                                finish();
                             } else {
                                 showProgress(false);
                                 mPasswordView.setError("Email and password do not match");

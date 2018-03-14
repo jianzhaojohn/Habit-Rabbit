@@ -230,7 +230,7 @@ public class HabitListActivity extends AppCompatActivity {
             // get params
             final String username = SharedPref.getUser(context);
             final String habit_id = habit.getId()+"";
-            // send add new habit request
+            // send delete habit request
             RequestQueue queue = Volley.newRequestQueue(context);
             final String add_habit_url = "https://habit-rabbit.000webhostapp.com/delete_habit.php";
 

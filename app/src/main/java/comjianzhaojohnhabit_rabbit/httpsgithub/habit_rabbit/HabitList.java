@@ -31,6 +31,12 @@ public class HabitList {
         ID_set.remove(habit.getId()+"");
     }
 
+    public static void addHabit(Habit habit) {
+        HABITS_list.add(habit);
+        Habit_table.put(habit.getId()+"", habit);
+        ID_set.add(habit.getId()+"");
+    }
+
     /*public static void initialize(Context context){
         sharedContext = context;
         sharedPref = sharedContext.getSharedPreferences("HabitInfo", Context.MODE_PRIVATE);
