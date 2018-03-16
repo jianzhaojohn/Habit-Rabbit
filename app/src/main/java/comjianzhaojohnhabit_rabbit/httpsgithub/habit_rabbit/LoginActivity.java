@@ -40,13 +40,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -66,14 +65,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      */
     private static final int REQUEST_READ_CONTACTS = 0;
 
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world", "test@example.com:test"
-    };
-
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
@@ -86,14 +77,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         setContentView(R.layout.activity_login);
         // Set up the login form.
 
-        boolean loggingInExistingAccount = true; //make a function to determine this next time
+//        boolean loggingInExistingAccount = true; //make a function to determine this next time
 
 
         try {
             File autologin = getApplicationContext().getFileStreamPath("autionloginfile");
             if(autologin.exists())
              {
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                 HabitList.initialize(this);
+                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
             }
         }
         catch(Exception e){
@@ -103,6 +95,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
 
+/*
 
         //Log.d("TestingHabits","Logging into existing account");
         if (loggingInExistingAccount){
@@ -127,13 +120,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
             editor.commit();
             HabitList.initialize(getApplicationContext());
-            Log.d("TestingHabits",HabitList.habitlist.toString());
+            Log.d("TestingHabits",HabitList.Habit_table.toString());
 
-            for (Habit h:HabitList.habitlist.values()){
+            for (Habit h:HabitList.Habit_table.values()){
                 Log.d("TestingHabits",h.makeString());
             }
             HabitList.addHabit();
-            for (Habit h:HabitList.habitlist.values()){
+            for (Habit h:HabitList.Habit_table.values()){
                 Log.d("TestingHabits",h.makeString());
             }
 
@@ -142,6 +135,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
         //TODO: created else block for new account, setting username and password
 
+*/
 
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -273,13 +267,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 new Response.Listener<String>(){
                     @Override
                     public void onResponse(String response) {
+
                         try {
                             // parse the response
                             JSONObject jsonRes = new JSONObject(response);
                             Boolean success = jsonRes.getBoolean("success");
+                            // fetch habits from server
+                            JSONArray habit_list = jsonRes.getJSONArray("habit_ids");
+                            JSONArray habits = jsonRes.getJSONArray("habits");
 
                             if (success) {
-                                // jump to main page
+                                // mark login
                                 try {
                                     OutputStream outputStream;
                                     outputStream = openFileOutput("autionloginfile", Context.MODE_PRIVATE);
@@ -287,6 +285,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                     outputStream.close();
                                 }catch (Exception e){}
 
+                                // store habits in local file
+                                SharedPref.saveUser(LoginActivity.this, mEmail);
+                                SharedPref.saveHabitList(LoginActivity.this, habit_list);
+                                SharedPref.saveHabits(LoginActivity.this, habits);
+                                // initialize HabitList
+                                HabitList.initialize(LoginActivity.this);
+
+                                // jump to main page
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                 showProgress(false);
                                 finish();
@@ -298,11 +304,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         } catch (JSONException e) {
                             showProgress(false);
                             AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                            builder.setMessage(e.toString())
-                                    .setTitle("Response error")
-                                    .setNegativeButton("", null)
+                            builder.setTitle("Response error")
+                                    .setMessage(e.toString())
+                                    .setNegativeButton("OK", null)
                                     .create()
-                                    .show();;
+                                    .show();
                             e.printStackTrace();
                         }
                     }
@@ -436,7 +442,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         int ADDRESS = 0;
         int IS_PRIMARY = 1;
     }
-
 
 }
 

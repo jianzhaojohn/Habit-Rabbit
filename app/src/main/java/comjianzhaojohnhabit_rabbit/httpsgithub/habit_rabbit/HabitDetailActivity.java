@@ -45,24 +45,7 @@ public class HabitDetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
 
-        /*GraphView graph = (GraphView) findViewById(R.id.graph);
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
-                new DataPoint(0, 1),
-                new DataPoint(1, 5),
-                new DataPoint(2, 3)
-        });
-        graph.addSeries(series);
-        */
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.edit_fab);
-        /*fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Jump to edit this habit activity", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        */
 
         // show alert dialog in responding to click the fab
         fab.setOnClickListener(new View.OnClickListener(){
@@ -128,28 +111,25 @@ public class HabitDetailActivity extends AppCompatActivity {
     }
 
     private void editHabitRequest() {
-        //TODO: send request
         // get params
+        final Habit habit = HabitList.HABITS_list.get(Integer.parseInt(getIntent().getStringExtra(HabitDetailFragment.ARG_ITEM_ID)));
         TextView mTitleView = (TextView)findViewById(R.id.title_txt);
         TextView mDesView = (TextView)findViewById(R.id.detail_txt);
         TextView mTimesView = (TextView)findViewById(R.id.times_txt);
         Spinner mPeriodView = (Spinner)findViewById(R.id.period_spinner);
-        Switch mRemider = (Switch)findViewById(R.id.reminder_switch);
+        final Switch mReminder = (Switch)findViewById(R.id.reminder_switch);
 
-        //TODO: get username
-        final String username = "test@example.com";
-        final String habit_id = "6";
+        final String username = SharedPref.getUser(HabitDetailActivity.this);
+        final String habit_id = habit.getId()+"";
         final String title = mTitleView.getText().toString();
         final String description = mDesView.getText().toString();
         final String times = mTimesView.getText().toString();
         final String period = mPeriodView.getSelectedItem().toString();
-        final String reminder = mRemider.isChecked()?"1":"0";
+        final String reminder = mReminder.isChecked()?"1":"0";
 
         // send edit habit request
         RequestQueue queue = Volley.newRequestQueue(this);
         final String add_habit_url = "https://habit-rabbit.000webhostapp.com/edit_habit.php";
-
-        // TODO: update local file to store this new habit
 
         // request server to add this habit to database
         StringRequest loginReq = new StringRequest(Request.Method.POST, add_habit_url,
@@ -162,6 +142,14 @@ public class HabitDetailActivity extends AppCompatActivity {
                             Boolean success = jsonRes.getBoolean("success");
 
                             if (success) {
+                                // update local file
+                                habit.setName(title);
+                                habit.setTimesPerPeriod(Integer.parseInt(times));
+                                habit.setPeriod(period);
+//                                habit.setReminder(mReminder);
+                                SharedPref.editHabit(HabitDetailActivity.this, habit);
+
+                                // alert user
                                 AlertDialog.Builder builder = new AlertDialog.Builder(HabitDetailActivity.this);
                                 builder.setTitle("Edit Habit")
                                         .setMessage("Changes have been saved!")

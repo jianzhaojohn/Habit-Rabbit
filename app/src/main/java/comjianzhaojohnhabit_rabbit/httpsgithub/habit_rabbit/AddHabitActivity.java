@@ -58,8 +58,7 @@ public class AddHabitActivity extends Activity {
         Spinner mPeriodView = (Spinner)findViewById(R.id.spinner_f);
         Switch mRemider = (Switch)findViewById(R.id.switch_reminder);
 
-        //TODO: get username
-        final String username = "test@example.com";
+        final String username = SharedPref.getUser(this);
         final String title = mTitleView.getText().toString();
         final String description = mDesView.getText().toString();
         final String times = mTimesView.getText().toString();
@@ -69,11 +68,6 @@ public class AddHabitActivity extends Activity {
         // send add new habit request
         RequestQueue queue = Volley.newRequestQueue(this);
         final String add_habit_url = "https://habit-rabbit.000webhostapp.com/add_habit.php";
-
-        // TODO: update local file to store this new habit
-        final Habit habit = new Habit(title, period, Integer.parseInt(times));
-        final int pos = HabitList.HABITS.size();
-        HabitList.HABITS.add(pos, habit);
 
 
         // request server to add this habit to database
@@ -90,9 +84,10 @@ public class AddHabitActivity extends Activity {
                                 // get habit id
                                 int habit_id = jsonRes.getInt("habit_id");
 
-                                // TODO: update habit_id in local file
-                                HabitList.HABITS.get(pos).setID(habit_id+"");
-                                HabitList.habitlist.put(habit_id+"", habit);
+                                // update local file to store this new habit
+                                final Habit habit = new Habit(habit_id, title, period, Integer.parseInt(times));
+                                SharedPref.saveHabit(AddHabitActivity.this, habit);
+                                HabitList.addHabit(habit);
 
                                 // jump to habit list page
                                 startActivity(new Intent(AddHabitActivity.this, HabitListActivity.class));
