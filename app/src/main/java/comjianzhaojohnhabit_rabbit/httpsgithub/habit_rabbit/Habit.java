@@ -9,6 +9,7 @@ public class Habit {
     private String period;
     @SerializedName("times")
     private int timesPerPeriod;
+    private boolean reminder;
     private transient int timesCompletedInPeriod;
 
     // temp constructor

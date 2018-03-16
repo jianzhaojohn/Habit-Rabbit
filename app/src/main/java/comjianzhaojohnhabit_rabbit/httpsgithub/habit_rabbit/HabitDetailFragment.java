@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.jjoe64.graphview.GraphView;
@@ -69,18 +70,30 @@ public class HabitDetailFragment extends Fragment {
 
         // Show habit detail
         if (mItem != null) {
-            ((TextView)rootView.findViewById(R.id.title_txt)).setText(mItem.getName());
-            ((TextView)rootView.findViewById(R.id.times_txt)).setText(mItem.getTimesPerPeriod()+"");
-//            ((Spinner)rootView.findViewById(R.id.period_spinner)).setSelection(0);//TODO
+            ((TextView) rootView.findViewById(R.id.title_txt)).setText(mItem.getName());
+            ((TextView) rootView.findViewById(R.id.times_txt)).setText(mItem.getTimesPerPeriod() + "");
+            Spinner spinner = rootView.findViewById(R.id.period_spinner);
+            spinner.setSelection(getIdx(spinner, mItem.getPeriod()));
         }
 
         GraphView graph = (GraphView) rootView.findViewById(R.id.graph);
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[]{
                 new DataPoint(0, 1),
                 new DataPoint(1, 5),
                 new DataPoint(2, 3)
         });
         graph.addSeries(series);
         return rootView;
+    }
+
+    public int getIdx(Spinner spinner, String period) {
+        int count = spinner.getCount();
+        for (int i = 0; i < count; i++) {
+            if (spinner.getItemAtPosition(i).toString().equals(period)) {
+                return i; // Found!
+            }
+        }
+
+        return count - 1; // Not found! default
     }
 }

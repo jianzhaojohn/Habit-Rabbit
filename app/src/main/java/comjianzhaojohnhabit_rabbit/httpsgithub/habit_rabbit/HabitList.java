@@ -13,6 +13,16 @@ public class HabitList {
     public static List<Habit> HABITS_list;
     public static Set<String> ID_set;
 
+    private static String UserName;
+
+    public String getUserName() {
+        return UserName;
+    }
+
+    public static void setUserName(String userName) {
+        UserName = userName;
+    }
+
     public static void initialize(Context mContext) {
         Habit_table = new Hashtable<>();
         HABITS_list = new ArrayList<>();
@@ -23,6 +33,8 @@ public class HabitList {
             Habit_table.put(id, habit);
             HABITS_list.add(habit);
         }
+
+        setUserName(SharedPref.getUser(mContext));
     }
 
     public static void deleteHabit(Habit habit) {
