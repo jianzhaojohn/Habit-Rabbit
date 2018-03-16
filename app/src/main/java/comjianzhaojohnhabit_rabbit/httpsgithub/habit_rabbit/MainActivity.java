@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 import java.io.File;
 
@@ -18,7 +20,7 @@ public class MainActivity extends AppCompatActivity
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
-
+    public ImageButton streakButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,5 +114,18 @@ public class MainActivity extends AppCompatActivity
         startActivity(new Intent(MainActivity.this, RabbitReview.class));
     }
 
+
+    public void openstreak(View view){
+        streakButton = (ImageButton) findViewById(R.id.streakbutton);
+        streakButton.setOnClickListener(new View.OnClickListener(){
+
+
+            @Override
+            public void onClick(View v) {
+                Intent showGraph = new Intent(MainActivity.this, StreakGraph.class);
+                startActivity(showGraph);
+            }
+        });
+    }
 
 }

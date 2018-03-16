@@ -58,33 +58,44 @@
             android:textAlignment="center" />
 
         <Button
-            android:id="@+id/setting"
+            android:id="@+id/settingButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/userbio"
             android:background="@android:color/background_light"
+            android:onClick="Set_onClick"
             android:text="Settings" />
 
         <Button
-            android:id="@+id/Achievement"
+            android:id="@+id/AchievementButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/setting"
+            android:layout_below="@+id/settingButton"
             android:background="@android:color/background_light"
             android:text="Achievements" />
         <Button
-            android:id="@+id/Friend"
+            android:id="@+id/FriendButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/Achievement"
+            android:layout_below="@+id/AchievementButton"
             android:background="@android:color/background_light"
             android:text="Friends" />
+        <Button
+            android:id="@+id/EditProfileButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/FriendButton"
+            android:background="@android:color/background_light"
+            android:text="EditProfile"
+            android:onClick="editprofile"/>
 
         <Button
             android:id="@+id/button"

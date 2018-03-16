@@ -33,6 +33,16 @@
             android:background="@null"
             android:onClick="openrabbit"
             app:srcCompat="@drawable/rabbithouse" />
+
+        <ImageButton
+            android:id="@+id/streakbutton"
+            android:layout_width="150dp"
+            android:layout_height="65dp"
+            android:onClick="openstreak"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="33dp"
+            android:background="@drawable/streakbutton" />
     </RelativeLayout>
 
     <android.support.design.widget.NavigationView
