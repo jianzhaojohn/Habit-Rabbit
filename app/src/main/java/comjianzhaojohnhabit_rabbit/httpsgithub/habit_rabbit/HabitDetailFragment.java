@@ -7,11 +7,25 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import com.jjoe64.graphview.series.PointsGraphSeries;
+
+import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Hashtable;
+import java.util.List;
 
 /**
  * A fragment representing a single Habit detail screen.
@@ -62,25 +76,75 @@ public class HabitDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.habit_detail, container, false);
 
-        // Show the dummy content as text in a TextView.
-//        if (mItem != null) {
-//            ((TextView) rootView.findViewById(R.id.habit_detail)).setText(mItem.details);
-//        }
-
-        // Show habit detail
+        // Show habit details
         if (mItem != null) {
-            ((TextView)rootView.findViewById(R.id.title_txt)).setText(mItem.getName());
-            ((TextView)rootView.findViewById(R.id.times_txt)).setText(mItem.getTimesPerPeriod()+"");
-//            ((Spinner)rootView.findViewById(R.id.period_spinner)).setSelection(0);//TODO
+            ((TextView) rootView.findViewById(R.id.title_txt)).setText(mItem.getName());
+            ((TextView) rootView.findViewById(R.id.times_txt)).setText(mItem.getTimesPerPeriod() + "");
+            Spinner spinner = rootView.findViewById(R.id.period_spinner);
+            spinner.setSelection(getIdx(spinner, mItem.getPeriod()));
+            ((Switch) rootView.findViewById(R.id.reminder_switch)).setChecked(mItem.isReminder());
+            ((TextView) rootView.findViewById(R.id.detail_txt)).setText(mItem.getDescription());
         }
 
+        // show graph
         GraphView graph = (GraphView) rootView.findViewById(R.id.graph);
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
-                new DataPoint(0, 1),
-                new DataPoint(1, 5),
-                new DataPoint(2, 3)
-        });
-        graph.addSeries(series);
+
+        List<DataPoint> points = getPoints(mItem);
+        DataPoint[] pointArray = points.toArray(new DataPoint[points.size()]);
+        LineGraphSeries<DataPoint> lineSeries = new LineGraphSeries<>(pointArray);
+        graph.addSeries(lineSeries);
+        PointsGraphSeries<DataPoint> pointSeries = new PointsGraphSeries<>(pointArray);
+        graph.addSeries(pointSeries);
+
+        graph.getViewport().setScalable(true);
+        graph.getViewport().setScalableY(true);
+//        graph.getViewport().setBackgroundColor(0x0077cc);
+
+        graph.getViewport().setXAxisBoundsManual(true);
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -7);
+        graph.getViewport().setMinX(calendar.getTime().getTime()); // a week ago
+        graph.getViewport().setMaxX(new Date().getTime()); // today
+
+        graph.getViewport().setYAxisBoundsManual(true);
+        graph.getViewport().setMinY(0);
+        graph.getViewport().setMaxY(mItem.getTimesPerPeriod() +1);
+
+        // set date label formatter
+        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
+        graph.getGridLabelRenderer().setNumHorizontalLabels(4); // only 4 because of the space
+        // as we use dates as labels, the human rounding to nice readable numbers is not necessary
+        graph.getGridLabelRenderer().setHumanRounding(false);
+        graph.getGridLabelRenderer().setNumVerticalLabels(mItem.getTimesPerPeriod()+2);
+        graph.getGridLabelRenderer().setHorizontalAxisTitle("Dates");
+        graph.getGridLabelRenderer().setVerticalAxisTitle("Times Completed per Day");
+
         return rootView;
+    }
+
+    public int getIdx(Spinner spinner, String period) {
+        int count = spinner.getCount();
+        for (int i = 0; i < count; i++) {
+            if (spinner.getItemAtPosition(i).toString().equals(period)) {
+                return i; // Found!
+            }
+        }
+
+        return count - 1; // Not found! default
+    }
+
+    public List<DataPoint> getPoints(Habit mHabit) {
+        ArrayList<DataPoint> points = new ArrayList<>();
+        Hashtable<String, Integer> streaks = mHabit.getStreaks();
+        Date startDate = mHabit.getStartDate();
+
+        Calendar date = Calendar.getInstance();
+        Calendar today = Calendar.getInstance();
+        for (date.setTime(startDate); date.before(today); date.add(Calendar.DATE, 1)) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String dateString = dateFormat.format(date.getTime());
+            points.add(new DataPoint(date.getTime(), streaks.getOrDefault(dateString, 0)));
+        }
+        return points;
     }
 }

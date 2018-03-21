@@ -275,6 +275,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             // fetch habits from server
                             JSONArray habit_list = jsonRes.getJSONArray("habit_ids");
                             JSONArray habits = jsonRes.getJSONArray("habits");
+                            JSONArray records = jsonRes.getJSONArray("records");
 
                             if (success) {
                                 // mark login
@@ -289,6 +290,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                 SharedPref.saveUser(LoginActivity.this, mEmail);
                                 SharedPref.saveHabitList(LoginActivity.this, habit_list);
                                 SharedPref.saveHabits(LoginActivity.this, habits);
+                                SharedPref.saveRecords(LoginActivity.this, records);
                                 // initialize HabitList
                                 HabitList.initialize(LoginActivity.this);
 
@@ -296,6 +298,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                 showProgress(false);
                                 finish();
+
                             } else {
                                 showProgress(false);
                                 mPasswordView.setError("Email and password do not match");

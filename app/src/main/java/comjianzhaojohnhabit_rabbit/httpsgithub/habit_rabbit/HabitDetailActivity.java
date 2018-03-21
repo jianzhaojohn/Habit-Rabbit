@@ -20,9 +20,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -120,7 +117,7 @@ public class HabitDetailActivity extends AppCompatActivity {
         final Switch mReminder = (Switch)findViewById(R.id.reminder_switch);
 
         final String username = SharedPref.getUser(HabitDetailActivity.this);
-        final String habit_id = habit.getId()+"";
+        final String habit_id = habit.getHabitID()+"";
         final String title = mTitleView.getText().toString();
         final String description = mDesView.getText().toString();
         final String times = mTimesView.getText().toString();
@@ -146,7 +143,8 @@ public class HabitDetailActivity extends AppCompatActivity {
                                 habit.setName(title);
                                 habit.setTimesPerPeriod(Integer.parseInt(times));
                                 habit.setPeriod(period);
-//                                habit.setReminder(mReminder);
+                                habit.setReminder(mReminder.isChecked());
+                                habit.setDescription(description);
                                 SharedPref.editHabit(HabitDetailActivity.this, habit);
 
                                 // alert user

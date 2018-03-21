@@ -7,10 +7,25 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+
 /**
  * Created by Yun on 2018/3/13 0013.
  */
@@ -60,18 +75,18 @@ public class SharedPref {
         return mPref.getStringSet("habit_list", null);
     }
 
-    public static void saveHabit(Context mContext, JSONObject habit) {
+    public static void saveHabit(Context mContext, JSONObject jHabit) {
         SharedPreferences mPref = mContext.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = mPref.edit();
 
         try {
             // write new habit
-            editor.putString("habit_"+habit.getInt("id"), habit.toString());
+            editor.putString("habit_"+jHabit.getInt("habit_id"), jHabit.toString());
             editor.apply();
 
             // update habit_list
             Set<String> list = getHabitList(mContext);
-            list.add(habit.getInt("id")+"");
+            list.add(jHabit.getInt("habit_id")+"");
             saveHabitList(mContext, list);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -82,13 +97,18 @@ public class SharedPref {
     public static void saveHabit(Context mContext, Habit habit) {
         SharedPreferences mPref = mContext.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = mPref.edit();
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Boolean.class, new BooleanTypeAdapter())
+                .registerTypeAdapter(boolean.class, new BooleanTypeAdapter())
+                .registerTypeAdapter(Date.class, new DateDeserializer())
+                .setDateFormat("yyyy-MM-dd hh:mm:ss")
+                .create();
         String jHabit = gson.toJson(habit);
-        editor.putString("habit_"+habit.getId(), jHabit);
+        editor.putString("habit_"+habit.getHabitID(), jHabit);
 
         // update habit_list
         Set<String> list = getHabitList(mContext);
-        list.add(habit.getId()+"");
+        list.add(habit.getHabitID()+"");
         saveHabitList(mContext, list);
 
         editor.apply();
@@ -97,7 +117,7 @@ public class SharedPref {
     public static void saveHabits(Context mContext, JSONArray habits) {
         for(int i = 0; i < habits.length(); i++) {
             try {
-                saveHabit(mContext, (JSONObject) habits.getJSONObject(i));
+                saveHabit(mContext, habits.getJSONObject(i));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -108,7 +128,12 @@ public class SharedPref {
     public static Habit getHabit(Context mContext, String id) {
         SharedPreferences mPref = mContext.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         String jHabit = mPref.getString("habit_"+id, null);
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Boolean.class, new BooleanTypeAdapter())
+                .registerTypeAdapter(boolean.class, new BooleanTypeAdapter())
+                .registerTypeAdapter(Date.class, new DateDeserializer())
+                .setDateFormat("yyyy-MM-dd hh:mm:ss")
+                .create();
         Habit habit = gson.fromJson(jHabit, Habit.class);
 
         return habit;
@@ -121,25 +146,63 @@ public class SharedPref {
         return mPref.getString("habit_"+id, null);
     }
 
-    public static Integer getStreak(Context mContext, String id) {
+    public static Set<HabitList.Record> getRecords(Context mContext) {
         SharedPreferences mPref = mContext.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
-//        SharedPreferences.Editor editor = mPref.edit();
-//        mPref.getInt(id+STREAK, -1);
+        Set<String> jRecords = mPref.getStringSet("records", null);
 
-        return mPref.getInt(id+"_streak", -1);
+        Set<HabitList.Record> list = new HashSet<>();
+        for (String jRecord:jRecords) {
+                Gson gson = new GsonBuilder()
+                        .registerTypeAdapter(Boolean.class, new BooleanTypeAdapter())
+                        .registerTypeAdapter(boolean.class, new BooleanTypeAdapter())
+                        .registerTypeAdapter(Date.class, new DateDeserializer())
+                        .setDateFormat("yyyy-MM-dd hh:mm:ss")
+                        .create();
+                HabitList.Record record = gson.fromJson(jRecord, HabitList.Record.class);
+                list.add(record);
+        }
+        return list;
     }
 
-    public static void saveStreak(Context mContext, Habit habit) {
-        // TODO: update streak
+    public static String getRecordsString(Context mContext) {
+        SharedPreferences mPref = mContext.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
+        Set<String> jRecords = mPref.getStringSet("records", null);
+        String res="";
+        for (String s:jRecords) {
+            res +=s;
+        }
+        return res;
+    }
+
+    public static void saveRecords(Context mContext, JSONArray jsonArray) {
+        SharedPreferences mPref = mContext.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = mPref.edit();
+
+        Set<String> list = new HashSet<>();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            try {
+                list.add(jsonArray.getJSONObject(i).toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        editor.putStringSet("records", list);
+
+        editor.apply();
     }
 
     public static void editHabit(Context mContext, Habit habit) {
         SharedPreferences mPref = mContext.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = mPref.edit();
 
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Boolean.class, new BooleanTypeAdapter())
+                .registerTypeAdapter(boolean.class, new BooleanTypeAdapter())
+                .registerTypeAdapter(Date.class, new DateDeserializer())
+                .setDateFormat("yyyy-MM-dd hh:mm:ss")
+                .create();
         String jHabit = gson.toJson(habit);
-        editor.putString("habit_"+habit.getId(), jHabit);
+        editor.putString("habit_"+habit.getHabitID(), jHabit);
 
         editor.apply();
     }
@@ -147,7 +210,7 @@ public class SharedPref {
     public static void deleteHabit(Context mContext, Habit habit) {
         SharedPreferences mPref = mContext.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = mPref.edit();
-        String habit_id = habit.getId()+"";
+        String habit_id = habit.getHabitID()+"";
         editor.remove("habit_"+habit_id);
         editor.apply();
 
@@ -164,4 +227,40 @@ public class SharedPref {
         editor.clear();
         editor.commit();
     }
+
+    public static class DateDeserializer implements JsonSerializer<Date>, JsonDeserializer<Date> {
+
+        @Override
+        public JsonElement serialize(Date arg0, Type arg1, JsonSerializationContext arg2) {
+            return arg0 == null? null : new JsonPrimitive(arg0.getTime());
+        }
+
+        @Override
+        public Date deserialize(JsonElement element, Type arg1, JsonDeserializationContext arg2) throws JsonParseException {
+            String date = element.getAsString();
+
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+//            formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+            try {
+                return formatter.parse(date);
+            } catch (ParseException e) {
+                throw new JsonParseException(e);
+            }
+        }
+    }
+
+    public static class BooleanTypeAdapter implements JsonSerializer<Boolean>, JsonDeserializer<Boolean> {
+
+        @Override
+        public JsonElement serialize(Boolean arg0, Type arg1, JsonSerializationContext arg2) {
+            return new JsonPrimitive(Boolean.TRUE.equals(arg0));
+        }
+
+        @Override
+        public Boolean deserialize(JsonElement arg0, Type arg1, JsonDeserializationContext arg2) throws JsonParseException {
+            return arg0.getAsInt() == 1;
+        }
+    }
+
 }

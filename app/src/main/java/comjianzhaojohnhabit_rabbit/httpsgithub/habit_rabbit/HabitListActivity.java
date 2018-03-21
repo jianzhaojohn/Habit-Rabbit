@@ -9,7 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.menu.MenuView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -148,7 +147,7 @@ public class HabitListActivity extends AppCompatActivity {
                 } else {
                     Context context = view.getContext();
                     Intent intent = new Intent(context, HabitDetailActivity.class);
-//                    intent.putExtra(HabitDetailFragment.ARG_ITEM_ID, item.getId());
+//                    intent.putExtra(HabitDetailFragment.ARG_ITEM_ID, item.getHabitID());
                     intent.putExtra(HabitDetailFragment.ARG_ITEM_ID, HabitList.HABITS_list.indexOf(item)+"");
 
                     context.startActivity(intent);
@@ -199,7 +198,7 @@ public class HabitListActivity extends AppCompatActivity {
             int currentPosition = position;
             final Habit currentHabit = HabitList.HABITS_list.get(position);
 
-//            holder.mIdView.setText(mValues.get(position).getId()+"");
+//            holder.mIdView.setText(mValues.get(position).getHabitID()+"");
             holder.mIdView.setText(position+1+"");
             holder.mContentView.setText(mValues.get(position).getName());
 
@@ -244,7 +243,7 @@ public class HabitListActivity extends AppCompatActivity {
         private void deleteHabitRequest(final Context context, final Habit habit) {
             // get params
             final String username = SharedPref.getUser(context);
-            final String habit_id = habit.getId()+"";
+            final String habit_id = habit.getHabitID()+"";
             // send delete habit request
             RequestQueue queue = Volley.newRequestQueue(context);
             final String add_habit_url = "https://habit-rabbit.000webhostapp.com/delete_habit.php";
