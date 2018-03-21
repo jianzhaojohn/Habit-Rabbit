@@ -1,32 +1,65 @@
 package comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit;
 
+import android.content.Context;
+
 import com.google.gson.annotations.SerializedName;
+
+import java.text.SimpleDateFormat;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.Hashtable;
 
 public class Habit {
 
-    private int id;
+    @SerializedName("habit_id")
+    private int habitID;
     private String name;
     private String period;
     @SerializedName("times")
     private int timesPerPeriod;
+    private String description;
     private boolean reminder;
-    private transient int timesCompletedInPeriod;
+    @SerializedName("start_date")
+    private Date startDate;
+    private transient Hashtable<String, Integer> streaks;
+//    private transient int timesCompletedInPeriod;
 
-    // temp constructor
+    public Habit () {
+        habitID = -1;
+        name = "";
+        period = "day";
+        timesPerPeriod = 0;
+        description = "";
+        reminder = false;
+        startDate = new Date();
+        streaks = new Hashtable<>();
+    }
+
     public Habit(int id, String name, String period, int times){
-        this.id = id;
+        this.habitID = id;
         this.name = name;
         this.period = period;
         this.timesPerPeriod = times;
-        this.timesCompletedInPeriod = 0;
+//        this.timesCompletedInPeriod = 0;
+        this.description = "";
+        this.reminder = false;
+        this.streaks = new Hashtable<>();
     }
 
-    public Integer getId() {
-        return id;
+    public Habit(int id, String name, String period, int times, String description, boolean reminder, Date startDate) {
+        this.habitID = id;
+        this.name = name;
+        this.period = period;
+        this.timesPerPeriod = times;
+        this.description = description;
+//        this.timesCompletedInPeriod = 0;
+        this.reminder = reminder;
+        this.startDate = startDate;
+        this.streaks = new Hashtable<>();
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setHabitID(Integer id) {
+        this.habitID = id;
     }
 
     public void setName(String name) {
@@ -41,8 +74,40 @@ public class Habit {
         this.timesPerPeriod = timesPerPeriod;
     }
 
-    public void setTimesCompletedInPeriod(int timesCompletedInPeriod) {
-        this.timesCompletedInPeriod = timesCompletedInPeriod;
+    public void setReminder(boolean reminder) {
+        this.reminder = reminder;
+    }
+
+//    public void setTimesCompletedInPeriod(int timesCompletedInPeriod) {
+//        this.timesCompletedInPeriod = timesCompletedInPeriod;
+//    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Hashtable<String, Integer> getStreaks() {
+        return streaks;
+    }
+
+    public void setStreaks(Hashtable<String, Integer> streaks) {
+        this.streaks = streaks;
+    }
+
+    public void updateStreaks(Date date, int count) {
+        if (this.streaks == null) {
+            this.streaks = new Hashtable<>();
+        }
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        streaks.merge(dateFormat.format(date), count, Integer::sum);
+    }
+
+    public Integer getHabitID() {
+        return habitID;
     }
 
     public String getName() {
@@ -57,9 +122,17 @@ public class Habit {
         return timesPerPeriod;
     }
 
-    public int getTimesCompletedInPeriod() {
-        return timesCompletedInPeriod;
+    public boolean isReminder() {
+        return reminder;
     }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+//    public int getTimesCompletedInPeriod() {
+//        return timesCompletedInPeriod;
+//    }
 
 
     /*
@@ -146,8 +219,9 @@ public class Habit {
         editor = sharedPref.edit();
     }
 */
-    public String makeString(){
-        return id + ',' + name + ',' + this.period;
+    public String makeString(Context mContext){
+        return this.habitID + ", " + name + ',' + this.period + ',' + reminder + ',' + startDate.toString()
+                + ',' + streaks.size() + ',' + SharedPref.getRecords(mContext).size();
     }
 
 }
