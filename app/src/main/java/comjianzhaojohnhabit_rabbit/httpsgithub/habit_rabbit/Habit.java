@@ -21,8 +21,10 @@ public class Habit implements Parcelable{
     private int timesPerPeriod;
     private String description;
     private boolean reminder;
+
     @SerializedName("start_date")
     private Date startDate;
+    private int time_complete=0;
     private transient Hashtable<String, Integer> streaks;
 //    private transient int timesCompletedInPeriod;
 
@@ -265,6 +267,13 @@ public class Habit implements Parcelable{
     public String makeString(Context mContext){
         return this.habitID + ", " + name + ',' + this.period + ',' + reminder + ',' + startDate.toString()
                 + ',' + streaks.size() + ',' + SharedPref.getRecords(mContext).size();
+    }
+    public int getTime_complete() {
+        return time_complete;
+    }
+
+    public void setTime_complete(int time_complete) {
+        this.time_complete = time_complete;
     }
 
 }

@@ -64,6 +64,7 @@ public class AgendaAdapeter extends RecyclerView.Adapter<AgendaAdapeter.EventVie
         TextView dontchange2;
         TextView dontchange3;
 
+        TextView timecompeteTV;
 
         public EventViewHolder(View itemView){
             super(itemView);
@@ -75,6 +76,7 @@ public class AgendaAdapeter extends RecyclerView.Adapter<AgendaAdapeter.EventVie
             dontchange1=(TextView)itemView.findViewById(R.id.habit_period);
             dontchange2=(TextView)itemView.findViewById(R.id.time_tocomplete);
             dontchange3=(TextView)itemView.findViewById(R.id.timealready);
+            timecompeteTV=(TextView)itemView.findViewById(R.id.complete_time);
 
         }
 
@@ -89,6 +91,7 @@ public class AgendaAdapeter extends RecyclerView.Adapter<AgendaAdapeter.EventVie
             dontchange2.setText("Time to complete: ");
             dontchange3.setText("Times already compete: ");
 
+            timecompeteTV.setText(""+event.getTime_complete());
 
         }
     }

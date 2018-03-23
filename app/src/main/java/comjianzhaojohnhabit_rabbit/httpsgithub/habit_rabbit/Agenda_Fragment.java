@@ -20,16 +20,17 @@ import java.util.ArrayList;
 public class Agenda_Fragment extends Fragment {
 
     private TabLayout mTabLayout;
-    private  ArrayList<Habit> todayList=new ArrayList<>();
-    private  ArrayList<Habit> recentList=new ArrayList<>();
-    private  ArrayList<Habit> weekList=new ArrayList<>();
-    private  ArrayList<Habit> monthList=new ArrayList<>();
+    public static ArrayList<Habit> todayList=new ArrayList<>();
+    public static ArrayList<Habit> recentList=new ArrayList<>();
+    public static ArrayList<Habit> weekList=new ArrayList<>();
+    public static ArrayList<Habit> monthList=new ArrayList<>();
 
     public Agenda_Fragment() {
         generatelist();
     }
 
     public void generatelist(){
+
         todayList.add(new Habit(1,"wake up at 6","week",7,"i want to wake up at 6 am every morning",false,null));
 
 
@@ -115,12 +116,5 @@ public class Agenda_Fragment extends Fragment {
                 return "month";
             }
         }
-    }
-
-
-    public ArrayList<Habit> createlist(){
-        todayList.add(new Habit(1,"wake up at 6","week",2,"no descripsion",false,null));
-        todayList.add(new Habit(2,"wake up at noon","week",2,"no descripsion",false,null));
-        return todayList;
     }
 }
