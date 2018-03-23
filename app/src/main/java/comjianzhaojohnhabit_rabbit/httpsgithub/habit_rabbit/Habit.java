@@ -1,6 +1,8 @@
 package comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit;
 
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -9,7 +11,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Hashtable;
 
-public class Habit {
+public class Habit implements Parcelable{
 
     @SerializedName("habit_id")
     private int habitID;
@@ -58,6 +60,47 @@ public class Habit {
         this.streaks = new Hashtable<>();
     }
 
+    // following are what we need for implementing parcelabel
+    //------------------------------------------------------------------------------------------
+    public Habit(Parcel in){
+        habitID = Integer.valueOf(in.readString());
+        name = in.readString();
+        period = in.readString();
+        timesPerPeriod=Integer.valueOf(in.readString());
+        description = in.readString();
+        reminder=false;
+        startDate = new Date();
+    }
+
+    public static final Creator<Habit> CREATOR = new Creator<Habit>() {
+        @Override
+        public Habit createFromParcel(Parcel in) {
+            return new Habit(in);
+        }
+
+        @Override
+        public Habit[] newArray(int size) {
+            return new Habit[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(getHabitID().toString());
+        dest.writeString(getName());
+        dest.writeString(getPeriod());
+        dest.writeString(Integer.toString(getTimesPerPeriod()));
+        dest.writeString(getDescription());
+
+
+    }
+
+    //-----------------------------------------------------------------------------------------
     public void setHabitID(Integer id) {
         this.habitID = id;
     }
