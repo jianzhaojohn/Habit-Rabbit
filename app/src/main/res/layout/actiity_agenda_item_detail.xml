@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_event_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:paddingStart="16dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="10dp"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="#111"
+            tools:text="Welcome To MRLC 2018" />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"/>
+        </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/habit_period"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="@string/Habit_Period"
+            android:paddingStart="16dp"
+            android:paddingEnd="4dp"/>
+
+    <TextView
+        android:id="@+id/tv_event_period"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="week"
+        android:paddingStart="4dp"
+        android:paddingEnd="16dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/time_tocomplete"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Time to complete: "
+            android:paddingStart="16dp"
+            />
+
+    <TextView
+        android:id="@+id/tv_event_times"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="5"
+        android:paddingStart="3dp"
+        android:paddingEnd="2dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/timealready"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Times already complete: "
+            android:paddingStart="16dp" />
+
+        <TextView
+            android:id="@+id/complete_time"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="2"
+            android:paddingStart="2dp"/>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_event_detail"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="2:00 - 2:45"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#666"
+        android:layout_marginTop="16dp"
+        android:paddingBottom="16dp"/>
+
+
+
+</LinearLayout>
