@@ -30,8 +30,19 @@ public class Agenda_Fragment extends Fragment {
     }
 
     public void generatelist(){
+        for (int i = 0; i < HabitList.HABITS_list.size(); i++) {
+            Habit habit = HabitList.HABITS_list.get(i);
 
-        todayList.add(new Habit(1,"wake up at 6","week",7,"i want to wake up at 6 am every morning",false,null));
+            if (habit.getPeriod().equals("day")) {
+                todayList.add(habit);
+            } else if (habit.getPeriod().equals("week")) {
+                weekList.add(habit);
+            } else if (habit.getPeriod().equals("month")) {
+                monthList.add(habit);
+            }
+        }
+
+/*        todayList.add(new Habit(1,"wake up at 6","week",7,"i want to wake up at 6 am every morning",false,null));
 
 
         recentList.add(new Habit(1,"complete project for cse442","week",1,"finish project with next week",false,null));
@@ -46,7 +57,7 @@ public class Agenda_Fragment extends Fragment {
         monthList.add(new Habit(1,"month 2","month",3,"sing",false,null));
         monthList.add(new Habit(1,"month 3","month",4,"swim",false,null));
         monthList.add(new Habit(1,"month 4","month",5,"fly",false,null));
-        monthList.add(new Habit(1,"month 5","month",6,"idk",false,null));
+        monthList.add(new Habit(1,"month 5","month",6,"idk",false,null));*/
 
     }
 
