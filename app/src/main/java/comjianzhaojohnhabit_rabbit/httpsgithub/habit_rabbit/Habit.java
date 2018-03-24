@@ -7,7 +7,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
 import java.text.SimpleDateFormat;
-import java.util.Comparator;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Hashtable;
 
@@ -24,9 +24,10 @@ public class Habit implements Parcelable{
 
     @SerializedName("start_date")
     private Date startDate;
-    private int time_complete=0;
-    private transient Hashtable<String, Integer> streaks;
-//    private transient int timesCompletedInPeriod;
+    // times completed in this period
+    private transient int streak = 0;
+    // history record of this habit
+    private transient Hashtable<String, Integer> records;
 
     public Habit () {
         habitID = -1;
@@ -36,7 +37,8 @@ public class Habit implements Parcelable{
         description = "";
         reminder = false;
         startDate = new Date();
-        streaks = new Hashtable<>();
+        streak = 0;
+        records = new Hashtable<>();
     }
 
     public Habit(int id, String name, String period, int times){
@@ -44,10 +46,10 @@ public class Habit implements Parcelable{
         this.name = name;
         this.period = period;
         this.timesPerPeriod = times;
-//        this.timesCompletedInPeriod = 0;
         this.description = "";
         this.reminder = false;
-        this.streaks = new Hashtable<>();
+        streak = 0;
+        this.records = new Hashtable<>();
     }
 
     public Habit(int id, String name, String period, int times, String description, boolean reminder, Date startDate) {
@@ -56,10 +58,10 @@ public class Habit implements Parcelable{
         this.period = period;
         this.timesPerPeriod = times;
         this.description = description;
-//        this.timesCompletedInPeriod = 0;
         this.reminder = reminder;
         this.startDate = startDate;
-        this.streaks = new Hashtable<>();
+        streak = 0;
+        this.records = new Hashtable<>();
     }
 
     // following are what we need for implementing parcelabel
@@ -72,6 +74,7 @@ public class Habit implements Parcelable{
         description = in.readString();
         reminder=false;
         startDate = new Date();
+        streak = 0;
     }
 
     public static final Creator<Habit> CREATOR = new Creator<Habit>() {
@@ -123,9 +126,6 @@ public class Habit implements Parcelable{
         this.reminder = reminder;
     }
 
-//    public void setTimesCompletedInPeriod(int timesCompletedInPeriod) {
-//        this.timesCompletedInPeriod = timesCompletedInPeriod;
-//    }
 
     public String getDescription() {
         return description;
@@ -135,20 +135,37 @@ public class Habit implements Parcelable{
         this.description = description;
     }
 
-    public Hashtable<String, Integer> getStreaks() {
-        return streaks;
+    public Hashtable<String, Integer> getRecords() {
+        return records;
     }
 
-    public void setStreaks(Hashtable<String, Integer> streaks) {
-        this.streaks = streaks;
+    public void setRecords(Hashtable<String, Integer> records) {
+        this.records = records;
     }
 
     public void updateStreaks(Date date, int count) {
-        if (this.streaks == null) {
-            this.streaks = new Hashtable<>();
+        if (this.records == null) {
+            this.records = new Hashtable<>();
         }
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        streaks.merge(dateFormat.format(date), count, Integer::sum);
+        records.merge(dateFormat.format(date), count, Integer::sum);
+
+        Calendar today = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
+        calendar.clear();
+        calendar.setTime(date);
+        if (period.equals("day") && (calendar.get(Calendar.YEAR) == today.get(Calendar.YEAR)) &&
+                calendar.get(Calendar.DAY_OF_YEAR) == today.get(Calendar.DAY_OF_YEAR)) {
+            streak += 1;
+        }
+        if (period.equals("week") && calendar.get(Calendar.YEAR) == today.get(Calendar.YEAR) &&
+                calendar.get(Calendar.WEEK_OF_YEAR) == today.get(Calendar.WEEK_OF_YEAR)) {
+            streak += 1;
+        }
+        if (period.equals("month") && calendar.get(Calendar.YEAR) == today.get(Calendar.YEAR) &&
+                calendar.get(Calendar.MONTH) == today.get(Calendar.MONTH)) {
+            streak += 1;
+        }
     }
 
     public Integer getHabitID() {
@@ -174,10 +191,6 @@ public class Habit implements Parcelable{
     public Date getStartDate() {
         return startDate;
     }
-
-//    public int getTimesCompletedInPeriod() {
-//        return timesCompletedInPeriod;
-//    }
 
 
     /*
@@ -266,14 +279,14 @@ public class Habit implements Parcelable{
 */
     public String makeString(Context mContext){
         return this.habitID + ", " + name + ',' + this.period + ',' + reminder + ',' + startDate.toString()
-                + ',' + streaks.size() + ',' + SharedPref.getRecords(mContext).size();
+                + ',' + records.size() + ',' + SharedPref.getRecords(mContext).size();
     }
-    public int getTime_complete() {
-        return time_complete;
+    public int getStreak() {
+        return streak;
     }
 
-    public void setTime_complete(int time_complete) {
-        this.time_complete = time_complete;
+    public void setStreak(int streak) {
+        this.streak = streak;
     }
 
 }

@@ -17,10 +17,7 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.jjoe64.graphview.series.PointsGraphSeries;
 
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -135,7 +132,7 @@ public class HabitDetailFragment extends Fragment {
 
     public List<DataPoint> getPoints(Habit mHabit) {
         ArrayList<DataPoint> points = new ArrayList<>();
-        Hashtable<String, Integer> streaks = mHabit.getStreaks();
+        Hashtable<String, Integer> streaks = mHabit.getRecords();
         Date startDate = mHabit.getStartDate();
 
         Calendar date = Calendar.getInstance();

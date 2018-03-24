@@ -34,7 +34,6 @@ public class AgendaItem_Fragment extends Fragment {
         Bundle args = getArguments();
         mEventList = args.getParcelableArrayList("events");
 
-
         LinearLayoutManager manager = new LinearLayoutManager(this.getContext());
         mRecyclerView.setLayoutManager(manager);
 

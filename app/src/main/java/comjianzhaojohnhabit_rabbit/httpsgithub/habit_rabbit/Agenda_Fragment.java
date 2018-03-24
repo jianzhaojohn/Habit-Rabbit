@@ -30,6 +30,11 @@ public class Agenda_Fragment extends Fragment {
     }
 
     public void generatelist(){
+        todayList=new ArrayList<>();
+        recentList=new ArrayList<>();
+        weekList=new ArrayList<>();
+        monthList=new ArrayList<>();
+
         for (int i = 0; i < HabitList.HABITS_list.size(); i++) {
             Habit habit = HabitList.HABITS_list.get(i);
 

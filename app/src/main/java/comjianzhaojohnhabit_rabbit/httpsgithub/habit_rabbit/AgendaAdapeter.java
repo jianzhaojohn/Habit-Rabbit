@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -65,6 +66,7 @@ public class AgendaAdapeter extends RecyclerView.Adapter<AgendaAdapeter.EventVie
         TextView dontchange3;
 
         TextView timecompeteTV;
+        ProgressBar mProgress;
 
         public EventViewHolder(View itemView){
             super(itemView);
@@ -77,6 +79,7 @@ public class AgendaAdapeter extends RecyclerView.Adapter<AgendaAdapeter.EventVie
             dontchange2=(TextView)itemView.findViewById(R.id.time_tocomplete);
             dontchange3=(TextView)itemView.findViewById(R.id.timealready);
             timecompeteTV=(TextView)itemView.findViewById(R.id.complete_time);
+            mProgress=(ProgressBar)itemView.findViewById(R.id.completion_progressBar);
 
         }
 
@@ -91,8 +94,10 @@ public class AgendaAdapeter extends RecyclerView.Adapter<AgendaAdapeter.EventVie
             dontchange2.setText("Time to complete: ");
             dontchange3.setText("Times already compete: ");
 
-            timecompeteTV.setText(""+event.getTime_complete());
+            timecompeteTV.setText(""+event.getStreak());
 
+            mProgress.setMax(event.getTimesPerPeriod());
+            mProgress.setProgress(event.getStreak());
         }
     }
 
