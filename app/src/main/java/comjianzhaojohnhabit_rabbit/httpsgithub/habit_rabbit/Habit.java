@@ -1,15 +1,17 @@
 package comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit;
 
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.text.SimpleDateFormat;
-import java.util.Comparator;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Hashtable;
 
-public class Habit {
+public class Habit implements Parcelable{
 
     @SerializedName("habit_id")
     private int habitID;
@@ -19,10 +21,13 @@ public class Habit {
     private int timesPerPeriod;
     private String description;
     private boolean reminder;
+
     @SerializedName("start_date")
     private Date startDate;
-    private transient Hashtable<String, Integer> streaks;
-//    private transient int timesCompletedInPeriod;
+    // times completed in this period
+    private transient int streak;
+    // history record of this habit
+    private transient Hashtable<String, Integer> records;
 
     public Habit () {
         habitID = -1;
@@ -32,7 +37,8 @@ public class Habit {
         description = "";
         reminder = false;
         startDate = new Date();
-        streaks = new Hashtable<>();
+        streak = 0;
+        records = new Hashtable<>();
     }
 
     public Habit(int id, String name, String period, int times){
@@ -40,10 +46,10 @@ public class Habit {
         this.name = name;
         this.period = period;
         this.timesPerPeriod = times;
-//        this.timesCompletedInPeriod = 0;
         this.description = "";
         this.reminder = false;
-        this.streaks = new Hashtable<>();
+        streak = 0;
+        this.records = new Hashtable<>();
     }
 
     public Habit(int id, String name, String period, int times, String description, boolean reminder, Date startDate) {
@@ -52,12 +58,54 @@ public class Habit {
         this.period = period;
         this.timesPerPeriod = times;
         this.description = description;
-//        this.timesCompletedInPeriod = 0;
         this.reminder = reminder;
         this.startDate = startDate;
-        this.streaks = new Hashtable<>();
+        streak = 0;
+        this.records = new Hashtable<>();
     }
 
+    // following are what we need for implementing parcelabel
+    //------------------------------------------------------------------------------------------
+    public Habit(Parcel in){
+        habitID = Integer.valueOf(in.readString());
+        name = in.readString();
+        period = in.readString();
+        timesPerPeriod=Integer.valueOf(in.readString());
+        description = in.readString();
+        reminder=false;
+        startDate = new Date();
+        streak = 0;
+    }
+
+    public static final Creator<Habit> CREATOR = new Creator<Habit>() {
+        @Override
+        public Habit createFromParcel(Parcel in) {
+            return new Habit(in);
+        }
+
+        @Override
+        public Habit[] newArray(int size) {
+            return new Habit[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(getHabitID().toString());
+        dest.writeString(getName());
+        dest.writeString(getPeriod());
+        dest.writeString(Integer.toString(getTimesPerPeriod()));
+        dest.writeString(getDescription());
+
+
+    }
+
+    //-----------------------------------------------------------------------------------------
     public void setHabitID(Integer id) {
         this.habitID = id;
     }
@@ -78,9 +126,6 @@ public class Habit {
         this.reminder = reminder;
     }
 
-//    public void setTimesCompletedInPeriod(int timesCompletedInPeriod) {
-//        this.timesCompletedInPeriod = timesCompletedInPeriod;
-//    }
 
     public String getDescription() {
         return description;
@@ -90,20 +135,37 @@ public class Habit {
         this.description = description;
     }
 
-    public Hashtable<String, Integer> getStreaks() {
-        return streaks;
+    public Hashtable<String, Integer> getRecords() {
+        return records;
     }
 
-    public void setStreaks(Hashtable<String, Integer> streaks) {
-        this.streaks = streaks;
+    public void setRecords(Hashtable<String, Integer> records) {
+        this.records = records;
     }
 
     public void updateStreaks(Date date, int count) {
-        if (this.streaks == null) {
-            this.streaks = new Hashtable<>();
+        if (this.records == null) {
+            this.records = new Hashtable<>();
         }
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        streaks.merge(dateFormat.format(date), count, Integer::sum);
+        records.merge(dateFormat.format(date), count, Integer::sum);
+
+        Calendar today = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
+        calendar.clear();
+        calendar.setTime(date);
+        if (period.equals("day") && (calendar.get(Calendar.YEAR) == today.get(Calendar.YEAR)) &&
+                calendar.get(Calendar.DAY_OF_YEAR) == today.get(Calendar.DAY_OF_YEAR)) {
+            streak += 1;
+        }
+        if (period.equals("week") && calendar.get(Calendar.YEAR) == today.get(Calendar.YEAR) &&
+                calendar.get(Calendar.WEEK_OF_YEAR) == today.get(Calendar.WEEK_OF_YEAR)) {
+            streak += 1;
+        }
+        if (period.equals("month") && calendar.get(Calendar.YEAR) == today.get(Calendar.YEAR) &&
+                calendar.get(Calendar.MONTH) == today.get(Calendar.MONTH)) {
+            streak += 1;
+        }
     }
 
     public Integer getHabitID() {
@@ -129,10 +191,6 @@ public class Habit {
     public Date getStartDate() {
         return startDate;
     }
-
-//    public int getTimesCompletedInPeriod() {
-//        return timesCompletedInPeriod;
-//    }
 
 
     /*
@@ -221,7 +279,14 @@ public class Habit {
 */
     public String makeString(Context mContext){
         return this.habitID + ", " + name + ',' + this.period + ',' + reminder + ',' + startDate.toString()
-                + ',' + streaks.size() + ',' + SharedPref.getRecords(mContext).size();
+                + ',' + records.size() + ',' + SharedPref.getRecords(mContext).size();
+    }
+    public int getStreak() {
+        return streak;
+    }
+
+    public void setStreak(int streak) {
+        this.streak = streak;
     }
 
 }

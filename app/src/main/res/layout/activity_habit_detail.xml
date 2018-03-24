@@ -30,16 +30,11 @@
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
+
+
         </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>
-
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/habit_detail_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-    </android.support.v4.widget.NestedScrollView>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/edit_fab"
@@ -49,6 +44,14 @@
         android:layout_margin="@dimen/fab_margin"
         app:layout_anchor="@+id/habit_detail_container"
         app:layout_anchorGravity="top|end"
-        app:srcCompat="@android:drawable/ic_menu_edit" />
+        app:srcCompat="@android:drawable/ic_menu_edit"></android.support.design.widget.FloatingActionButton>
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/habit_detail_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"></android.support.v4.widget.NestedScrollView>
+
+        />
 
 </android.support.design.widget.CoordinatorLayout>
