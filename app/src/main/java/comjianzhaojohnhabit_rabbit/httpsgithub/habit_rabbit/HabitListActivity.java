@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,14 +79,14 @@ public class HabitListActivity extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton fab2 = (FloatingActionButton) findViewById(R.id.fab_agenda);
+   /*     FloatingActionButton fab2 = (FloatingActionButton) findViewById(R.id.fab_agenda);
         fab2.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(HabitListActivity.this, CalendarActivity.class));
             }
         });
-
+*/
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -105,6 +107,49 @@ public class HabitListActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //   Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.navigation_menu, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+
+            case Menu.FIRST:
+                startActivity(new Intent(HabitListActivity.this, LoginActivity.class));
+                break;
+            case R.id.nav_Profile:
+                startActivity(new Intent(HabitListActivity.this, ProfileActivity.class));
+                break;
+            case  R.id.nav_agenda:
+                startActivity(new Intent(HabitListActivity.this, CalendarActivity.class));
+                break;
+            case  R.id.nav_logout:
+                try{
+                    // getApplicationContext().deleteFile("autionloginfile");
+                    File autologin = getApplicationContext().getFileStreamPath("autionloginfile");
+                    autologin.delete();
+                    // clear and delete data file, then logout
+                    SharedPref.clearAll(HabitListActivity.this);
+                    String fileName = SharedPref.FILE_NAME;
+                    File file= new File(this.getFilesDir().getParent()+"/shared_prefs/"+fileName+".xml");
+                    file.delete();
+
+                    startActivity(new Intent(HabitListActivity.this, LoginActivity.class));
+                }catch(Exception e){}
+                break;
+            case  R.id.nav_habits:
+                startActivity(new Intent(HabitListActivity.this, HabitListActivity.class));
+                break;
+            default:
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+  /*  @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
@@ -120,7 +165,7 @@ public class HabitListActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
+*/
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
 //        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, DummyContent.ITEMS, mTwoPane));
         recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, HabitList.HABITS_list, mTwoPane));
@@ -154,26 +199,19 @@ public class HabitListActivity extends AppCompatActivity {
                 }
             }
         };
-        private  final View.OnLongClickListener mOnLongClickListener = new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                // respond the delete button with a dialog box
-                final Context context = v.getContext();
-                final Habit currentHabit = (Habit) v.getTag();
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle("Edit Habit")
-                        .setMessage("Do you want to delete this habit?")
-                        .setNegativeButton("NO", null)
-                        .setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                deleteHabitRequest(context, currentHabit);
-                            }
-                        })
-                        .create()
-                        .show();
-                return true;
-            }
+        
+        private  final View.OnLongClickListener mOnLongClickListener = v -> {
+            // respond the delete button with a dialog box
+            final Context context = v.getContext();
+            final Habit currentHabit = (Habit) v.getTag();
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle("Edit Habit")
+                    .setMessage("Do you want to delete this habit?")
+                    .setNegativeButton("NO", null)
+                    .setPositiveButton("YES", (dialog, which) -> deleteHabitRequest(context, currentHabit))
+                    .create()
+                    .show();
+            return true;
         };
 
 
@@ -207,23 +245,20 @@ public class HabitListActivity extends AppCompatActivity {
             holder.itemView.setOnLongClickListener(mOnLongClickListener);
 
             holder.mDeleteImg.setTag(mValues.get(currentPosition));
-            holder.mDeleteImg.setOnClickListener( new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // respond the delete button with a dialog box
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setTitle("Edit Habit")
-                        .setMessage("Do you want to delete this habit?")
-                        .setNegativeButton("NO", null)
-                        .setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                deleteHabitRequest(context, currentHabit);
-                            }
-                        })
-                        .create()
-                        .show();
-                }
+            holder.mDeleteImg.setOnClickListener(v -> {
+                // respond the delete button with a dialog box
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("Edit Habit")
+                    .setMessage("Do you want to delete this habit?")
+                    .setNegativeButton("NO", null)
+                    .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            deleteHabitRequest(context, currentHabit);
+                        }
+                    })
+                    .create()
+                    .show();
             });
         }
 

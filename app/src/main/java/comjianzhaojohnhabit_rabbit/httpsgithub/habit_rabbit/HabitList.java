@@ -20,7 +20,7 @@ public class HabitList {
 
     private static String UserName;
 
-    public String getUserName() {
+    public static String getUserName() {
         return UserName;
     }
 
