@@ -1,14 +1,31 @@
 package comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by john on 2018/3/22.
@@ -66,7 +83,9 @@ public class AgendaAdapeter extends RecyclerView.Adapter<AgendaAdapeter.EventVie
         TextView dontchange3;
 
         TextView timecompeteTV;
+
         ProgressBar mProgress;
+        Button progressBtn;
 
         public EventViewHolder(View itemView){
             super(itemView);
@@ -80,7 +99,7 @@ public class AgendaAdapeter extends RecyclerView.Adapter<AgendaAdapeter.EventVie
             dontchange3=(TextView)itemView.findViewById(R.id.timealready);
             timecompeteTV=(TextView)itemView.findViewById(R.id.complete_time);
             mProgress=(ProgressBar)itemView.findViewById(R.id.completion_progressBar);
-
+            progressBtn=itemView.findViewById(R.id.cbox);
         }
 
         void bind(Habit event){
@@ -96,9 +115,81 @@ public class AgendaAdapeter extends RecyclerView.Adapter<AgendaAdapeter.EventVie
 
             timecompeteTV.setText(""+event.getStreak());
 
+            // set progress
             mProgress.setMax(event.getTimesPerPeriod());
             mProgress.setProgress(event.getStreak());
+
+            // on click listener
+            progressBtn.setOnClickListener(v -> {
+                addRecordRequest(event);
+            });
         }
+
+        private void addRecordRequest(Habit habit) {
+            // get params
+            final String username = HabitList.getUserName();
+            final String habit_id = habit.getHabitID()+"";
+            Date currentDate = new Date();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            final String date = dateFormat.format(currentDate);
+            Context context = itemView.getContext();
+            // send delete habit request
+            RequestQueue queue = Volley.newRequestQueue(context);
+            final String add_record_url = "https://habit-rabbit.000webhostapp.com/add_record.php";
+
+            // request server to add this habit to database
+            StringRequest loginReq = new StringRequest(Request.Method.POST, add_record_url,
+                    response -> {
+                        try {
+                            // parse the response
+                            JSONObject jsonRes = new JSONObject(response);
+                            Boolean success = jsonRes.getBoolean("success");
+
+                            if (success) {
+                                // update local records
+                                habit.updateStreaks(currentDate, 1);
+                                mProgress.setProgress(habit.getStreak());
+
+                            } else {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                                builder.setTitle("Adding Record")
+                                        .setMessage("Adding record failed!")
+                                        .setNegativeButton("Retry", null)
+                                        .setPositiveButton("OK", null)
+                                        .create()
+                                        .show();
+                            }
+                        } catch (JSONException e) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                            builder.setTitle("Response error")
+                                    .setMessage(e.toString())
+                                    .setNegativeButton("OK", null)
+                                    .create()
+                                    .show();
+                            e.printStackTrace();
+                        }
+                    }, error -> {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle("Volley Error")
+                                .setMessage(error.toString())
+                                .setNegativeButton("OK", null)
+                                .create()
+                                .show();
+                    }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("username", username);
+                    params.put("habit_id", habit_id);
+                    params.put("date", date);
+                    return params;
+                }
+            };
+
+            queue.add(loginReq);
+        }
+
+
     }
 
 

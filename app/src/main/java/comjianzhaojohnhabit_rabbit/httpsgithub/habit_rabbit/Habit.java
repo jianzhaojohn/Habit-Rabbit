@@ -25,7 +25,7 @@ public class Habit implements Parcelable{
     @SerializedName("start_date")
     private Date startDate;
     // times completed in this period
-    private transient int streak = 0;
+    private transient int streak;
     // history record of this habit
     private transient Hashtable<String, Integer> records;
 

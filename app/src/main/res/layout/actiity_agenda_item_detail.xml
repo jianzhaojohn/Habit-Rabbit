@@ -1,120 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:clickable="true"
-    android:onClick="complete">
+    android:onClick="complete"
+    android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
         <TextView
             android:id="@+id/tv_event_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
+            android:paddingBottom="10dp"
             android:paddingStart="16dp"
             android:paddingTop="16dp"
-            android:paddingBottom="10dp"
+            android:text="Welcome To MRLC 2018"
             android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="#111"
-            android:text="Welcome To MRLC 2018" />
+            android:textColor="#111" />
 
-            <Button
-                android:id="@+id/cbox"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:background="@color/colorred"
-             />
-        </LinearLayout>
+        <Button
+            android:id="@+id/cbox"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:background="@color/colorred"
+            android:clickable="true" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
+
         <TextView
             android:id="@+id/habit_period"
-            android:textAppearance="?android:textAppearanceSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="@string/Habit_Period"
+            android:paddingEnd="4dp"
             android:paddingStart="16dp"
-            android:paddingEnd="4dp"/>
+            android:textAppearance="?android:textAppearanceSmall"
+            tools:text="@string/Habit_Period" />
 
-    <TextView
-        android:id="@+id/tv_event_period"
-        android:textAppearance="?android:textAppearanceSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="week"
-        android:paddingStart="4dp"
-        android:paddingEnd="16dp"/>
+        <TextView
+            android:id="@+id/tv_event_period"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingEnd="16dp"
+            android:paddingStart="4dp"
+            android:textAppearance="?android:textAppearanceSmall"
+            tools:text="week" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
+
         <TextView
             android:id="@+id/time_tocomplete"
-            android:textAppearance="?android:textAppearanceSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Time to complete: "
             android:paddingStart="16dp"
-            />
+            android:textAppearance="?android:textAppearanceSmall"
+            tools:text="Time to complete: " />
 
-    <TextView
-        android:id="@+id/tv_event_times"
-        android:textAppearance="?android:textAppearanceSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="5"
-        android:paddingStart="3dp"
-        android:paddingEnd="2dp"/>
+        <TextView
+            android:id="@+id/tv_event_times"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingEnd="2dp"
+            android:paddingStart="3dp"
+            android:textAppearance="?android:textAppearanceSmall"
+            tools:text="5" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
+
         <TextView
             android:id="@+id/timealready"
-            android:textAppearance="?android:textAppearanceSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Times already complete: "
-            android:paddingStart="16dp" />
+            android:paddingStart="16dp"
+            android:textAppearance="?android:textAppearanceSmall"
+            tools:text="Times already complete: " />
 
         <TextView
             android:id="@+id/complete_time"
-            android:textAppearance="?android:textAppearanceSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingStart="2dp"
             android:text="2"
-            android:paddingStart="2dp"/>
+            android:textAppearance="?android:textAppearanceSmall" />
     </LinearLayout>
+
     <TextView
         android:id="@+id/tv_event_detail"
-        android:textAppearance="?android:textAppearanceSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="2:00 - 2:45"
+        android:paddingEnd="16dp"
         android:paddingStart="16dp"
-        android:paddingEnd="16dp"/>
+        android:textAppearance="?android:textAppearanceSmall"
+        tools:text="2:00 - 2:45" />
 
-    <ProgressBar
-        android:id="@+id/completion_progressBar"
-        style="?android:attr/progressBarStyleHorizontal"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ProgressBar
+            android:id="@+id/completion_progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="125dp" />
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#666"
         android:layout_marginTop="16dp"
-        android:paddingBottom="16dp"/>
-
+        android:background="#666"
+        android:paddingBottom="16dp" />
 
 
 </LinearLayout>
