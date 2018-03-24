@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -108,13 +109,6 @@ public class AgendaAdapeter extends RecyclerView.Adapter<AgendaAdapeter.EventVie
 //            freqTextView.setText(""+event.getTimesPerPeriod());
             detailTextView.setText(event.getDescription());
 
-            // dont change the following
-//            dontchange1.setText("Habit period: ");
-//            dontchange2.setText("Time to complete: ");
-//            dontchange3.setText("Times already compete: ");
-
-//            timecompeteTV.setText(""+event.getStreak());
-
             // set progress
             mProgress.setMax(event.getTimesPerPeriod());
             mProgress.setProgress(event.getStreak());
@@ -155,8 +149,13 @@ public class AgendaAdapeter extends RecyclerView.Adapter<AgendaAdapeter.EventVie
 
                             if (success) {
                                 // update local records
+
                                 habit.updateStreaks(currentDate, 1);
+                                SharedPref.saveRecords(context,jsonRes.getJSONArray("records"));
                                 mProgress.setProgress(habit.getStreak());
+                                progressTxt.setText(habit.getStreak()+"/"+habit.getTimesPerPeriod());
+
+
 
                             } else {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(context);

@@ -1,72 +1,66 @@
 package comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit;
 
-import android.graphics.drawable.ColorDrawable;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
+import android.view.Menu;
+import android.view.MenuItem;
 
-import java.util.ArrayList;
+import java.io.File;
 
 public class CalendarActivity extends AppCompatActivity {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //   Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.navigation_menu, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
 
-   // private CalendarView mCalendarView;
+        switch (item.getItemId()) {
 
+            case Menu.FIRST:
+                startActivity(new Intent(CalendarActivity.this, LoginActivity.class));
+                break;
+            case R.id.nav_Profile:
+                startActivity(new Intent(CalendarActivity.this, ProfileActivity.class));
+                break;
+            case  R.id.nav_agenda:
+               break;
+            case  R.id.nav_logout:
+                try{
+                    // getApplicationContext().deleteFile("autionloginfile");
+                    File autologin = getApplicationContext().getFileStreamPath("autionloginfile");
+                    autologin.delete();
+                    // clear and delete data file, then logout
+                    SharedPref.clearAll(CalendarActivity.this);
+                    String fileName = SharedPref.FILE_NAME;
+                    File file= new File(this.getFilesDir().getParent()+"/shared_prefs/"+fileName+".xml");
+                    file.delete();
+
+                    startActivity(new Intent(CalendarActivity.this, LoginActivity.class));
+                }catch(Exception e){}
+                break;
+            case  R.id.nav_habits:
+                startActivity(new Intent(CalendarActivity.this, HabitListActivity.class));
+                break;
+            default:
+        }
+        return super.onOptionsItemSelected(item);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
-       // mCalendarView = (CalendarView) findViewById(R.id.calendarView);
-        //int tv=findViewById(R.id.editText);
-
 
         Fragment fragment = new Agenda_Fragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
         transaction.replace(R.id.content_frame, fragment);
-        //transaction.addToBackStack(null);
         transaction.commit();
-
-    }
-    public void complete(View view){
-/*       // boolean checked = ((CheckBox) view).isChecked();
-        Button cb=(Button)view.findViewById(R.id.cbox);
-        ColorDrawable buttonColor = (ColorDrawable) cb.getBackground();
-        int colorId = buttonColor.getColor();
-        TextView name=(TextView)view.findViewById(R.id.tv_event_name);
-        ArrayList<Habit> total=new ArrayList<>();
-        total.addAll(Agenda_Fragment.recentList);
-        total.addAll(Agenda_Fragment.todayList);
-        total.addAll(Agenda_Fragment.weekList);
-        total.addAll(Agenda_Fragment.monthList);
-        if(colorId==-65536){
-
-           cb.setBackgroundColor(2122099706);
-//           TextView tc=(TextView)view.findViewById(R.id.complete_time);
-//           tc.setText(""+(Integer.valueOf(tc.getText().toString())+1));
-            for(int i=0; i<total.size();i++){
-                if(total.get(i).getName().equals(name.getText().toString())){
-                    total.get(i).setStreak(total.get(i).getStreak()+1);
-                    break;
-                }
-            }
-        }
-        else{
-            cb.setBackgroundColor(-65536);
-//            TextView tc=(TextView)view.findViewById(R.id.complete_time);
-//            tc.setText(""+(Integer.valueOf(tc.getText().toString())-1));
-            for(int i=0; i<total.size();i++){
-                if(total.get(i).getName().equals(name.getText().toString())){
-                    total.get(i).setStreak(total.get(i).getStreak()-1);
-                    break;
-                }
-            }
-        }*/
-
-
 
     }
 }

@@ -41,6 +41,7 @@
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_input_add" />
 
+  <!--
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_agenda"
         android:layout_width="wrap_content"
@@ -51,5 +52,5 @@
         app:layout_anchorGravity="right|top"
         app:srcCompat="@android:drawable/ic_menu_agenda" />
 
-
+-->
 </android.support.design.widget.CoordinatorLayout>

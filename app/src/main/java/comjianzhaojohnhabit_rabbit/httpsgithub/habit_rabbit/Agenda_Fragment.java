@@ -21,7 +21,7 @@ public class Agenda_Fragment extends Fragment {
 
     private TabLayout mTabLayout;
     public static ArrayList<Habit> todayList=new ArrayList<>();
-    public static ArrayList<Habit> recentList=new ArrayList<>();
+  //  public static ArrayList<Habit> recentList=new ArrayList<>();
     public static ArrayList<Habit> weekList=new ArrayList<>();
     public static ArrayList<Habit> monthList=new ArrayList<>();
 
@@ -31,7 +31,7 @@ public class Agenda_Fragment extends Fragment {
 
     public void generatelist(){
         todayList=new ArrayList<>();
-        recentList=new ArrayList<>();
+    //    recentList=new ArrayList<>();
         weekList=new ArrayList<>();
         monthList=new ArrayList<>();
 
@@ -47,22 +47,6 @@ public class Agenda_Fragment extends Fragment {
             }
         }
 
-/*        todayList.add(new Habit(1,"wake up at 6","week",7,"i want to wake up at 6 am every morning",false,null));
-
-
-        recentList.add(new Habit(1,"complete project for cse442","week",1,"finish project with next week",false,null));
-        recentList.add(new Habit(1,"play league of legend with friends","week",3,"play with friends 3 times per week",false,null));
-
-
-        weekList.add(new Habit(1,"complete project for cse442","week",1,"finish project with next week",false,null));
-        weekList.add(new Habit(1,"play league of legend with friends","week",3,"play with friends 3 times per week",false,null));
-        weekList.add(new Habit(1,"week 4: idk, doing something","week",4,"no descripsion",false,null));
-
-        monthList.add(new Habit(1,"month 2","month",2,"dance",false,null));
-        monthList.add(new Habit(1,"month 2","month",3,"sing",false,null));
-        monthList.add(new Habit(1,"month 3","month",4,"swim",false,null));
-        monthList.add(new Habit(1,"month 4","month",5,"fly",false,null));
-        monthList.add(new Habit(1,"month 5","month",6,"idk",false,null));*/
 
     }
 
@@ -97,10 +81,11 @@ public class Agenda_Fragment extends Fragment {
             if (position == 0){
                 eventList = todayList;
 
-            } else if(position==1){
-                eventList = recentList;
             }
-            else if (position==2){
+            //else if(position==1){
+              //  eventList = recentList;
+            //}
+            else if (position==1){
                 eventList = weekList;
             }
             else{
@@ -115,17 +100,18 @@ public class Agenda_Fragment extends Fragment {
 
         @Override
         public int getCount() {
-            return 4;
+            return 3;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             if(position == 0){
                 return "today";
-            }else if(position==1){
-                return "recent";
             }
-            else if(position==2){
+            //else if(position==1){
+             //   return "recent";
+            //}
+            else if(position==1){
                 return "week";
             }
             else{
