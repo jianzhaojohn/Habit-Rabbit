@@ -2,6 +2,7 @@ package comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -120,8 +121,15 @@ public class AgendaAdapeter extends RecyclerView.Adapter<AgendaAdapeter.EventVie
             progressTxt.setText(event.getStreak()+"/"+event.getTimesPerPeriod());
 
             // on click listener
-            progressDone.setOnClickListener(v -> {
-                addRecordRequest(event);
+            progressDone.setOnClickListener(v -> addRecordRequest(event));
+
+            // listener
+            itemView.setOnLongClickListener(v -> {
+                Context context = v.getContext();
+                Intent intent = new Intent(context, HabitDetailActivity.class);
+                intent.putExtra(HabitDetailFragment.ARG_ITEM_ID, HabitList.HABITS_list.indexOf(event)+"");
+                context.startActivity(intent);
+                return true;
             });
         }
 

@@ -154,26 +154,18 @@ public class HabitListActivity extends AppCompatActivity {
                 }
             }
         };
-        private  final View.OnLongClickListener mOnLongClickListener = new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                // respond the delete button with a dialog box
-                final Context context = v.getContext();
-                final Habit currentHabit = (Habit) v.getTag();
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle("Edit Habit")
-                        .setMessage("Do you want to delete this habit?")
-                        .setNegativeButton("NO", null)
-                        .setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                deleteHabitRequest(context, currentHabit);
-                            }
-                        })
-                        .create()
-                        .show();
-                return true;
-            }
+        private  final View.OnLongClickListener mOnLongClickListener = v -> {
+            // respond the delete button with a dialog box
+            final Context context = v.getContext();
+            final Habit currentHabit = (Habit) v.getTag();
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle("Edit Habit")
+                    .setMessage("Do you want to delete this habit?")
+                    .setNegativeButton("NO", null)
+                    .setPositiveButton("YES", (dialog, which) -> deleteHabitRequest(context, currentHabit))
+                    .create()
+                    .show();
+            return true;
         };
 
 
@@ -207,23 +199,20 @@ public class HabitListActivity extends AppCompatActivity {
             holder.itemView.setOnLongClickListener(mOnLongClickListener);
 
             holder.mDeleteImg.setTag(mValues.get(currentPosition));
-            holder.mDeleteImg.setOnClickListener( new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // respond the delete button with a dialog box
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setTitle("Edit Habit")
-                        .setMessage("Do you want to delete this habit?")
-                        .setNegativeButton("NO", null)
-                        .setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                deleteHabitRequest(context, currentHabit);
-                            }
-                        })
-                        .create()
-                        .show();
-                }
+            holder.mDeleteImg.setOnClickListener(v -> {
+                // respond the delete button with a dialog box
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("Edit Habit")
+                    .setMessage("Do you want to delete this habit?")
+                    .setNegativeButton("NO", null)
+                    .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            deleteHabitRequest(context, currentHabit);
+                        }
+                    })
+                    .create()
+                    .show();
             });
         }
 
