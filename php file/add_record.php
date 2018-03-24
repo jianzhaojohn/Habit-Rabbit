@@ -5,7 +5,7 @@
     $habit_id = $_POST["habit_id"];
     $date = $_POST["date"];
 
-
+// ???
     function habitExist() {
         global $con, $username, $habit;
         $stmt = mysqli_prepare($con, "SELECT * FROM habits WHERE email = ? AND habit_id = ?");
@@ -21,14 +21,14 @@
     $response = array();
     $response["success"] = false;
 
-    if (habitExist()) {
+    //if (habitExist()) {
         $stmt = mysqli_prepare($con, "INSERT INTO record (task, time) VALUES (?, ?)");
         mysqli_stmt_bind_param($stmt, "is", $habit_id, $date);
         mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
 
         $response["success"] = true;
-    }
+    //}
 
     echo json_encode($response);
 ?>

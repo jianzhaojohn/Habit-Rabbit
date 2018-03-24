@@ -2,19 +2,16 @@ package comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -85,42 +82,45 @@ public class AgendaAdapeter extends RecyclerView.Adapter<AgendaAdapeter.EventVie
         TextView timecompeteTV;
 
         ProgressBar mProgress;
-        Button progressBtn;
+        TextView progressTxt;
+        ImageView progressDone;
 
         public EventViewHolder(View itemView){
             super(itemView);
 
             titleTextView = (TextView)itemView.findViewById(R.id.tv_event_name);
-            periodTextView = (TextView)itemView.findViewById(R.id.tv_event_period);
-            freqTextView = (TextView)itemView.findViewById(R.id.tv_event_times);
+//            periodTextView = (TextView)itemView.findViewById(R.id.tv_event_period);
+//            freqTextView = (TextView)itemView.findViewById(R.id.tv_event_times);
             detailTextView=(TextView)itemView.findViewById(R.id.tv_event_detail);
-            dontchange1=(TextView)itemView.findViewById(R.id.habit_period);
-            dontchange2=(TextView)itemView.findViewById(R.id.time_tocomplete);
-            dontchange3=(TextView)itemView.findViewById(R.id.timealready);
-            timecompeteTV=(TextView)itemView.findViewById(R.id.complete_time);
+//            dontchange1=(TextView)itemView.findViewById(R.id.habit_period);
+//            dontchange2=(TextView)itemView.findViewById(R.id.time_tocomplete);
+//            dontchange3=(TextView)itemView.findViewById(R.id.timealready);
+//            timecompeteTV=(TextView)itemView.findViewById(R.id.complete_time);
             mProgress=(ProgressBar)itemView.findViewById(R.id.completion_progressBar);
-            progressBtn=itemView.findViewById(R.id.cbox);
+            progressTxt=itemView.findViewById(R.id.progress_txt);
+            progressDone =itemView.findViewById(R.id.done_img);
         }
 
         void bind(Habit event){
             titleTextView.setText(event.getName());
-            periodTextView.setText(event.getPeriod());
-            freqTextView.setText(""+event.getTimesPerPeriod());
+//            periodTextView.setText(event.getPeriod());
+//            freqTextView.setText(""+event.getTimesPerPeriod());
             detailTextView.setText(event.getDescription());
 
             // dont change the following
-            dontchange1.setText("Habit period: ");
-            dontchange2.setText("Time to complete: ");
-            dontchange3.setText("Times already compete: ");
+//            dontchange1.setText("Habit period: ");
+//            dontchange2.setText("Time to complete: ");
+//            dontchange3.setText("Times already compete: ");
 
-            timecompeteTV.setText(""+event.getStreak());
+//            timecompeteTV.setText(""+event.getStreak());
 
             // set progress
             mProgress.setMax(event.getTimesPerPeriod());
             mProgress.setProgress(event.getStreak());
+            progressTxt.setText(event.getStreak()+"/"+event.getTimesPerPeriod());
 
             // on click listener
-            progressBtn.setOnClickListener(v -> {
+            progressDone.setOnClickListener(v -> {
                 addRecordRequest(event);
             });
         }

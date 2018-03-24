@@ -32,7 +32,7 @@ public class CalendarActivity extends AppCompatActivity {
 
     }
     public void complete(View view){
-       // boolean checked = ((CheckBox) view).isChecked();
+/*       // boolean checked = ((CheckBox) view).isChecked();
         Button cb=(Button)view.findViewById(R.id.cbox);
         ColorDrawable buttonColor = (ColorDrawable) cb.getBackground();
         int colorId = buttonColor.getColor();
@@ -45,8 +45,8 @@ public class CalendarActivity extends AppCompatActivity {
         if(colorId==-65536){
 
            cb.setBackgroundColor(2122099706);
-           TextView tc=(TextView)view.findViewById(R.id.complete_time);
-           tc.setText(""+(Integer.valueOf(tc.getText().toString())+1));
+//           TextView tc=(TextView)view.findViewById(R.id.complete_time);
+//           tc.setText(""+(Integer.valueOf(tc.getText().toString())+1));
             for(int i=0; i<total.size();i++){
                 if(total.get(i).getName().equals(name.getText().toString())){
                     total.get(i).setStreak(total.get(i).getStreak()+1);
@@ -56,15 +56,15 @@ public class CalendarActivity extends AppCompatActivity {
         }
         else{
             cb.setBackgroundColor(-65536);
-            TextView tc=(TextView)view.findViewById(R.id.complete_time);
-            tc.setText(""+(Integer.valueOf(tc.getText().toString())-1));
+//            TextView tc=(TextView)view.findViewById(R.id.complete_time);
+//            tc.setText(""+(Integer.valueOf(tc.getText().toString())-1));
             for(int i=0; i<total.size();i++){
                 if(total.get(i).getName().equals(name.getText().toString())){
                     total.get(i).setStreak(total.get(i).getStreak()-1);
                     break;
                 }
             }
-        }
+        }*/
 
 
 
