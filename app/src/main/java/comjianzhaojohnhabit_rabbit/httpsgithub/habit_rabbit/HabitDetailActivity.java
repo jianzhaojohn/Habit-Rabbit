@@ -155,6 +155,7 @@ public class HabitDetailActivity extends AppCompatActivity {
                                         .create()
                                         .show();
                             } else {
+                                //show message when fails
                                 AlertDialog.Builder builder = new AlertDialog.Builder(HabitDetailActivity.this);
                                 builder.setTitle("Edit Habit")
                                         .setMessage("Edit habit failed!")
@@ -164,6 +165,7 @@ public class HabitDetailActivity extends AppCompatActivity {
                                         .show();
                             }
                         } catch (JSONException e) {
+                            //show message when catch exception
                             AlertDialog.Builder builder = new AlertDialog.Builder(HabitDetailActivity.this);
                             builder.setTitle("Response error")
                                     .setMessage(e.toString())
@@ -174,6 +176,7 @@ public class HabitDetailActivity extends AppCompatActivity {
                         }
                     }
                 }, new Response.ErrorListener() {
+            //On errorResponse
             @Override
             public void onErrorResponse(VolleyError error) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(HabitDetailActivity.this);
@@ -184,6 +187,7 @@ public class HabitDetailActivity extends AppCompatActivity {
                         .show();
             }
         }) {
+            //return the habit information in Map form
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
