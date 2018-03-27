@@ -268,6 +268,9 @@ public class HabitListActivity extends AppCompatActivity {
             HabitList.deleteHabit(habit);
             int currentPosition = HabitList.HABITS_list.indexOf(habit);
             notifyItemRemoved(currentPosition);
+            if (currentPosition != mValues.size()) {
+                notifyItemRangeChanged(currentPosition, mValues.size()-currentPosition);
+            }
         }
 
         @Override
