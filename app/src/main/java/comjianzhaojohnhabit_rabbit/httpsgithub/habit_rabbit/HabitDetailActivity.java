@@ -122,10 +122,10 @@ public class HabitDetailActivity extends AppCompatActivity {
         final String title = mTitleView.getText().toString();
         final String description = mDesView.getText().toString();
         final String times;
-        if(mTimesView.getText().toString()=="0"){
-            times="1";
-        }else{
+        if(Integer.parseInt(mTimesView.getText().toString()) > 0){
             times = mTimesView.getText().toString();
+        }else{
+            times = "1";
         }
         final String period = mPeriodView.getSelectedItem().toString();
         final String reminder = mReminder.isChecked()?"1":"0";

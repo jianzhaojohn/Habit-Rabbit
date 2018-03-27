@@ -118,21 +118,21 @@ public class AgendaAdapeter extends RecyclerView.Adapter<AgendaAdapeter.EventVie
             // on click listeners
             progressDone.setOnClickListener(v -> addRecordRequest(event));
 
-            itemView.setOnClickListener(v -> {
-                Context context = v.getContext();
-                Intent intent = new Intent(context, HabitDetailActivity.class);
-                intent.putExtra(HabitDetailFragment.ARG_ITEM_ID, HabitList.HABITS_list.indexOf(event)+"");
-                context.startActivity(intent);
-            });
-
-            // listener
-//            itemView.setOnLongClickListener(v -> {
+//            itemView.setOnClickListener(v -> {
 //                Context context = v.getContext();
 //                Intent intent = new Intent(context, HabitDetailActivity.class);
-//                intent.putExtra(HabitDetailFragment.ARG_ITEM_ID, HabitList.HABITS_list.indexOf(event)+"");
+//                intent.putExtra(HabitDetailFragment.ARG_ITEM_ID, event.getHabitID()+"");
 //                context.startActivity(intent);
-//                return true;
 //            });
+
+            // listener
+            itemView.setOnLongClickListener(v -> {
+                Context context = v.getContext();
+                Intent intent = new Intent(context, HabitDetailActivity.class);
+                intent.putExtra(HabitDetailFragment.ARG_ITEM_ID, event.getHabitID()+"");
+                context.startActivity(intent);
+                return true;
+            });
         }
 
         /**
