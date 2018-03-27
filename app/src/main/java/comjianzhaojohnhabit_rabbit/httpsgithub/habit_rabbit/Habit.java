@@ -43,18 +43,20 @@ public class Habit implements Parcelable{
     }
     //constructor
     public Habit(int id, String name, String period, int times){
-        this.habitID = id;
+        setHabitID(id);
         this.name = name;
         this.period = period;
-        if(times==0){
+        /*if(times==0){
             this.timesPerPeriod=1;
         }
         else{
             this.timesPerPeriod = times;
-        }
+        }*/
+        setTimesPerPeriod(times);
 
         this.description = "";
         this.reminder = false;
+        startDate = new Date();
         streak = 0;
         this.records = new Hashtable<>();
     }
@@ -139,7 +141,8 @@ public class Habit implements Parcelable{
     //-----------------------------------------------------------------------------------------
 //following is all setter and getter
     public void setHabitID(Integer id) {
-        this.habitID = id;
+        if (id >= 0)
+            this.habitID = id;
     }
 
     public void setName(String name) {
@@ -151,7 +154,9 @@ public class Habit implements Parcelable{
     }
 
     public void setTimesPerPeriod(int timesPerPeriod) {
-        this.timesPerPeriod = timesPerPeriod;
+        if (timesPerPeriod > 0)
+            this.timesPerPeriod = timesPerPeriod;
+        else this.timesPerPeriod = 1;
     }
 
     public void setReminder(boolean reminder) {
