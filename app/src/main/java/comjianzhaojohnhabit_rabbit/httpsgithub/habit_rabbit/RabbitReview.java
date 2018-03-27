@@ -1,5 +1,7 @@
 package comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -21,7 +23,13 @@ public class RabbitReview extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rabbit_view_);
+        SharedPreferences preferences = getSharedPreferences("HabitInfo", Context.MODE_PRIVATE);
+        if(preferences.getBoolean("RabbitAlive", true)) {
+            setContentView(R.layout.activity_rabbit_view_);
+        }
+        else{
+            setContentView(R.layout.activity_deadrabbit);
+        }
 
     }
 
