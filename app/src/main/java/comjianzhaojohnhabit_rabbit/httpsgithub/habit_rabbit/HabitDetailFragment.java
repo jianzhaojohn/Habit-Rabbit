@@ -1,6 +1,9 @@
 package comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit;
 
 import android.app.Activity;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
@@ -15,6 +18,7 @@ import android.widget.TextView;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.DataPointInterface;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.jjoe64.graphview.series.PointsGraphSeries;
 
@@ -99,25 +103,45 @@ public class HabitDetailFragment extends Fragment {
             ((Switch) rootView.findViewById(R.id.reminder_switch)).setChecked(mItem.isReminder());
             ((TextView) rootView.findViewById(R.id.detail_txt)).setText(mItem.getDescription());
 
-            setLineGraph(graph,mItem);
+            drawLineGraph(graph,mItem);
         }
 
         return rootView;
     }
 
     // show habit history in graph as line
-    private void setLineGraph(GraphView graph, Habit habit) {
+    private void drawLineGraph(GraphView graph, Habit habit) {
+        // draw expected points
+        List<DataPoint> expectedPoints = getExpectedPoints(habit);
+        DataPoint[] expArray = expectedPoints.toArray(new DataPoint[expectedPoints.size()]);
+        LineGraphSeries<DataPoint> expLineSeries = new LineGraphSeries<>(expArray);
+        expLineSeries.setColor(Color.LTGRAY);
+        expLineSeries.setThickness(1);
+        graph.addSeries(expLineSeries);
+        PointsGraphSeries<DataPoint> expPointSeries = new PointsGraphSeries<>(expArray);
+        graph.addSeries(expPointSeries);
+        expPointSeries.setColor(Color.LTGRAY);
+        expPointSeries.setCustomShape(new PointsGraphSeries.CustomShape() {
+            @Override
+            public void draw(Canvas canvas, Paint paint, float x, float y, DataPointInterface dataPoint) {
+                paint.setStyle(Paint.Style.STROKE);
+                paint.setStrokeWidth(7);
+                canvas.drawCircle(x, y, 20, paint);
+            }
+        });
+
+        // draw actual points
         List<DataPoint> points = getPoints(habit);
         DataPoint[] pointArray = points.toArray(new DataPoint[points.size()]);
-
         LineGraphSeries<DataPoint> lineSeries = new LineGraphSeries<>(pointArray);
         graph.addSeries(lineSeries);
-        PointsGraphSeries<DataPoint> pointSeries = new PointsGraphSeries<>(pointArray);
-        graph.addSeries(pointSeries);
+        lineSeries.setDrawDataPoints(true);
+        lineSeries.setDataPointsRadius(18);
 
+        // graph settings
         graph.getViewport().setScalable(true);
         graph.getViewport().setScalableY(true);
-//        graph.getViewport().setBackgroundColor(0x0077cc);
+//        graph.getViewport().setBackgroundColor(Color.LTGRAY);
 
         graph.getViewport().setXAxisBoundsManual(true);
         Calendar calendar = Calendar.getInstance();
@@ -157,12 +181,24 @@ public class HabitDetailFragment extends Fragment {
         Date startDate = mHabit.getStartDate();
 
         Calendar date = Calendar.getInstance();
-        Calendar tomorrow = Calendar.getInstance();
-        tomorrow.add(Calendar.DATE, 1);
-        for (date.setTime(startDate); date.before(tomorrow); date.add(Calendar.DATE, 1)) {
+        Calendar today = Calendar.getInstance();
+        for (date.setTime(startDate); date.before(today); date.add(Calendar.DATE, 1)) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             String dateString = dateFormat.format(date.getTime());
             points.add(new DataPoint(date.getTime(), records.getOrDefault(dateString, 0)));
+        }
+        return points;
+    }
+
+    public List<DataPoint> getExpectedPoints(Habit mHabit) {
+        ArrayList<DataPoint> points = new ArrayList<>();
+        Date startDate = mHabit.getStartDate();
+        int count = mHabit.getTimesPerPeriod();
+
+        Calendar date = Calendar.getInstance();
+        Calendar today = Calendar.getInstance();
+        for (date.setTime(startDate); date.before(today); date.add(Calendar.DATE, 1)) {
+            points.add(new DataPoint(date.getTime(), count));
         }
         return points;
     }
