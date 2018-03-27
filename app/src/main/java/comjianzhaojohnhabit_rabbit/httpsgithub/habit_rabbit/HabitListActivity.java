@@ -185,7 +185,7 @@ public class HabitListActivity extends AppCompatActivity {
                 Habit item = (Habit) view.getTag();
                 if (mTwoPane) {
                     Bundle arguments = new Bundle();
-                    arguments.putString(HabitDetailFragment.ARG_ITEM_ID, HabitList.HABITS_list.indexOf(item)+"");
+                    arguments.putString(HabitDetailFragment.ARG_ITEM_ID, String.valueOf(item.getHabitID()));
                     HabitDetailFragment fragment = new HabitDetailFragment();
                     fragment.setArguments(arguments);
                     mParentActivity.getSupportFragmentManager().beginTransaction()
@@ -194,8 +194,8 @@ public class HabitListActivity extends AppCompatActivity {
                 } else {
                     Context context = view.getContext();
                     Intent intent = new Intent(context, HabitDetailActivity.class);
-//                    intent.putExtra(HabitDetailFragment.ARG_ITEM_ID, item.getHabitID());
-                    intent.putExtra(HabitDetailFragment.ARG_ITEM_ID, HabitList.HABITS_list.indexOf(item)+"");
+                    intent.putExtra(HabitDetailFragment.ARG_ITEM_ID, String.valueOf(item.getHabitID()));
+//                    intent.putExtra(HabitDetailFragment.ARG_ITEM_ID, HabitList.HABITS_list.indexOf(item)+"");
 
                     context.startActivity(intent);
                 }
@@ -283,6 +283,9 @@ public class HabitListActivity extends AppCompatActivity {
             HabitList.deleteHabit(habit);
             int currentPosition = HabitList.HABITS_list.indexOf(habit);
             notifyItemRemoved(currentPosition);
+            if (currentPosition != mValues.size()) {
+                notifyItemRangeChanged(currentPosition, mValues.size()-currentPosition);
+            }
         }
 
         @Override

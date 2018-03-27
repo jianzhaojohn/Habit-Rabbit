@@ -43,32 +43,23 @@ public class Habit implements Parcelable{
     }
     //constructor
     public Habit(int id, String name, String period, int times){
-        this.habitID = id;
+        setHabitID(id);
         this.name = name;
         this.period = period;
-        if(times==0){
-            this.timesPerPeriod=1;
-        }
-        else{
-            this.timesPerPeriod = times;
-        }
+        setTimesPerPeriod(times);
 
         this.description = "";
         this.reminder = false;
+        startDate = new Date();
         streak = 0;
         this.records = new Hashtable<>();
     }
     //constructor
     public Habit(int id, String name, String period, int times, String description, boolean reminder, Date startDate) {
-        this.habitID = id;
+        setHabitID(id);
         this.name = name;
         this.period = period;
-        if(times==0){
-            this.timesPerPeriod=1;
-        }
-        else{
-            this.timesPerPeriod = times;
-        }
+        setTimesPerPeriod(times);
         this.description = description;
         this.reminder = reminder;
         this.startDate = startDate;
@@ -139,7 +130,8 @@ public class Habit implements Parcelable{
     //-----------------------------------------------------------------------------------------
 //following is all setter and getter
     public void setHabitID(Integer id) {
-        this.habitID = id;
+        if (id >= 0)
+            this.habitID = id;
     }
 
     public void setName(String name) {
@@ -151,7 +143,9 @@ public class Habit implements Parcelable{
     }
 
     public void setTimesPerPeriod(int timesPerPeriod) {
-        this.timesPerPeriod = timesPerPeriod;
+        if (timesPerPeriod > 0)
+            this.timesPerPeriod = timesPerPeriod;
+        else this.timesPerPeriod = 1;
     }
 
     public void setReminder(boolean reminder) {
@@ -181,7 +175,13 @@ public class Habit implements Parcelable{
             this.records = new Hashtable<>();
         }
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        records.merge(dateFormat.format(date), count, Integer::sum);
+//        records.merge(dateFormat.format(date), count, Integer::sum);
+        String dateString = dateFormat.format(date);
+        if (records.containsKey(dateString)) {
+            records.put(dateString, records.get(dateString) + count);
+        } else {
+            records.put(dateString, count);
+        }
 
         Calendar today = Calendar.getInstance();
         Calendar calendar = Calendar.getInstance();

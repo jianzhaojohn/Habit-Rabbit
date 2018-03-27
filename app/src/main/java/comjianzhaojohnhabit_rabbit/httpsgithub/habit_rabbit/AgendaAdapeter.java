@@ -115,14 +115,21 @@ public class AgendaAdapeter extends RecyclerView.Adapter<AgendaAdapeter.EventVie
             mProgress.setProgress(event.getStreak());
             progressTxt.setText(event.getStreak()+"/"+event.getTimesPerPeriod());
 
-            // on click listener
+            // on click listeners
             progressDone.setOnClickListener(v -> addRecordRequest(event));
+
+//            itemView.setOnClickListener(v -> {
+//                Context context = v.getContext();
+//                Intent intent = new Intent(context, HabitDetailActivity.class);
+//                intent.putExtra(HabitDetailFragment.ARG_ITEM_ID, event.getHabitID()+"");
+//                context.startActivity(intent);
+//            });
 
             // listener
             itemView.setOnLongClickListener(v -> {
                 Context context = v.getContext();
                 Intent intent = new Intent(context, HabitDetailActivity.class);
-                intent.putExtra(HabitDetailFragment.ARG_ITEM_ID, HabitList.HABITS_list.indexOf(event)+"");
+                intent.putExtra(HabitDetailFragment.ARG_ITEM_ID, event.getHabitID()+"");
                 context.startActivity(intent);
                 return true;
             });
@@ -157,8 +164,9 @@ public class AgendaAdapeter extends RecyclerView.Adapter<AgendaAdapeter.EventVie
                                 // update local records
                                 habit.updateStreaks(currentDate, 1);
                                 SharedPref.saveRecords(context,jsonRes.getJSONArray("records"));
-                                mProgress.setProgress(habit.getStreak());
-                                progressTxt.setText(habit.getStreak()+"/"+habit.getTimesPerPeriod());
+                                notifyItemChanged(mList.indexOf(habit));
+//                                mProgress.setProgress(habit.getStreak());
+//                                progressTxt.setText(habit.getStreak()+"/"+habit.getTimesPerPeriod());
                             } else {
                                 //show message when fails
                                 AlertDialog.Builder builder = new AlertDialog.Builder(context);

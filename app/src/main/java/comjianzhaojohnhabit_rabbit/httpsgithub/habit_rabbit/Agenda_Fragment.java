@@ -133,10 +133,10 @@ public class Agenda_Fragment extends Fragment {
                 return "today";
             }
             else if(position==1){
-                return "week";
+                return "this week";
             }
             else{
-                return "month";
+                return "this month";
             }
         }
     }

@@ -104,9 +104,10 @@ public class AddHabitActivity extends Activity {
                                 int habit_id = jsonRes.getInt("habit_id");
 
                                 // update local file to store this new habit
-                                final Habit habit = new Habit(habit_id, title, period, Integer.parseInt(times));
+                                Habit habit = new Habit(habit_id, title, period, Integer.parseInt(times));
                                 SharedPref.saveHabit(AddHabitActivity.this, habit);
                                 HabitList.addHabit(habit);
+                                //TODO: notify adapter
 
                                 // jump to habit list page
                                 startActivity(new Intent(AddHabitActivity.this, HabitListActivity.class));

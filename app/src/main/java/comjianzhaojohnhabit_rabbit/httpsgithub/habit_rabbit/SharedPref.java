@@ -100,7 +100,7 @@ public class SharedPref {
 
 
     /**
-     * save the rabit to local device
+     * save the habit to local device
      * @param mContext -urrent conetext
      * @param jHabit JSONObject, the habit you want to save in JSON form
      */
@@ -186,7 +186,8 @@ public class SharedPref {
     }
 
     /**
-     *
+     *    this function is for testing purposes,
+     *    will not affect the app
      * @param mContext-current context
      * @param id- the id which correspoding to the habit you want to access
      * @return habit infromation in string form
@@ -199,8 +200,7 @@ public class SharedPref {
     }
 
 
-    // this function is for testing purposes
-    //will not affect the app
+
     public static Set<HabitList.Record> getRecords(Context mContext) {
         SharedPreferences mPref = mContext.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         Set<String> jRecords = mPref.getStringSet("records", null);
