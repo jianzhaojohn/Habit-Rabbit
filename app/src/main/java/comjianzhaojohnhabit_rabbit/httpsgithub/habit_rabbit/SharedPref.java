@@ -35,7 +35,11 @@ public class SharedPref {
     private static final String USER = "Username";
     private static final String DEFAULT_USER = "test@example.com";
 
-
+    /**
+     * save the user name
+     * @param mContext- current context
+     * @param user -username
+     */
     public static void saveUser(Context mContext, String user) {
         SharedPreferences mPref = mContext.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = mPref.edit();
@@ -43,13 +47,21 @@ public class SharedPref {
         editor.apply();
     }
 
+    /**
+     *
+     * @param mContext-current context
+     * @return username
+     */
     public static String getUser(Context mContext) {
         SharedPreferences mPref = mContext.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
-//        SharedPreferences.Editor editor = mPref.edit();
-
         return mPref.getString(USER,DEFAULT_USER);
     }
 
+    /**
+     * save the Habitlist
+     * @param mContext -current context
+     * @param ids- set of string contant the IDs for the habit
+     */
     public static void saveHabitList(Context mContext, Set<String> ids) {
         SharedPreferences mPref = mContext.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = mPref.edit();
@@ -57,6 +69,12 @@ public class SharedPref {
         editor.apply();
     }
 
+    /**
+     *
+     * save the HabitList into a JSONArray
+     * @param mContext- current context
+     * @param jArray- JSONArray that you want to use to save
+     */
     public static void saveHabitList(Context mContext, JSONArray jArray) {
         Set<String> list = new HashSet<>();
         for (int i = 0; i < jArray.length(); i++) {
@@ -69,12 +87,23 @@ public class SharedPref {
         saveHabitList(mContext, list);
     }
 
-        public static Set<String> getHabitList(Context mContext) {
+    /**
+     *
+     * @param mContext -curretn context
+     * @return habitList
+     */
+    public static Set<String> getHabitList(Context mContext) {
         SharedPreferences mPref = mContext.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
 //        SharedPreferences.Editor editor = mPref.edit();
         return mPref.getStringSet("habit_list", null);
     }
 
+
+    /**
+     * save the rabit to local device
+     * @param mContext -urrent conetext
+     * @param jHabit JSONObject, the habit you want to save in JSON form
+     */
     public static void saveHabit(Context mContext, JSONObject jHabit) {
         SharedPreferences mPref = mContext.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = mPref.edit();
@@ -94,6 +123,11 @@ public class SharedPref {
 
     }
 
+    /**
+     * save habit in local device
+     * @param mContext-current context
+     * @param habit- habit you want to save in normal object form
+     */
     public static void saveHabit(Context mContext, Habit habit) {
         SharedPreferences mPref = mContext.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = mPref.edit();
@@ -114,6 +148,11 @@ public class SharedPref {
         editor.apply();
     }
 
+    /**
+     * save the Habitlist to local device
+     * @param mContext-current context
+     * @param habits -Habitlist in JSON form
+     */
     public static void saveHabits(Context mContext, JSONArray habits) {
         for(int i = 0; i < habits.length(); i++) {
             try {
@@ -124,6 +163,13 @@ public class SharedPref {
         }
 
     }
+
+    /**
+     *
+     * @param mContext-current context
+     * @param id- id for the habit you want to get
+     * @return the habit correspoding to the ID
+     */
 
     public static Habit getHabit(Context mContext, String id) {
         SharedPreferences mPref = mContext.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
@@ -139,6 +185,12 @@ public class SharedPref {
         return habit;
     }
 
+    /**
+     *
+     * @param mContext-current context
+     * @param id- the id which correspoding to the habit you want to access
+     * @return habit infromation in string form
+     */
     public static String getHabitString(Context mContext, String id) {
         SharedPreferences mPref = mContext.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         String jHabit = mPref.getString("habit_"+id, null);
@@ -146,6 +198,9 @@ public class SharedPref {
         return mPref.getString("habit_"+id, null);
     }
 
+
+    // this function is for testing purposes
+    //will not affect the app
     public static Set<HabitList.Record> getRecords(Context mContext) {
         SharedPreferences mPref = mContext.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         Set<String> jRecords = mPref.getStringSet("records", null);
@@ -164,6 +219,7 @@ public class SharedPref {
         return list;
     }
 
+    //same as above, use for test purposes
     public static String getRecordsString(Context mContext) {
         SharedPreferences mPref = mContext.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         Set<String> jRecords = mPref.getStringSet("records", null);
@@ -174,6 +230,7 @@ public class SharedPref {
         return res;
     }
 
+    //use for testing purposes
     public static void saveRecords(Context mContext, JSONArray jsonArray) {
         SharedPreferences mPref = mContext.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = mPref.edit();
@@ -191,6 +248,11 @@ public class SharedPref {
         editor.apply();
     }
 
+    /**
+     * edit habit in the local device
+     * @param mContext-current context
+     * @param habit- the habit you want to modified
+     */
     public static void editHabit(Context mContext, Habit habit) {
         SharedPreferences mPref = mContext.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = mPref.edit();
@@ -207,6 +269,11 @@ public class SharedPref {
         editor.apply();
     }
 
+    /**
+     * delete the habit locally
+     * @param mContext-current context
+     * @param habit-the habit you want to deleted
+     */
     public static void deleteHabit(Context mContext, Habit habit) {
         SharedPreferences mPref = mContext.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = mPref.edit();
@@ -221,6 +288,10 @@ public class SharedPref {
 
     }
 
+    /**
+     * clean everything
+     * @param mContext-current context
+     */
     public static void clearAll(Context mContext) {
         SharedPreferences mPref = mContext.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = mPref.edit();
@@ -228,6 +299,8 @@ public class SharedPref {
         editor.commit();
     }
 
+
+    // implement the JsonSerializer<Date>, JsonDeserializer<Date>, so DateDeserializer can be both serialize and deserialize
     public static class DateDeserializer implements JsonSerializer<Date>, JsonDeserializer<Date> {
 
         @Override
@@ -249,7 +322,7 @@ public class SharedPref {
             }
         }
     }
-
+    // implement the JsonSerializer<Date>, JsonDeserializer<Date>, so BooleanTypeAdapter can be both serialize and deserialize
     public static class BooleanTypeAdapter implements JsonSerializer<Boolean>, JsonDeserializer<Boolean> {
 
         @Override
