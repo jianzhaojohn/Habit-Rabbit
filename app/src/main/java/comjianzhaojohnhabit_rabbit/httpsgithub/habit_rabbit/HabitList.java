@@ -13,21 +13,23 @@ import java.util.List;
 import java.util.Set;
 
 
+// convert the data from data base into a habit List
+//a class which repsonse for whats above
 public class HabitList {
     public static Hashtable<String,Habit> Habit_table;
     public static List<Habit> HABITS_list;
     public static Set<String> ID_set;
-
     private static String UserName;
 
+    //getter
     public static String getUserName() {
         return UserName;
     }
-
+    //setter
     public static void setUserName(String userName) {
         UserName = userName;
     }
-
+    //initialize the data
     public static void initialize(Context mContext) {
         Habit_table = new Hashtable<>();
         HABITS_list = new ArrayList<>();
@@ -52,12 +54,14 @@ public class HabitList {
         setUserName(SharedPref.getUser(mContext));
     }
 
+    //deleted habit
     public static void deleteHabit(Habit habit) {
         HABITS_list.remove(habit);
         Habit_table.remove(habit.getHabitID());
         ID_set.remove(habit.getHabitID()+"");
     }
 
+    //add habit
     public static void addHabit(Habit habit) {
         HABITS_list.add(habit);
         Habit_table.put(habit.getHabitID()+"", habit);
@@ -94,6 +98,7 @@ public class HabitList {
         return newHabitID;
     }*/
 
+    // ignore the following
     public class Record {
         @SerializedName("habit_id")
         public int habitID;

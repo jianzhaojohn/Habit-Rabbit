@@ -53,6 +53,11 @@ public class HabitListActivity extends AppCompatActivity {
      */
     private boolean mTwoPane;
 
+    /**
+     * Called when the activity is starting.
+     * generate the view for this page
+     * @param savedInstanceState If the activity is being re-initialized after previously being shut down then this Bundle contains the data it most recently supplied in onSaveInstanceState(Bundle). Note: Otherwise it is null.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,12 +111,23 @@ public class HabitListActivity extends AppCompatActivity {
         setupRecyclerView((RecyclerView) recyclerView);
     }
 
+    /**
+     * Initialize the contents of the Activity's standard options menu. You should place your menu items in to menu.
+     * @param menu-The options menu in which you place your items.
+     * @return You must return true for the menu to be displayed; if you return false it will not be shown.
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         //   Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.navigation_menu, menu);
         return true;
     }
+
+    /**
+     *This hook is called whenever an item in your options menu is selected.
+     * @param item-The menu item that was selected.
+     * @return boolean Return false to allow normal menu processing to proceed, true to consume it here.
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -148,35 +164,21 @@ public class HabitListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-  /*  @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == android.R.id.home) {
-            // This ID represents the Home or Up button. In the case of this
-            // activity, the Up button is shown. Use NavUtils to allow users
-            // to navigate up one level in the application structure. For
-            // more details, see the Navigation pattern on Android Design:
-            //
-            // http://developer.android.com/design/patterns/navigation.html#up-vs-back
-            //
-            navigateUpFromSameTask(this);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-*/
+    //set up the recycleView
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
 //        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, DummyContent.ITEMS, mTwoPane));
         recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, HabitList.HABITS_list, mTwoPane));
     }
 
+
+    //create a class which extends the RecyclerView.Adapter
     public static class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
         private final HabitListActivity mParentActivity;
         private final List<Habit> mValues;
         private final boolean mTwoPane;
+        //on clicklistener
         private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -199,7 +201,8 @@ public class HabitListActivity extends AppCompatActivity {
                 }
             }
         };
-        
+
+        //onLongClickListener
         private  final View.OnLongClickListener mOnLongClickListener = v -> {
             // respond the delete button with a dialog box
             final Context context = v.getContext();
@@ -223,6 +226,12 @@ public class HabitListActivity extends AppCompatActivity {
             mTwoPane = twoPane;
         }
 
+        /**
+         *Called when RecyclerView needs a new RecyclerView.ViewHolder of the given type to represent an item.
+         * @param parent The ViewGroup into which the new View will be added after it is bound to an adapter position.
+         * @param viewType The view type of the new View.
+         * @return A new ViewHolder that holds a View of the given view type.
+         */
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
@@ -230,6 +239,11 @@ public class HabitListActivity extends AppCompatActivity {
             return new ViewHolder(view);
         }
 
+        /**
+         * Called by RecyclerView to display the data at the specified position. This method should update the contents of the itemView to reflect the item at the given position.
+         * @param holder-The ViewHolder which should be updated to represent the contents of the item at the given position in the data set.
+         * @param position-The position of the item within the adapter's data set.
+         */
         @Override
         public void onBindViewHolder(final ViewHolder holder, final int position) {
             final Context context = holder.itemView.getContext();
@@ -262,6 +276,7 @@ public class HabitListActivity extends AppCompatActivity {
             });
         }
 
+        //deleted the database
         private void deleteHabit(Context mContext, Habit habit) {
             // delete habit locally
             SharedPref.deleteHabit(mContext, habit);
@@ -278,6 +293,7 @@ public class HabitListActivity extends AppCompatActivity {
             return mValues.size();
         }
 
+        //update the deletion to the database
         private void deleteHabitRequest(final Context context, final Habit habit) {
             // get params
             final String username = SharedPref.getUser(context);
@@ -344,6 +360,7 @@ public class HabitListActivity extends AppCompatActivity {
 
         }
 
+        // viewHolder class
         class ViewHolder extends RecyclerView.ViewHolder {
             final TextView mIdView;
             final TextView mContentView;

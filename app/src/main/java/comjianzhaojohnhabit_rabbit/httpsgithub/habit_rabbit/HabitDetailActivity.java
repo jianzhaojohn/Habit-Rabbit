@@ -120,7 +120,12 @@ public class HabitDetailActivity extends AppCompatActivity {
         final String habit_id = habit.getHabitID()+"";
         final String title = mTitleView.getText().toString();
         final String description = mDesView.getText().toString();
-        final String times = mTimesView.getText().toString();
+        final String times;
+        if(mTimesView.getText().toString()=="0"){
+            times="1";
+        }else{
+            times = mTimesView.getText().toString();
+        }
         final String period = mPeriodView.getSelectedItem().toString();
         final String reminder = mReminder.isChecked()?"1":"0";
 
@@ -155,6 +160,7 @@ public class HabitDetailActivity extends AppCompatActivity {
                                         .create()
                                         .show();
                             } else {
+                                //show message when fails
                                 AlertDialog.Builder builder = new AlertDialog.Builder(HabitDetailActivity.this);
                                 builder.setTitle("Edit Habit")
                                         .setMessage("Edit habit failed!")
@@ -164,6 +170,7 @@ public class HabitDetailActivity extends AppCompatActivity {
                                         .show();
                             }
                         } catch (JSONException e) {
+                            //show message when catch exception
                             AlertDialog.Builder builder = new AlertDialog.Builder(HabitDetailActivity.this);
                             builder.setTitle("Response error")
                                     .setMessage(e.toString())
@@ -174,6 +181,7 @@ public class HabitDetailActivity extends AppCompatActivity {
                         }
                     }
                 }, new Response.ErrorListener() {
+            //On errorResponse
             @Override
             public void onErrorResponse(VolleyError error) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(HabitDetailActivity.this);
@@ -184,6 +192,7 @@ public class HabitDetailActivity extends AppCompatActivity {
                         .show();
             }
         }) {
+            //return the habit information in Map form
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();

@@ -29,34 +29,46 @@ public class Habit implements Parcelable{
     // history record of this habit
     private transient Hashtable<String, Integer> records;
 
+    //one constructor
     public Habit () {
         habitID = -1;
         name = "";
         period = "day";
-        timesPerPeriod = 0;
+        timesPerPeriod = 1;
         description = "";
         reminder = false;
         startDate = new Date();
         streak = 0;
         records = new Hashtable<>();
     }
-
+    //constructor
     public Habit(int id, String name, String period, int times){
         this.habitID = id;
         this.name = name;
         this.period = period;
-        this.timesPerPeriod = times;
+        if(times==0){
+            this.timesPerPeriod=1;
+        }
+        else{
+            this.timesPerPeriod = times;
+        }
+
         this.description = "";
         this.reminder = false;
         streak = 0;
         this.records = new Hashtable<>();
     }
-
+    //constructor
     public Habit(int id, String name, String period, int times, String description, boolean reminder, Date startDate) {
         this.habitID = id;
         this.name = name;
         this.period = period;
-        this.timesPerPeriod = times;
+        if(times==0){
+            this.timesPerPeriod=1;
+        }
+        else{
+            this.timesPerPeriod = times;
+        }
         this.description = description;
         this.reminder = reminder;
         this.startDate = startDate;
@@ -64,8 +76,8 @@ public class Habit implements Parcelable{
         this.records = new Hashtable<>();
     }
 
-    // following are what we need for implementing parcelabel
-    //------------------------------------------------------------------------------------------
+    // following are what we need for implementing parcelabel------------------------------------------------------------------------------------------
+    //constructor
     public Habit(Parcel in){
         habitID = Integer.valueOf(in.readString());
         name = in.readString();
@@ -78,22 +90,43 @@ public class Habit implements Parcelable{
     }
 
     public static final Creator<Habit> CREATOR = new Creator<Habit>() {
+
+        /**
+         *Create a new instance of the Parcelable class, instantiating it from the given Parcel whose data had previously been written by
+         * @param in The Parcel to read the object's data from.
+         * @return Returns a new instance of the Parcelable class.
+         */
         @Override
         public Habit createFromParcel(Parcel in) {
             return new Habit(in);
         }
 
+        /**
+         *
+         * @param size size of your array
+         * @return a habit array of given size
+         */
         @Override
         public Habit[] newArray(int size) {
             return new Habit[size];
         }
     };
 
+    /**
+     * Describe the kinds of special objects contained in this Parcelable instance's marshaled representation
+     * @return a bitmask indicating the set of special object types marshaled by this Parcelable object instance.Value is either 0 or CONTENTS_FILE_DESCRIPTOR.
+     */
     @Override
     public int describeContents() {
         return 0;
     }
 
+    /**
+     *Flatten this object in to a Parcel.
+     * @param dest The Parcel in which the object should be written.
+     * @param flags Additional flags about how the object should be written. May be 0 or PARCELABLE_WRITE_RETURN_VALUE.
+    Value is either 0 or PARCELABLE_WRITE_RETURN_VALUE.
+     */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(getHabitID().toString());
@@ -101,11 +134,10 @@ public class Habit implements Parcelable{
         dest.writeString(getPeriod());
         dest.writeString(Integer.toString(getTimesPerPeriod()));
         dest.writeString(getDescription());
-
-
     }
 
     //-----------------------------------------------------------------------------------------
+//following is all setter and getter
     public void setHabitID(Integer id) {
         this.habitID = id;
     }
@@ -143,6 +175,7 @@ public class Habit implements Parcelable{
         this.records = records;
     }
 
+    //updating the streak
     public void updateStreaks(Date date, int count) {
         if (this.records == null) {
             this.records = new Hashtable<>();
@@ -168,6 +201,7 @@ public class Habit implements Parcelable{
         }
     }
 
+//following are all setter and getter for the variable
     public Integer getHabitID() {
         return habitID;
     }
@@ -277,14 +311,18 @@ public class Habit implements Parcelable{
         editor = sharedPref.edit();
     }
 */
+
+    //toString method
     public String makeString(Context mContext){
         return this.habitID + ", " + name + ',' + this.period + ',' + reminder + ',' + startDate.toString()
                 + ',' + records.size() + ',' + SharedPref.getRecords(mContext).size();
     }
+    //getter
     public int getStreak() {
         return streak;
     }
 
+    //setter
     public void setStreak(int streak) {
         this.streak = streak;
     }
