@@ -175,7 +175,13 @@ public class Habit implements Parcelable{
             this.records = new Hashtable<>();
         }
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        records.merge(dateFormat.format(date), count, Integer::sum);
+//        records.merge(dateFormat.format(date), count, Integer::sum);
+        String dateString = dateFormat.format(date);
+        if (records.containsKey(dateString)) {
+            records.put(dateString, records.get(dateString) + count);
+        } else {
+            records.put(dateString, count);
+        }
 
         Calendar today = Calendar.getInstance();
         Calendar calendar = Calendar.getInstance();

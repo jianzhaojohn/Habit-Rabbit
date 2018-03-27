@@ -16,6 +16,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.DataPointInterface;
@@ -111,6 +112,7 @@ public class HabitDetailFragment extends Fragment {
 
     // show habit history in graph as line
     private void drawLineGraph(GraphView graph, Habit habit) {
+        String period = habit.getPeriod();
         // draw expected points
         List<DataPoint> expectedPoints = getExpectedPoints(habit);
         DataPoint[] expArray = expectedPoints.toArray(new DataPoint[expectedPoints.size()]);
@@ -147,21 +149,27 @@ public class HabitDetailFragment extends Fragment {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, 1);
         graph.getViewport().setMaxX(calendar.getTime().getTime()); // tomorrow
-        calendar.add(Calendar.DATE, -7);
+        if (period.equals("week"))
+            calendar.add(Calendar.DATE, -22);
+        else if (period.equals("month"))
+            calendar.add(Calendar.MONTH, -4);
+        else calendar.add(Calendar.DATE, -7);
         graph.getViewport().setMinX(calendar.getTime().getTime()); // a week ago
 
         graph.getViewport().setYAxisBoundsManual(true);
         graph.getViewport().setMinY(0);
-        graph.getViewport().setMaxY(habit.getTimesPerPeriod() +1);
+//        graph.getViewport().setMaxY(habit.getTimesPerPeriod() +1);
 
+        graph.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.NONE);
+        graph.getViewport().setDrawBorder(true);
         // set date label formatter
         graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(getActivity()));
         graph.getGridLabelRenderer().setNumHorizontalLabels(4); // only 4 because of the space
         // as we use dates as labels, the human rounding to nice readable numbers is not necessary
         graph.getGridLabelRenderer().setHumanRounding(false);
-        graph.getGridLabelRenderer().setNumVerticalLabels(habit.getTimesPerPeriod()+2);
+//        graph.getGridLabelRenderer().setNumVerticalLabels(habit.getTimesPerPeriod()+2);
         graph.getGridLabelRenderer().setHorizontalAxisTitle("Dates");
-        graph.getGridLabelRenderer().setVerticalAxisTitle("Times Completed per Day");
+        graph.getGridLabelRenderer().setVerticalAxisTitle("Times Completed per "+period.toUpperCase());
     }
 
     public int getIdx(Spinner spinner, String period) {
@@ -177,15 +185,72 @@ public class HabitDetailFragment extends Fragment {
 
     public List<DataPoint> getPoints(Habit mHabit) {
         ArrayList<DataPoint> points = new ArrayList<>();
-        Hashtable<String, Integer> records = mHabit.getRecords();
+        Hashtable<String, Integer> mHabitRecords = mHabit.getRecords();
         Date startDate = mHabit.getStartDate();
+        String mHabitPeriod = mHabit.getPeriod();
 
-        Calendar date = Calendar.getInstance();
         Calendar today = Calendar.getInstance();
-        for (date.setTime(startDate); date.before(today); date.add(Calendar.DATE, 1)) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            String dateString = dateFormat.format(date.getTime());
-            points.add(new DataPoint(date.getTime(), records.getOrDefault(dateString, 0)));
+        Calendar currentDate = Calendar.getInstance();
+        Calendar currentPeriod = Calendar.getInstance();
+        currentPeriod.clear();
+        currentPeriod.setTime(startDate);
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        int count = 0;
+
+        if (mHabitPeriod.equals("week")) {
+            for (currentDate.setTime(startDate); currentDate.before(today); currentDate.add(Calendar.DATE, 1)) {
+                String dateString = dateFormat.format(currentDate.getTime());
+                if (currentDate.get(Calendar.YEAR) == currentPeriod.get(Calendar.YEAR) &&
+                        currentDate.get(Calendar.WEEK_OF_YEAR) == currentPeriod.get(Calendar.WEEK_OF_YEAR)){
+                    if (mHabitRecords.containsKey(dateString)) {
+                        count += mHabitRecords.get(dateString);
+                    }
+                } else {
+                    points.add(new DataPoint(currentPeriod.getTime(), count));
+                    currentPeriod.add(Calendar.DATE, 7);
+                    if (mHabitRecords.containsKey(dateString)) {
+                        count = mHabitRecords.get(dateString);
+                    } else {
+                        count = 0;
+                    }
+                }
+            }
+            points.add(new DataPoint(currentPeriod.getTime(), count));
+            return points;
+        }
+
+        if (mHabitPeriod.equals("month")) {
+            for (currentDate.setTime(startDate); currentDate.before(today); currentDate.add(Calendar.DATE, 1)) {
+                String dateString = dateFormat.format(currentDate.getTime());
+                if (currentDate.get(Calendar.YEAR) == currentPeriod.get(Calendar.YEAR) &&
+                        currentDate.get(Calendar.MONTH) == currentPeriod.get(Calendar.MONTH)){
+                    if (mHabitRecords.containsKey(dateString)) {
+                        count += mHabitRecords.get(dateString);
+                    }
+                } else {
+                    points.add(new DataPoint(currentPeriod.getTime(), count));
+                    currentPeriod.add(Calendar.DATE, 7);
+                    if (mHabitRecords.containsKey(dateString)) {
+                        count = mHabitRecords.get(dateString);
+                    } else {
+                        count = 0;
+                    }
+                }
+            }
+            points.add(new DataPoint(currentPeriod.getTime(), count));
+            return points;
+        }
+
+        // default period is day
+        for (currentDate.setTime(startDate); currentDate.before(today); currentDate.add(Calendar.DATE, 1)) {
+            String dateString = dateFormat.format(currentDate.getTime());
+            if (mHabitRecords.containsKey(dateString)) {
+                count = mHabitRecords.get(dateString);
+            } else {
+                count = 0;
+            }
+            points.add(new DataPoint(currentDate.getTime(), count));
         }
         return points;
     }
@@ -196,10 +261,23 @@ public class HabitDetailFragment extends Fragment {
         int count = mHabit.getTimesPerPeriod();
 
         Calendar date = Calendar.getInstance();
-        Calendar today = Calendar.getInstance();
-        for (date.setTime(startDate); date.before(today); date.add(Calendar.DATE, 1)) {
-            points.add(new DataPoint(date.getTime(), count));
+        Calendar tomorrow = Calendar.getInstance();
+        tomorrow.add(Calendar.DATE, 1);
+
+        if (mHabit.getPeriod().equals("week")) {
+            for (date.setTime(startDate); date.before(tomorrow); date.add(Calendar.DATE, 7)) {
+                points.add(new DataPoint(date.getTime(), count));
+            }
+        } else if(mHabit.getPeriod().equals("month")) {
+            for (date.setTime(startDate); date.before(tomorrow); date.add(Calendar.MONTH, 1)) {
+                points.add(new DataPoint(date.getTime(), count));
+            }
+        } else {
+            for (date.setTime(startDate); date.before(tomorrow); date.add(Calendar.DATE, 1)) {
+                points.add(new DataPoint(date.getTime(), count));
+            }
         }
+
         return points;
     }
 }
