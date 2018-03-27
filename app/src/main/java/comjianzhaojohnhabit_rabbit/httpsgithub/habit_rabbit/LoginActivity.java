@@ -3,7 +3,9 @@ package comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -47,6 +49,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -78,6 +81,23 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Set up the login form.
 
 //        boolean loggingInExistingAccount = true; //make a function to determine this next time
+
+        if (CheckHabitCompletionReciever.lastCheckedCal == null || Calendar.getInstance().getTimeInMillis() >= CheckHabitCompletionReciever.lastCheckedCal.getTimeInMillis() + 24*60*60*1000){
+            Calendar midnight = Calendar.getInstance();
+            Intent alarmIntent = new Intent(getApplicationContext(),CheckHabitCompletionReciever.class);
+            PendingIntent pendingAlarmIntent = PendingIntent.getBroadcast(getApplicationContext(),0,alarmIntent,0);
+            midnight.set(Calendar.HOUR_OF_DAY,0);
+            midnight.set(Calendar.MINUTE,1);
+            midnight.set(Calendar.DAY_OF_YEAR,midnight.get(Calendar.DAY_OF_YEAR)+1);
+
+
+            AlarmManager checkHabitsAlarm = (AlarmManager) getSystemService(ALARM_SERVICE);
+            //checkHabitsAlarm.set(AlarmManager.RTC_WAKEUP,current.getTimeInMillis()+5000,pendingAlarmIntent);
+            checkHabitsAlarm.setInexactRepeating(AlarmManager.RTC,midnight.getTimeInMillis(),AlarmManager.INTERVAL_DAY,pendingAlarmIntent);
+            Log.d("alarm","created alarm");
+
+        }
+
 
 
         try {
