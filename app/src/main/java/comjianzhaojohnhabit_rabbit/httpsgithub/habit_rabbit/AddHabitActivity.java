@@ -75,7 +75,12 @@ public class AddHabitActivity extends Activity {
         final String username = SharedPref.getUser(this);
         final String title = mTitleView.getText().toString();
         final String description = mDesView.getText().toString();
-        final String times = mTimesView.getText().toString();
+        final String times;
+        if(mTimesView.getText().toString()=="0"){
+            times="1";
+        }else{
+            times = mTimesView.getText().toString();
+        }
         final String period = mPeriodView.getSelectedItem().toString();
         final String reminder = mRemider.isChecked()?"1":"0";
 

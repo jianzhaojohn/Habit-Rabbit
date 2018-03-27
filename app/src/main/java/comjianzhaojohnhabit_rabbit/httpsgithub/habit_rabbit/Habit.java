@@ -34,7 +34,7 @@ public class Habit implements Parcelable{
         habitID = -1;
         name = "";
         period = "day";
-        timesPerPeriod = 0;
+        timesPerPeriod = 1;
         description = "";
         reminder = false;
         startDate = new Date();
@@ -46,7 +46,13 @@ public class Habit implements Parcelable{
         this.habitID = id;
         this.name = name;
         this.period = period;
-        this.timesPerPeriod = times;
+        if(times==0){
+            this.timesPerPeriod=1;
+        }
+        else{
+            this.timesPerPeriod = times;
+        }
+
         this.description = "";
         this.reminder = false;
         streak = 0;
@@ -57,7 +63,12 @@ public class Habit implements Parcelable{
         this.habitID = id;
         this.name = name;
         this.period = period;
-        this.timesPerPeriod = times;
+        if(times==0){
+            this.timesPerPeriod=1;
+        }
+        else{
+            this.timesPerPeriod = times;
+        }
         this.description = description;
         this.reminder = reminder;
         this.startDate = startDate;
