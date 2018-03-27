@@ -110,7 +110,7 @@ public class HabitDetailActivity extends AppCompatActivity {
 
     private void editHabitRequest() {
         // get params
-        final Habit habit = HabitList.HABITS_list.get(Integer.parseInt(getIntent().getStringExtra(HabitDetailFragment.ARG_ITEM_ID)));
+        final Habit habit = HabitList.Habit_table.get(getIntent().getStringExtra(HabitDetailFragment.ARG_ITEM_ID));
         TextView mTitleView = (TextView)findViewById(R.id.title_txt);
         TextView mDesView = (TextView)findViewById(R.id.detail_txt);
         TextView mTimesView = (TextView)findViewById(R.id.times_txt);
