@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black_overlay"
     tools:context="comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit.DeadRabbitActivity">
 
     <!-- The primary full-screen view. This can be replaced with whatever view
@@ -16,9 +17,9 @@
         android:layout_width="209dp"
         android:layout_height="286dp"
         android:layout_centerInParent="true"
-        android:src="@mipmap/Tombstone" />
+        android:src="@mipmap/tombstone" />
 
-    <EditText
+    <TextView
         android:id="@+id/editText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -28,6 +29,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Oh no! Your rabbit is dead!"
+        android:textColor="#ffffff"
         android:textSize="25sp" />
 
 </RelativeLayout>
