@@ -28,12 +28,14 @@ Users will be able to
 * add “friends” who will be able to shame them when they falsely enter that they did something that they didn’t
 * bet money,using paypal, that they will complete all their habits for a given period of time. If they fail, the money is donated to a charity of their choice.
 
-### How to Run
+## How to Run
 
 Test e-mail: test@example.com
 Test password: test
 
-You need these to log in once you have run the app.
+You may need testing account to log in once you have run the app for testing purpus only. 
+
+Or you can register your own account and enjoy it.
 
 #### If you have an android device with android version 7.0 (API 24) or above:
 
