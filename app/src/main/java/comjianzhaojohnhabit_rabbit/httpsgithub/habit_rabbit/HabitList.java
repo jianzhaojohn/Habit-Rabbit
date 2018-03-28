@@ -68,37 +68,8 @@ public class HabitList {
         ID_set.add(habit.getHabitID()+"");
     }
 
-    /*public static void initialize(Context context){
-        sharedContext = context;
-        sharedPref = sharedContext.getSharedPreferences("HabitInfo", Context.MODE_PRIVATE);
-        editor = sharedPref.edit();
-//        Habit.setSharedContext(sharedContext);
-        update();
 
-    }
-    public static Hashtable<String,Habit> update(){
-        Set<String> habit_IDs = sharedPref.getStringSet("habit_IDs",new LinkedHashSet<String>());
-        Habit_table = new Hashtable<String, Habit>();
-
-        *//*for (String ID:habit_IDs){
-            Habit_table.put(ID,new Habit(ID));
-            HABITS_list.add(new Habit(ID));
-        }*//*
-        for (String ID:habit_IDs){
-            Habit habit = SharedPref.getHabit(sharedContext, ID);
-            Habit_table.put(ID, habit);
-            HABITS_list.add(habit);
-        }
-        return Habit_table;
-    }
-
-    public static String addHabit(){
-        String newHabitID = Habit.makeNewHabit();
-        update();
-        return newHabitID;
-    }*/
-
-    // ignore the following
+    // create a Record class
     public class Record {
         @SerializedName("habit_id")
         public int habitID;

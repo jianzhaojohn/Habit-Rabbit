@@ -13,6 +13,9 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Hashtable;
 
 
 public class MainActivity extends AppCompatActivity
@@ -39,7 +42,74 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+
     }
+
+    public boolean isRabbitAlive() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        int complete = 0;
+        for (Habit x : HabitList.HABITS_list) {
+            Hashtable<String, Integer> rc = x.getRecords();
+            String period = x.getPeriod();
+            Calendar startDate = Calendar.getInstance();
+            startDate.clear();
+            startDate.setTime(x.getStartDate());
+
+            if (period.equals("week")) {
+                Calendar yesterday = Calendar.getInstance();
+                if(startDate.get(Calendar.YEAR) == yesterday.get(Calendar.YEAR) &&
+                        startDate.get(Calendar.WEEK_OF_YEAR) == yesterday.get(Calendar.WEEK_OF_YEAR))
+                    break;
+                yesterday.add(Calendar.DATE, -7);
+                yesterday.set(Calendar.DAY_OF_WEEK, 1);
+                for (int i = 0; i < 7; i++) {
+                    String dateString = dateFormat.format(yesterday.getTime());
+                    if (rc.contains(dateString)) {
+                        complete += rc.get(dateString);
+                    }
+                    yesterday.add(Calendar.DATE, 1);
+                }
+            } else if (period.equals("month")) {
+                Calendar yesterday = Calendar.getInstance();
+                if(startDate.get(Calendar.YEAR) == yesterday.get(Calendar.YEAR) &&
+                        startDate.get(Calendar.MONTH) == yesterday.get(Calendar.MONTH))
+                    break;
+                yesterday.add(Calendar.MONTH, -1);
+                yesterday.set(Calendar.DAY_OF_MONTH, 1);
+                Calendar calendar = Calendar.getInstance();
+                calendar.clear();
+                calendar.setTime(yesterday.getTime());
+                for (calendar.setTime(yesterday.getTime()); calendar.get(Calendar.MONTH) == yesterday.get(Calendar.MONTH); calendar.add(Calendar.DATE, 1)
+                ){
+                    String dateString = dateFormat.format(calendar.getTime());
+                    if (rc.contains(dateString)) {
+                        complete += rc.get(dateString);
+                    }
+                    yesterday.add(Calendar.DATE, 1);
+                }
+            } else {
+                Calendar yesterday = Calendar.getInstance();
+                if(startDate.get(Calendar.DATE) == yesterday.get(Calendar.DATE))
+                    break;
+                yesterday.add(Calendar.DATE, -1);
+                String dateString = dateFormat.format(yesterday.getTime());
+                if (rc.contains(dateString)) {
+                    complete = rc.get(dateString);
+                }
+            }
+
+            if (complete < x.getTimesPerPeriod()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
+
 
     /**
      *Initialize the contents of the Activity's standard options menu
@@ -137,7 +207,14 @@ public class MainActivity extends AppCompatActivity
      * @param view- The view that was clicked.
      */
     public void openrabbit(View view){
-        startActivity(new Intent(MainActivity.this, RabbitReview.class));
+
+
+       if(isRabbitAlive()){
+            startActivity(new Intent(MainActivity.this, RabbitReview.class));
+        }
+        else {
+            startActivity(new Intent(MainActivity.this, DeadRabbitActivity.class));
+        }
     }
 
 
@@ -149,6 +226,7 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onClick(View v) {
+
                 Intent showGraph = new Intent(MainActivity.this, StreakGraph.class);
                 startActivity(showGraph);
             }
