@@ -45,7 +45,7 @@ public class HabitList {
         for (HabitList.Record record:records) {
             if (Habit_table.containsKey(record.habitID+"")) {
                 Habit habit = Habit_table.get(record.habitID+"");
-                habit.updateStreaks(record.date, record.count);
+                //habit.updateStreaks(record.date, record.count);
             }
         }
 

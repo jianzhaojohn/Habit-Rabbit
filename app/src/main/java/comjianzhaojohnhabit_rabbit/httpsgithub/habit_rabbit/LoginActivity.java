@@ -83,6 +83,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 //        boolean loggingInExistingAccount = true; //make a function to determine this next time
 
         if (CheckHabitCompletionReciever.lastCheckedCal == null || Calendar.getInstance().getTimeInMillis() >= CheckHabitCompletionReciever.lastCheckedCal.getTimeInMillis() + 24*60*60*1000){
+            CheckHabitCompletionReciever.lastCheckedCal = Calendar.getInstance();
             Calendar midnight = Calendar.getInstance();
             Intent alarmIntent = new Intent(getApplicationContext(),CheckHabitCompletionReciever.class);
             PendingIntent pendingAlarmIntent = PendingIntent.getBroadcast(getApplicationContext(),0,alarmIntent,0);
@@ -90,12 +91,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             midnight.set(Calendar.MINUTE,1);
             midnight.set(Calendar.DAY_OF_YEAR,midnight.get(Calendar.DAY_OF_YEAR)+1);
 
-
             AlarmManager checkHabitsAlarm = (AlarmManager) getSystemService(ALARM_SERVICE);
-            //checkHabitsAlarm.set(AlarmManager.RTC_WAKEUP,current.getTimeInMillis()+5000,pendingAlarmIntent);
-            checkHabitsAlarm.setInexactRepeating(AlarmManager.RTC,midnight.getTimeInMillis(),AlarmManager.INTERVAL_DAY,pendingAlarmIntent);
+            checkHabitsAlarm.set(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()+30000,pendingAlarmIntent);
+            //checkHabitsAlarm.setInexactRepeating(AlarmManager.RTC,midnight.getTimeInMillis(),AlarmManager.INTERVAL_DAY,pendingAlarmIntent);
             Log.d("alarm","created alarm");
-
         }
 
 

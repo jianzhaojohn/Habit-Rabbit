@@ -3,6 +3,7 @@ package comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -144,6 +145,8 @@ public class Habit implements Parcelable{
     }
 
     public void updateStreaks(Date date, int count) {
+        Log.d("alarm","trying to update streak");
+        /*
         if (this.records == null) {
             this.records = new Hashtable<>();
         }
@@ -166,6 +169,7 @@ public class Habit implements Parcelable{
                 calendar.get(Calendar.MONTH) == today.get(Calendar.MONTH)) {
             streak += 1;
         }
+        */
     }
 
     public Integer getHabitID() {
@@ -282,6 +286,7 @@ public class Habit implements Parcelable{
                 + ',' + records.size() + ',' + SharedPref.getRecords(mContext).size();
     }
     public int getStreak() {
+
         return streak;
     }
 
