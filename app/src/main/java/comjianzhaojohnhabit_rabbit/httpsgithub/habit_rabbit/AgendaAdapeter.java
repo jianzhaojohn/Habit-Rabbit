@@ -40,6 +40,18 @@ public class AgendaAdapeter extends RecyclerView.Adapter<AgendaAdapeter.EventVie
         mNumItems = list.size();
     }
 
+    /**
+     *
+     * Called when RecyclerView needs a new RecyclerView.ViewHolder of the given type to represent an item.
+
+     This new ViewHolder should be constructed with a new View that can represent the items of the given type. You can either create a new View manually or inflate it from an XML layout file.
+
+     The new ViewHolder will be used to display items of the adapter using onBindViewHolder(ViewHolder, int, List). Since it will be re-used to display different items in the data set, it is a good idea to cache references to sub views of the View to avoid unnecessary findViewById(int) calls.
+     *
+     * @param parent-The ViewGroup into which the new View will be added after it is bound to an adapter position.
+     * @param viewType-The view type of the new View.
+     * @return A new ViewHolder that holds a View of the given view type.
+     */
     @Override
     public AgendaAdapeter.EventViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
@@ -48,21 +60,21 @@ public class AgendaAdapeter extends RecyclerView.Adapter<AgendaAdapeter.EventVie
         boolean shouldAttachToParentImmediately = false;
         View view = inflater.inflate(layoutIdForListItem, parent, shouldAttachToParentImmediately);
         EventViewHolder viewHolder = new EventViewHolder(view);
-
         return viewHolder;
 
     }
 
+    /**
+     *
+     * Called by RecyclerView to display the data at the specified position. This method should update the contents of the itemView to reflect the item at the given position.
+     *
+     * @param holder-The ViewHolder which should be updated to represent the contents of the item at the given position in the data set.
+     * @param position-The position of the item within the adapter's data set.
+     */
     @Override
     public void onBindViewHolder(EventViewHolder holder, int position) {
         holder.bind(mList.get(position));
     }
-
-
-    // May need to use onBindViewHolder
-
-
-
 
     @Override
     public int getItemCount() {
@@ -73,40 +85,29 @@ public class AgendaAdapeter extends RecyclerView.Adapter<AgendaAdapeter.EventVie
     class EventViewHolder extends RecyclerView.ViewHolder{
 
         TextView titleTextView;
-        TextView periodTextView;
-        TextView freqTextView;
         TextView detailTextView;
-
-        TextView dontchange1;
-        TextView dontchange2;
-        TextView dontchange3;
-
-        TextView timecompeteTV;
-
         ProgressBar mProgress;
         TextView progressTxt;
         ImageView progressDone;
 
+        //constructor
         public EventViewHolder(View itemView){
             super(itemView);
-
             titleTextView = (TextView)itemView.findViewById(R.id.tv_event_name);
-//            periodTextView = (TextView)itemView.findViewById(R.id.tv_event_period);
-//            freqTextView = (TextView)itemView.findViewById(R.id.tv_event_times);
             detailTextView=(TextView)itemView.findViewById(R.id.tv_event_detail);
-//            dontchange1=(TextView)itemView.findViewById(R.id.habit_period);
-//            dontchange2=(TextView)itemView.findViewById(R.id.time_tocomplete);
-//            dontchange3=(TextView)itemView.findViewById(R.id.timealready);
-//            timecompeteTV=(TextView)itemView.findViewById(R.id.complete_time);
             mProgress=(ProgressBar)itemView.findViewById(R.id.completion_progressBar);
             progressTxt=itemView.findViewById(R.id.progress_txt);
             progressDone =itemView.findViewById(R.id.done_img);
         }
 
+        /**
+         *
+         * bind the information to the view and display them in the fragement
+         *
+         * @param event- user habbit
+         */
         void bind(Habit event){
             titleTextView.setText(event.getName());
-//            periodTextView.setText(event.getPeriod());
-//            freqTextView.setText(""+event.getTimesPerPeriod());
             detailTextView.setText(event.getDescription());
 
             // set progress
@@ -114,19 +115,31 @@ public class AgendaAdapeter extends RecyclerView.Adapter<AgendaAdapeter.EventVie
             mProgress.setProgress(event.getStreak());
             progressTxt.setText(event.getStreak()+"/"+event.getTimesPerPeriod());
 
-            // on click listener
+            // on click listeners
             progressDone.setOnClickListener(v -> addRecordRequest(event));
+
+//            itemView.setOnClickListener(v -> {
+//                Context context = v.getContext();
+//                Intent intent = new Intent(context, HabitDetailActivity.class);
+//                intent.putExtra(HabitDetailFragment.ARG_ITEM_ID, event.getHabitID()+"");
+//                context.startActivity(intent);
+//            });
 
             // listener
             itemView.setOnLongClickListener(v -> {
                 Context context = v.getContext();
                 Intent intent = new Intent(context, HabitDetailActivity.class);
-                intent.putExtra(HabitDetailFragment.ARG_ITEM_ID, HabitList.HABITS_list.indexOf(event)+"");
+                intent.putExtra(HabitDetailFragment.ARG_ITEM_ID, event.getHabitID()+"");
                 context.startActivity(intent);
                 return true;
             });
         }
 
+        /**
+         * update the local change to dtatbase
+         *
+         * @param habit- user habbit
+         */
         private void addRecordRequest(Habit habit) {
             // get params
             final String username = HabitList.getUserName();
@@ -149,15 +162,13 @@ public class AgendaAdapeter extends RecyclerView.Adapter<AgendaAdapeter.EventVie
 
                             if (success) {
                                 // update local records
-
                                 habit.updateStreaks(currentDate, 1);
                                 SharedPref.saveRecords(context,jsonRes.getJSONArray("records"));
-                                mProgress.setProgress(habit.getStreak());
-                                progressTxt.setText(habit.getStreak()+"/"+habit.getTimesPerPeriod());
-
-
-
+                                notifyItemChanged(mList.indexOf(habit));
+//                                mProgress.setProgress(habit.getStreak());
+//                                progressTxt.setText(habit.getStreak()+"/"+habit.getTimesPerPeriod());
                             } else {
+                                //show message when fails
                                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                                 builder.setTitle("Adding Record")
                                         .setMessage("Adding record failed!")
@@ -167,6 +178,7 @@ public class AgendaAdapeter extends RecyclerView.Adapter<AgendaAdapeter.EventVie
                                         .show();
                             }
                         } catch (JSONException e) {
+                            //show message when catch exception
                             AlertDialog.Builder builder = new AlertDialog.Builder(context);
                             builder.setTitle("Response error")
                                     .setMessage(e.toString())

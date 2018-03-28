@@ -74,11 +74,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
 
+    /**
+     * Called when the activity is starting.
+     * generate the view for this page
+     * @param savedInstanceState If the activity is being re-initialized after previously being shut down then this Bundle contains the data it most recently supplied in onSaveInstanceState(Bundle). Note: Otherwise it is null.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
+
 
 //        boolean loggingInExistingAccount = true; //make a function to determine this next time
 
@@ -99,6 +105,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 
 
+       //check if user has logged out last time or not, if not autologin for user
         try {
             File autologin = getApplicationContext().getFileStreamPath("autionloginfile");
             if(autologin.exists())
@@ -188,6 +195,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         getLoaderManager().initLoader(0, null, this);
     }
 
+    /**
+     *
+     * @return if user has the premission
+     */
     private boolean mayRequestContacts() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return true;
@@ -272,6 +283,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
+    //method call when user try to login
     private void requestLogin(String email, String password) {
         // get email and password
         final String mEmail = email;
@@ -358,11 +370,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         queue.add(loginReq);
     }
 
+    //check if email is valid
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
         return email.contains("@");
     }
 
+    //check if passwords is vaild
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
         return password.length() > 3;
@@ -438,8 +452,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     }
 
+    ////Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
-        //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
+
         ArrayAdapter<String> adapter =
                 new ArrayAdapter<>(LoginActivity.this,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);

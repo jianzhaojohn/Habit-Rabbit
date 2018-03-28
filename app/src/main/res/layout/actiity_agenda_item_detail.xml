@@ -3,10 +3,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/agenda_item_"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:clickable="true"
-    android:onClick="complete"
     android:orientation="vertical">
 
     <LinearLayout
@@ -30,7 +29,7 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:orientation="horizontal">
-<!--
+            <!--
 
             <ImageView
                 android:id="@+id/imageView10"

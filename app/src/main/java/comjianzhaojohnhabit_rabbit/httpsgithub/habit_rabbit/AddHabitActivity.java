@@ -24,7 +24,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AddHabitActivity extends Activity {
+    /**
+     *
+     * Called when the activity is starting. This is where most initialization should go: calling setContentView(int) to inflate the activity's UI, using findViewById(int) to programmatically interact with widgets in the UI, calling managedQuery(android.net.Uri, String[], String, String[], String) to retrieve cursors for data being displayed, etc.
 
+     You can call finish() from within this function, in which case onDestroy() will be immediately called without any of the rest of the activity lifecycle (onStart(), onResume(), onPause(), etc) executing.
+
+     Derived classes must call through to the super class's implementation of this method. If they do not, an exception will be thrown.
+
+     This method must be called from the main thread of your app.
+
+     If you override this method you must call through to the superclass implementation.
+     *
+     * @param savedInstanceState-  If the activity is being re-initialized after previously being shut down then this Bundle contains the data it most recently supplied in onSaveInstanceState(Bundle). Note: Otherwise it is null.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +57,7 @@ public class AddHabitActivity extends Activity {
         cancel_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //start new activity
                 startActivity(new Intent(AddHabitActivity.this, HabitListActivity.class));
             }
         });
@@ -61,7 +75,12 @@ public class AddHabitActivity extends Activity {
         final String username = SharedPref.getUser(this);
         final String title = mTitleView.getText().toString();
         final String description = mDesView.getText().toString();
-        final String times = mTimesView.getText().toString();
+        final String times;
+        if(mTimesView.getText().toString()=="0"){
+            times="1";
+        }else{
+            times = mTimesView.getText().toString();
+        }
         final String period = mPeriodView.getSelectedItem().toString();
         final String reminder = mRemider.isChecked()?"1":"0";
 
@@ -85,14 +104,16 @@ public class AddHabitActivity extends Activity {
                                 int habit_id = jsonRes.getInt("habit_id");
 
                                 // update local file to store this new habit
-                                final Habit habit = new Habit(habit_id, title, period, Integer.parseInt(times));
+                                Habit habit = new Habit(habit_id, title, period, Integer.parseInt(times));
                                 SharedPref.saveHabit(AddHabitActivity.this, habit);
                                 HabitList.addHabit(habit);
+                                //TODO: notify adapter
 
                                 // jump to habit list page
                                 startActivity(new Intent(AddHabitActivity.this, HabitListActivity.class));
                                 finish();
                             } else {
+                                // show message when fails
                                 AlertDialog.Builder builder = new AlertDialog.Builder(AddHabitActivity.this);
                                 builder.setTitle("Add New Habit")
                                         .setMessage("Add new habit failed!")
@@ -102,6 +123,7 @@ public class AddHabitActivity extends Activity {
                                         .show();
                             }
                         } catch (JSONException e) {
+                            //show message when catch exception
                             AlertDialog.Builder builder = new AlertDialog.Builder(AddHabitActivity.this);
                             builder.setTitle("Response error")
                                     .setMessage(e.toString())
@@ -112,6 +134,8 @@ public class AddHabitActivity extends Activity {
                         }
                     }
                 }, new Response.ErrorListener() {
+
+            // on errorResponse
             @Override
             public void onErrorResponse(VolleyError error) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(AddHabitActivity.this);
@@ -122,6 +146,10 @@ public class AddHabitActivity extends Activity {
                         .show();
             }
         }) {
+            /**
+             *
+             * @return the information of your habitt in Map form
+             */
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
