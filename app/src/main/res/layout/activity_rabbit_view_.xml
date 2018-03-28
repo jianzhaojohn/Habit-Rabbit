@@ -14,7 +14,7 @@
         android:tag="rabbit1"
         android:src="@mipmap/ic_rabbit1_foreground" />
 
-
+<!--
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -34,6 +34,6 @@
         android:layout_marginTop="19dp"
         android:text="10 days old"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
-
+-->
 
 </RelativeLayout>

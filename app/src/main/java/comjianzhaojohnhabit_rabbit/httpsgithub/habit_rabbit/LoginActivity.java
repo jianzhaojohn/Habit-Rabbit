@@ -97,48 +97,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
 
-/*
-
-        //Log.d("TestingHabits","Logging into existing account");
-        if (loggingInExistingAccount){
-            SharedPreferences sharedPref = getSharedPreferences("HabitInfo", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPref.edit();
-            Set<String> habit_IDs = new LinkedHashSet<String>();
-            String[] IDs = {"ID1","ID2","ID3","ID4"};
-            for (int i=0;i<IDs.length;i++){
-                habit_IDs.add(IDs[i]);
-            }
-            editor.putStringSet("habit_IDs",habit_IDs);
-            editor.commit();
-
-
-            String[] habitData = {"Brush the cat,w,1,0","Grind Leetcode,d,1,0","Sharpen kitchen knives,m,2,1","Jog one mile,w,3,2"};
-            for (int i=0;i<IDs.length;i++){
-                String current_ID = IDs[i];
-                String[] info = habitData[i].split(",");
-                editor.putString(current_ID+"_NameOfHabit",info[0]);
-                editor.putString(current_ID+"_Period",info[1]);
-                editor.putInt(current_ID+"_TimesCompletedSoFar",Integer.parseInt(info[3]));
-            }
-            editor.commit();
-            HabitList.initialize(getApplicationContext());
-            Log.d("TestingHabits",HabitList.Habit_table.toString());
-
-            for (Habit h:HabitList.Habit_table.values()){
-                Log.d("TestingHabits",h.makeString());
-            }
-            HabitList.addHabit();
-            for (Habit h:HabitList.Habit_table.values()){
-                Log.d("TestingHabits",h.makeString());
-            }
-
-            Log.d("TestingHabits","List of IDs");
-
-        }
-        //TODO: created else block for new account, setting username and password
-
-*/
-
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override

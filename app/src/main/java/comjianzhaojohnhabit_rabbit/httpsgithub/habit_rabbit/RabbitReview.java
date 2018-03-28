@@ -23,13 +23,9 @@ public class RabbitReview extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SharedPreferences preferences = getSharedPreferences("HabitInfo", Context.MODE_PRIVATE);
-        if(preferences.getBoolean("RabbitAlive", true)) {
+
             setContentView(R.layout.activity_rabbit_view_);
-        }
-        else{
-            setContentView(R.layout.activity_deadrabbit);
-        }
+
 
     }
 
