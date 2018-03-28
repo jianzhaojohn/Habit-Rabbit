@@ -33,7 +33,6 @@
         <item>once a day</item>
         <item>once a week</item>
         <item>once a month</item>
-        <item>customize</item>
     </string-array>
     <string-array name="period_array">
         <item>day</item>
