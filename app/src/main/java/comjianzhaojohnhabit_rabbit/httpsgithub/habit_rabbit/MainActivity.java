@@ -194,8 +194,6 @@ public class MainActivity extends AppCompatActivity
                     startActivity(new Intent(MainActivity.this, LoginActivity.class));
                 }catch(Exception e){}
                 break;
-            case R.id.nav_Friends:
-                break;
             default:
         }
         return true;
@@ -218,20 +216,7 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    //called when streakButton was clicked
-    public void openstreak(View view){
-        streakButton = (ImageButton) findViewById(R.id.streakbutton);
-        streakButton.setOnClickListener(new View.OnClickListener(){
 
-
-            @Override
-            public void onClick(View v) {
-
-                Intent showGraph = new Intent(MainActivity.this, StreakGraph.class);
-                startActivity(showGraph);
-            }
-        });
-    }
 
 
 
