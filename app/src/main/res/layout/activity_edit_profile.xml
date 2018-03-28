@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit.EditProfileActivity">
+
+
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:background="@color/calendar_active_month_bg">
+
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/profile_image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/profile" />
+
+        <TextView
+            android:id="@+id/change_prof_pic"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_below="@+id/profile_image"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="17dp"
+            android:text="Change profile pic"
+            android:textColor="@android:color/holo_blue_light"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/ChangeName"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_below="@+id/relativeLayout"
+        android:text="Change your name:"
+        android:textColor="@color/cardview_dark_background"
+        android:textSize="@dimen/activity_vertical_margin"
+        android:textStyle="bold" />
+
+    <EditText
+
+        android:id="@+id/ChangeName_Field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ChangeName"
+        android:hint="Enter you new name here"
+        android:textColor="@android:color/holo_red_dark" />
+
+    <TextView
+        android:id="@+id/ChangeEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_below="@+id/ChangeName_Field"
+        android:text="Change your email:"
+        android:textStyle="bold"
+        android:textColor="@color/cardview_dark_background"
+        android:textSize="@dimen/activity_vertical_margin" />
+    <EditText
+        android:layout_below="@+id/ChangeEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ChangeEmail_Field"
+        android:hint="Enter your new email here"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="62dp"
+        android:text="Save"
+        android:textColor="@color/calendar_text_selected"/>
+
+
+
+</RelativeLayout>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/nav_Profile"
+        android:title="Profile" />
+<!--
+    <item android:id="@+id/nav_Friends"
+        android:title="Friends"
+       />
+-->
+    <item android:id="@+id/nav_agenda"
+        android:title="Agenda" />
+
+    <item
+        android:id="@+id/nav_habits"
+        android:title="Habits" />
+
+    <item android:id="@+id/nav_logout"
+        android:title="logout"/>
+
+</menu>

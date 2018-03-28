@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/habit_list"
+    android:name="comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit.HabitListFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:scrollbars="none|vertical"
+    app:layoutManager="LinearLayoutManager"
+    tools:context="comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit.HabitListActivity"
+    tools:listitem="@layout/habit_list_content" />

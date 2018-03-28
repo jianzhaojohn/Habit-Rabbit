@@ -1,0 +1,61 @@
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:id="@+id/homePage"
+    tools:context="comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit.MainActivity">
+
+    <!-- Some code adapted from Android's website:
+    https://developer.android.com/training/implementing-navigation/nav-drawer.html -->
+
+    <!-- The primary full-screen view. This can be replaced with whatever view
+         is needed to present your content, e.g. VideoView, SurfaceView,
+         TextureView, etc. -->
+
+    <!-- This FrameLayout insets its children based on system windows using
+         android:fitsSystemWindows. -->
+    <RelativeLayout
+        android:id="@+id/activity_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageButton
+            android:id="@+id/hutchbutton"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="188dp"
+            android:background="@null"
+            android:onClick="openrabbit"
+            app:srcCompat="@drawable/rabbithouse" />
+<!--
+        <ImageButton
+            android:id="@+id/streakbutton"
+            android:layout_width="150dp"
+            android:layout_height="65dp"
+            android:onClick="openstreak"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="33dp"
+            android:background="@drawable/streakbutton" />
+    -->
+    </RelativeLayout>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:fitsSystemWindows="true"
+        app:menu="@menu/navigation_menu"
+        android:layout_gravity="start"
+        >
+    </android.support.design.widget.NavigationView>
+
+
+
+</android.support.v4.widget.DrawerLayout>
