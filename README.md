@@ -35,6 +35,14 @@ Test password: test
 
 You need these to log in once you have run the app.
 
+#### If you have an android device with android version 7.0 (API 24) or above:
+
+1. Download the apk with your android device using the link provided below.
+2. https://drive.google.com/file/d/0B5mPzcwLTPnPQ1VfbldDUHU5eXhTazFzVC1NWUJSQmUtaUpn/view?usp=sharing
+3. Install the apk accroding to your device's instruction.
+
+#### If you do not have an android device:
+
 1. Download Android Studio at https://developer.android.com/studio/index.html
 2. Clone or fork repository, and open using Android Studio.
 3. Build and run app, as shown below:
@@ -53,3 +61,6 @@ Hit OK, then Play. Your APK will be located in the directory ProjectName\app\bui
 
 ## Prototype 
 https://youtu.be/g607Lzud3Ss
+
+## Alpha Release
+https://youtu.be/jdsvigK7bPs
