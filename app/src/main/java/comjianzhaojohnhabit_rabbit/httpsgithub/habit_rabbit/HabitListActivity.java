@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -133,9 +134,6 @@ public class HabitListActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
 
-            case Menu.FIRST:
-                startActivity(new Intent(HabitListActivity.this, LoginActivity.class));
-                break;
             case R.id.nav_Profile:
                 startActivity(new Intent(HabitListActivity.this, ProfileActivity.class));
                 break;
@@ -153,11 +151,13 @@ public class HabitListActivity extends AppCompatActivity {
                     File file= new File(this.getFilesDir().getParent()+"/shared_prefs/"+fileName+".xml");
                     file.delete();
 
-                    startActivity(new Intent(HabitListActivity.this, LoginActivity.class));
+                    Intent intent = new Intent(this, LoginActivity.class);
+                    intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK | intent.FLAG_ACTIVITY_CLEAR_TOP | intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
                 }catch(Exception e){}
                 break;
             case  R.id.nav_habits:
-                startActivity(new Intent(HabitListActivity.this, HabitListActivity.class));
+//                startActivity(new Intent(HabitListActivity.this, HabitListActivity.class));
                 break;
             default:
         }
