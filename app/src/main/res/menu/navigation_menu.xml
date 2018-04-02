@@ -9,14 +9,19 @@
         android:title="Friends"
        />
 -->
-    <item android:id="@+id/nav_agenda"
+    <item
+        android:id="@+id/nav_agenda"
+        android:icon="@drawable/ic_agenda_black_24dp"
         android:title="Agenda" />
 
     <item
         android:id="@+id/nav_habits"
+        android:icon="@drawable/ic_list_black_24dp"
         android:title="Habits" />
 
-    <item android:id="@+id/nav_logout"
-        android:title="logout"/>
+    <item
+        android:id="@+id/nav_logout"
+        android:icon="@drawable/ic_exit_to_app_black_24dp"
+        android:title="logout" />
 
 </menu>

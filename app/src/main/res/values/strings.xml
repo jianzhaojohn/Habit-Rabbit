@@ -23,7 +23,7 @@
     <string name="txt_title">My New Habit</string>
     <string name="label_description">Description:</string>
     <string name="txt_description">Description here.</string>
-    <string name="label_freq">Frequency:</string>
+    <string name="label_freq">Repeat:</string>
     <string name="freq_prompt">choose a frequency:</string>
     <string name="label_reminder">Reminder:</string>
     <string name="open">Open</string>
