@@ -59,6 +59,7 @@ public class AddHabitActivity extends Activity {
             public void onClick(View v) {
                 //start new activity
                 startActivity(new Intent(AddHabitActivity.this, HabitListActivity.class));
+                finish();
             }
         });
     }
@@ -88,9 +89,8 @@ public class AddHabitActivity extends Activity {
         RequestQueue queue = Volley.newRequestQueue(this);
         final String add_habit_url = "https://habit-rabbit.000webhostapp.com/add_habit.php";
 
-
         // request server to add this habit to database
-        StringRequest loginReq = new StringRequest(Request.Method.POST, add_habit_url,
+        StringRequest addHabitReq = new StringRequest(Request.Method.POST, add_habit_url,
                 new Response.Listener<String>(){
                     @Override
                     public void onResponse(String response) {
@@ -163,6 +163,6 @@ public class AddHabitActivity extends Activity {
             }
         };
 
-        queue.add(loginReq);
+        queue.add(addHabitReq);
     }
 }

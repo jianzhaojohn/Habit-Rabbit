@@ -48,9 +48,6 @@ public class ProfileActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
 
-            case Menu.FIRST:
-                startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
-                break;
             case R.id.nav_Profile:
                 startActivity(new Intent(ProfileActivity.this, ProfileActivity.class));
                 break;
@@ -68,7 +65,9 @@ public class ProfileActivity extends AppCompatActivity {
                     File file= new File(this.getFilesDir().getParent()+"/shared_prefs/"+fileName+".xml");
                     file.delete();
 
-                    startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
+                    Intent intent = new Intent(this, LoginActivity.class);
+                    intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK | intent.FLAG_ACTIVITY_CLEAR_TOP | intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
                 }catch(Exception e){}
                 break;
             case  R.id.nav_habits:
