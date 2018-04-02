@@ -315,8 +315,6 @@ public class HabitListActivity extends AppCompatActivity {
                                 if (success) {
                                     deleteHabit(context, habit);
 
-                                    // jump to habit list page
-                                    context.startActivity(new Intent(context, HabitListActivity.class));
                                 } else {
                                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                                     builder.setTitle("Delete Habit")
