@@ -118,7 +118,7 @@
     <string name="title_activity_edit_profile">EditProfileActivity</string>
     <string name="title_activity_streak_graph">StreakGraph</string>
 
-    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="title_activity_fullscreen">Habit Rabbit</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>
