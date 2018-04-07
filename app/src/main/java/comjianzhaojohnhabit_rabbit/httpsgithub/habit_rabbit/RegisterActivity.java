@@ -131,7 +131,8 @@ public class RegisterActivity extends Activity {
         final String mPassword = password;
 
         // send login request
-        RequestQueue queue = Volley.newRequestQueue(this);
+        RequestQueue queue = VolleySingleton.getInstance(this)
+                .getRequestQueue(this);
         final String url_reg = "https://habit-rabbit.000webhostapp.com/Register_encrypt.php";
 
         StringRequest loginReq = new StringRequest(Request.Method.POST, url_reg,

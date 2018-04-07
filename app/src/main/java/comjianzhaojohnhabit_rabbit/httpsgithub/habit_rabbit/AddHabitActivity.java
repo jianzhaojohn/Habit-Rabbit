@@ -86,7 +86,7 @@ public class AddHabitActivity extends Activity {
         final String reminder = mRemider.isChecked()?"1":"0";
 
         // send add new habit request
-        RequestQueue queue = Volley.newRequestQueue(this);
+        RequestQueue queue = VolleySingleton.getInstance(this).getRequestQueue(this);
         final String add_habit_url = "https://habit-rabbit.000webhostapp.com/add_habit.php";
 
         // request server to add this habit to database
