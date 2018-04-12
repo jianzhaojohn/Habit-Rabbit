@@ -3,6 +3,7 @@ package comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -92,6 +93,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
         catch(Exception e){
 
+        }
+
+        if (!HabitCheckReciever.isTimerOn()){
+            Context context = getApplicationContext();
+            HabitCheckReciever.initializationCheck(context);
         }
 
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
