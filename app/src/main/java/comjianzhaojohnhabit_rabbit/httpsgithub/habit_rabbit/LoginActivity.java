@@ -94,12 +94,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         catch(Exception e){
 
         }
-        /*
+
         if (!HabitCheckReciever.isTimerOn()){
             Context context = getApplicationContext();
             HabitCheckReciever.initializationCheck(context);
         }
-        */
+
 
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();

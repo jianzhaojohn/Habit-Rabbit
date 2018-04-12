@@ -34,7 +34,6 @@ public class HabitCheckReciever extends BroadcastReceiver {
     }
 
     public static void initializationCheck(Context context) {
-        Log.d("alarm","initialization check");
         timerOn = true;
         shared_context = context;
         sharedPref = shared_context.getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
@@ -53,7 +52,6 @@ public class HabitCheckReciever extends BroadcastReceiver {
         midnight.set(Calendar.HOUR, 0);
         midnight.set(Calendar.MINUTE, 1);
 
-        checkHabits();
         if (lastCheckedDay != currentCal.get(Calendar.DAY_OF_YEAR)) {
             checkHabits();
         }

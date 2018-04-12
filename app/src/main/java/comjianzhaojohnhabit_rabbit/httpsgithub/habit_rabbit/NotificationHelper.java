@@ -56,7 +56,6 @@ public class NotificationHelper extends ContextWrapper {
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(100,notification.build());
-        Log.d("alarm","notified");
 
     }
 }
