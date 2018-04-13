@@ -12,6 +12,12 @@
 * I want to be stimulated by my Habit Rabbit.
 	* Habit Rabbit will guilt me into keeping to my habits by accusing me of "murdering" my virtual rabbits if I do not do what I promised I would.
 
+## Landing Page
+https://habit-rabbit.000webhostapp.com/
+
+## Beta Release
+https://youtu.be/wkmf8OWuzQc
+
 
 ## Project Description:
 
@@ -76,3 +82,4 @@ https://youtu.be/g607Lzud3Ss
 
 ## Alpha Release
 https://youtu.be/jdsvigK7bPs
+
