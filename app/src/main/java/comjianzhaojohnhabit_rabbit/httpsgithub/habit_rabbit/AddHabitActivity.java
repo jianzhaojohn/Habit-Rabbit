@@ -110,8 +110,9 @@ public class AddHabitActivity extends Activity {
                                 //TODO: notify adapter
 
                                 // jump to habit list page
-                                startActivity(new Intent(AddHabitActivity.this, HabitListActivity.class));
+//                                startActivity(new Intent(AddHabitActivity.this, HabitListActivity.class));
                                 finish();
+                                HabitListActivity.adapter.notifyItemInserted(HabitList.HABITS_list.size() - 1);
                             } else {
                                 // show message when fails
                                 AlertDialog.Builder builder = new AlertDialog.Builder(AddHabitActivity.this);
