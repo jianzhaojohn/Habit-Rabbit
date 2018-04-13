@@ -34,9 +34,6 @@ public class CalendarActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
 
-            case Menu.FIRST:
-                startActivity(new Intent(CalendarActivity.this, LoginActivity.class));
-                break;
             case R.id.nav_Profile:
                 startActivity(new Intent(CalendarActivity.this, ProfileActivity.class));
                 break;
@@ -53,7 +50,9 @@ public class CalendarActivity extends AppCompatActivity {
                     File file= new File(this.getFilesDir().getParent()+"/shared_prefs/"+fileName+".xml");
                     file.delete();
 
-                    startActivity(new Intent(CalendarActivity.this, LoginActivity.class));
+                    Intent intent = new Intent(this, LoginActivity.class);
+                    intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK | intent.FLAG_ACTIVITY_CLEAR_TOP | intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
                 }catch(Exception e){}
                 break;
             case  R.id.nav_habits:

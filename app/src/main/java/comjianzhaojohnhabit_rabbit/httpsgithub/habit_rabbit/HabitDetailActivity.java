@@ -131,7 +131,7 @@ public class HabitDetailActivity extends AppCompatActivity {
         final String reminder = mReminder.isChecked()?"1":"0";
 
         // send edit habit request
-        RequestQueue queue = Volley.newRequestQueue(this);
+        RequestQueue queue = VolleySingleton.getInstance(this).getRequestQueue(this);
         final String add_habit_url = "https://habit-rabbit.000webhostapp.com/edit_habit.php";
 
         // request server to add this habit to database

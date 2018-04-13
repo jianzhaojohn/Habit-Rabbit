@@ -3,7 +3,9 @@ package comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -47,6 +49,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -93,6 +96,35 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         catch(Exception e){
 
         }
+
+        if (!HabitCheckReciever.isTimerOn()){
+            Context context = getApplicationContext();
+            HabitCheckReciever.setShared_context(context);
+
+            //Intent intent = new Intent(context, HabitCheckReciever.class);
+            Intent intent = new Intent(context, HabitCheckReciever.class);
+
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            Calendar midnight = Calendar.getInstance();
+            midnight.add(Calendar.DATE,1);
+            midnight.set(Calendar.HOUR, 0);
+            midnight.set(Calendar.MINUTE, 1);
+
+            Calendar now = Calendar.getInstance();
+            Log.d("alarm","set timer");
+            AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, midnight.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+        }
+        SharedPreferences sharedPref = getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        int lastCheckedDay = sharedPref.getInt("DayOfYear", -1);
+        if (lastCheckedDay != Calendar.getInstance().get(Calendar.DAY_OF_YEAR)) {
+            HabitCheckReciever.checkHabits();
+        }
+
+
+
 
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -224,7 +256,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         final String mPassword = password;
 
         // send login request
-        RequestQueue queue = Volley.newRequestQueue(this);
+//        RequestQueue queue = Volley.newRequestQueue(this);
+        RequestQueue queue = VolleySingleton.getInstance(this)
+                .getRequestQueue(this);
 //        String url_login = "https://habit-rabbit.000webhostapp.com/Login.php";
         String url_login = "https://habit-rabbit.000webhostapp.com/Login_encrypt.php";
 

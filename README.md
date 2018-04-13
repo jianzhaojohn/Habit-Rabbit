@@ -12,6 +12,12 @@
 * I want to be stimulated by my Habit Rabbit.
 	* Habit Rabbit will guilt me into keeping to my habits by accusing me of "murdering" my virtual rabbits if I do not do what I promised I would.
 
+## Landing Page
+https://habit-rabbit.000webhostapp.com/
+
+## Beta Release
+https://youtu.be/Xox4mv7I9XQ
+
 
 ## Project Description:
 
@@ -20,13 +26,25 @@ Users will be able to
 * create/login
 * input, remove and edit habits
 * view habits in an agenda layout
-* view Rabbit Hutch, which is filled with rabbits as you complete a habit, but kills the rabbits when you don’t (and notifies the user that they murdered their rabbits)
+* view Rabbit Hutch, which is contain a cute rabit as you complete the habit, but kills the rabbit when you don’t (and notify user if theri rabit dies)
+* show the habit history in a graph view form (so user can clearly see how they did in past)
     
 ### Add-on features
 * sync with other apps to be kept accountable (such as Fitbit, MyFitnessPal, etc)
 * push selected habits to google calendar
 * add “friends” who will be able to shame them when they falsely enter that they did something that they didn’t
 * bet money,using paypal, that they will complete all their habits for a given period of time. If they fail, the money is donated to a charity of their choice.
+
+### How to use our app
+
+when you first open up our app, you will see the login page pops up. you have 2 opetions here: first login with your existing account. second, creating an account. To create a account you simplly click on the register button and this will lead you to the registration page. there is 2 limits on creating account: for user name it must contain "@" and for passwords it has to have at least 4 characters.
+After you done with register you can back to login page and login there. When you login, you will see our main page which contain only one rabit house. you can go to another page using the "hunberger" button ont he top left and top right.
+
+In habit page, you can add and create new habit (just click on the button on the buttom right) and in the Agenda page you can see all your habit in a list view. Those data is update whenever you open you app (we update them through our database). 
+
+you can check the habit when you finish them and we will record how you did in a period and display them in a graph view (just click on the habit in habit page for detail). this give user a clearly view how they do in past to build up their habits.
+
+Lastly, our notification works when you open the app and only when you open the app (we are thinking to make it run in background, but not sure if that is too "expensive" in resource for our app. So still thinking).
 
 ### How to Run
 
@@ -35,7 +53,7 @@ Test password: test
 
 You need these to log in once you have run the app.
 
-#### If you have an android device with android version 7.0 (API 24) or above:
+#### If you have an android device with android with API level 25 or above (to work properly):
 
 1. Download the apk with your android device using the link provided below.
 2. https://drive.google.com/file/d/0B5mPzcwLTPnPQ1VfbldDUHU5eXhTazFzVC1NWUJSQmUtaUpn/view?usp=sharing
@@ -64,3 +82,4 @@ https://youtu.be/g607Lzud3Ss
 
 ## Alpha Release
 https://youtu.be/jdsvigK7bPs
+

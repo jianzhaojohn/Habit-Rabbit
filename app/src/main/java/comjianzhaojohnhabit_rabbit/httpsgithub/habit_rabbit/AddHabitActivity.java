@@ -59,6 +59,7 @@ public class AddHabitActivity extends Activity {
             public void onClick(View v) {
                 //start new activity
                 startActivity(new Intent(AddHabitActivity.this, HabitListActivity.class));
+                finish();
             }
         });
     }
@@ -85,12 +86,11 @@ public class AddHabitActivity extends Activity {
         final String reminder = mRemider.isChecked()?"1":"0";
 
         // send add new habit request
-        RequestQueue queue = Volley.newRequestQueue(this);
+        RequestQueue queue = VolleySingleton.getInstance(this).getRequestQueue(this);
         final String add_habit_url = "https://habit-rabbit.000webhostapp.com/add_habit.php";
 
-
         // request server to add this habit to database
-        StringRequest loginReq = new StringRequest(Request.Method.POST, add_habit_url,
+        StringRequest addHabitReq = new StringRequest(Request.Method.POST, add_habit_url,
                 new Response.Listener<String>(){
                     @Override
                     public void onResponse(String response) {
@@ -110,8 +110,9 @@ public class AddHabitActivity extends Activity {
                                 //TODO: notify adapter
 
                                 // jump to habit list page
-                                startActivity(new Intent(AddHabitActivity.this, HabitListActivity.class));
+//                                startActivity(new Intent(AddHabitActivity.this, HabitListActivity.class));
                                 finish();
+                                HabitListActivity.adapter.notifyItemInserted(HabitList.HABITS_list.size() - 1);
                             } else {
                                 // show message when fails
                                 AlertDialog.Builder builder = new AlertDialog.Builder(AddHabitActivity.this);
@@ -163,6 +164,6 @@ public class AddHabitActivity extends Activity {
             }
         };
 
-        queue.add(loginReq);
+        queue.add(addHabitReq);
     }
 }

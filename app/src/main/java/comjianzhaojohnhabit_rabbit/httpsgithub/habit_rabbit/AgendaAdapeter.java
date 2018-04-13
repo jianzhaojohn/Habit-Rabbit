@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -128,9 +130,26 @@ public class AgendaAdapeter extends RecyclerView.Adapter<AgendaAdapeter.EventVie
             // listener
             itemView.setOnLongClickListener(v -> {
                 Context context = v.getContext();
-                Intent intent = new Intent(context, HabitDetailActivity.class);
-                intent.putExtra(HabitDetailFragment.ARG_ITEM_ID, event.getHabitID()+"");
-                context.startActivity(intent);
+                PopupMenu popupMenu = new PopupMenu(context, itemView);
+                popupMenu.inflate(R.menu.agenda_popup_menu);
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                            switch (item.getItemId()) {
+                                case R.id.detail:
+                                    Intent intent = new Intent(context, HabitDetailActivity.class);
+                                    intent.putExtra(HabitDetailFragment.ARG_ITEM_ID, event.getHabitID()+"");
+                                    context.startActivity(intent);
+                                    break;
+                                case R.id.check:
+                                    addRecordRequest(event);
+                                    break;
+                            }
+                        return false;
+                    }
+                });
+                popupMenu.show();
+
                 return true;
             });
         }
@@ -149,7 +168,7 @@ public class AgendaAdapeter extends RecyclerView.Adapter<AgendaAdapeter.EventVie
             final String date = dateFormat.format(currentDate);
             Context context = itemView.getContext();
             // send delete habit request
-            RequestQueue queue = Volley.newRequestQueue(context);
+            RequestQueue queue = VolleySingleton.getInstance(context).getRequestQueue(context);
             final String add_record_url = "https://habit-rabbit.000webhostapp.com/add_record.php";
 
             // request server to add this habit to database

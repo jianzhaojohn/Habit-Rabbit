@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -52,6 +53,7 @@ public class HabitListActivity extends AppCompatActivity {
      * device.
      */
     private boolean mTwoPane;
+    protected static RecyclerView.Adapter adapter;
 
     /**
      * Called when the activity is starting.
@@ -133,9 +135,6 @@ public class HabitListActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
 
-            case Menu.FIRST:
-                startActivity(new Intent(HabitListActivity.this, LoginActivity.class));
-                break;
             case R.id.nav_Profile:
                 startActivity(new Intent(HabitListActivity.this, ProfileActivity.class));
                 break;
@@ -153,11 +152,13 @@ public class HabitListActivity extends AppCompatActivity {
                     File file= new File(this.getFilesDir().getParent()+"/shared_prefs/"+fileName+".xml");
                     file.delete();
 
-                    startActivity(new Intent(HabitListActivity.this, LoginActivity.class));
+                    Intent intent = new Intent(this, LoginActivity.class);
+                    intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK | intent.FLAG_ACTIVITY_CLEAR_TOP | intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
                 }catch(Exception e){}
                 break;
             case  R.id.nav_habits:
-                startActivity(new Intent(HabitListActivity.this, HabitListActivity.class));
+//                startActivity(new Intent(HabitListActivity.this, HabitListActivity.class));
                 break;
             default:
         }
@@ -167,7 +168,9 @@ public class HabitListActivity extends AppCompatActivity {
     //set up the recycleView
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
 //        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, DummyContent.ITEMS, mTwoPane));
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, HabitList.HABITS_list, mTwoPane));
+//        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, HabitList.HABITS_list, mTwoPane));
+        adapter = new SimpleItemRecyclerViewAdapter(this, HabitList.HABITS_list, mTwoPane);
+        recyclerView.setAdapter(adapter);
     }
 
 
@@ -299,7 +302,8 @@ public class HabitListActivity extends AppCompatActivity {
             final String username = SharedPref.getUser(context);
             final String habit_id = habit.getHabitID()+"";
             // send delete habit request
-            RequestQueue queue = Volley.newRequestQueue(context);
+            RequestQueue queue = VolleySingleton.getInstance(context)
+                    .getRequestQueue(context);
             final String add_habit_url = "https://habit-rabbit.000webhostapp.com/delete_habit.php";
 
             // request server to add this habit to database
@@ -315,8 +319,6 @@ public class HabitListActivity extends AppCompatActivity {
                                 if (success) {
                                     deleteHabit(context, habit);
 
-                                    // jump to habit list page
-                                    context.startActivity(new Intent(context, HabitListActivity.class));
                                 } else {
                                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                                     builder.setTitle("Delete Habit")

@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    public boolean isRabbitAlive() {
+    public static boolean isRabbitAlive() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         int complete = 0;
         for (Habit x : HabitList.HABITS_list) {
@@ -137,9 +137,7 @@ public class MainActivity extends AppCompatActivity
         }
         // following switch statement indicate what happened when you click on the Item in the menu
         switch (item.getItemId()) {
-            case Menu.FIRST:
-                startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                break;
+
             case R.id.nav_Profile:
                 startActivity(new Intent(MainActivity.this, ProfileActivity.class));
                 break;
@@ -155,8 +153,10 @@ public class MainActivity extends AppCompatActivity
                     String fileName = SharedPref.FILE_NAME;
                     File file= new File(this.getFilesDir().getParent()+"/shared_prefs/"+fileName+".xml");
                     file.delete();
-                    //opent he login page
-                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                    //open the login page
+                    Intent intent = new Intent(this, LoginActivity.class);
+                    intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK | intent.FLAG_ACTIVITY_CLEAR_TOP | intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
                 }catch(Exception e){}
                 break;
             case  R.id.nav_habits:

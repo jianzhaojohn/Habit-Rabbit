@@ -72,7 +72,12 @@
             android:name=".DeadRabbitActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_fullscreen"
-            android:theme="@style/FullscreenTheme"></activity>
+            android:theme="@style/FullscreenTheme" />
+
+        <receiver
+            android:name=".HabitCheckReciever"
+            android:enabled="true"
+            android:exported="true" />
     </application>
 
 </manifest>
