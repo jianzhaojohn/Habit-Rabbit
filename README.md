@@ -47,7 +47,7 @@ Test password: test
 
 You need these to log in once you have run the app.
 
-#### If you have an android device with android version 7.0 (API 24) or above:
+#### If you have an android device with android with API level 25 or above (to work properly):
 
 1. Download the apk with your android device using the link provided below.
 2. https://drive.google.com/file/d/0B5mPzcwLTPnPQ1VfbldDUHU5eXhTazFzVC1NWUJSQmUtaUpn/view?usp=sharing
