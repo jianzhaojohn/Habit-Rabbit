@@ -20,7 +20,8 @@ Users will be able to
 * create/login
 * input, remove and edit habits
 * view habits in an agenda layout
-* view Rabbit Hutch, which is contain a cute rabit as you complete the habit, but kills the rabbit when you don’t (and notifies the user that they murdered their rabbit)
+* view Rabbit Hutch, which is contain a cute rabit as you complete the habit, but kills the rabbit when you don’t (and notify user if theri rabit dies)
+* show the habit history in a graph view form (so user can clearly see how they did in past)
     
 ### Add-on features
 * sync with other apps to be kept accountable (such as Fitbit, MyFitnessPal, etc)
@@ -33,11 +34,12 @@ Users will be able to
 when you first open up our app, you will see the login page pops up. you have 2 opetions here: first login with your existing account. second, creating an account. To create a account you simplly click on the register button and this will lead you to the registration page. there is 2 limits on creating account: for user name it must contain "@" and for passwords it has to have at least 4 characters.
 After you done with register you can back to login page and login there. When you login, you will see our main page which contain only one rabit house. you can go to another page using the "hunberger" button ont he top left and top right.
 
-In habit page, you can add and create new habit (just click on the button on the buttom right) and in the Agenda page you can see all your habit in a list view. Those data is update whenever you open you app (we update them through our database). you can check the habit when you finish them and we will record how you did in a period and display them in a graph view (just click on the habit in habit page for detail).
+In habit page, you can add and create new habit (just click on the button on the buttom right) and in the Agenda page you can see all your habit in a list view. Those data is update whenever you open you app (we update them through our database). 
 
-last, for our notisfication function this is how it works: whenever you open up the app, we will notisfy user if their habit is dead or not (whether user follow their habit or not)
+you can check the habit when you finish them and we will record how you did in a period and display them in a graph view (just click on the habit in habit page for detail). this give user a clearly view how they do in past to build up their habits.
 
-P.S currently our app contain many feature that is not in our mvp, and we have not fully implement them yet. (can't guarantee if they will cause the program to crash. Usually they dont if you dont touch them.)
+Lastly, our notification works when you open the app and only when you open the app (we are thinking to make it run in background, but not sure if that is too "expensive" in resource for our app. So still thinking).
+
 ### How to Run
 
 Test e-mail: test@example.com
@@ -45,7 +47,7 @@ Test password: test
 
 You need these to log in once you have run the app.
 
-#### If you have an android device with android version 7.0 (API 24) or above:
+#### If you have an android device with android with API level 25 or above (to work properly):
 
 1. Download the apk with your android device using the link provided below.
 2. https://drive.google.com/file/d/0B5mPzcwLTPnPQ1VfbldDUHU5eXhTazFzVC1NWUJSQmUtaUpn/view?usp=sharing
