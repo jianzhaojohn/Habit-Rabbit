@@ -29,6 +29,9 @@ Users will be able to
 * add “friends” who will be able to shame them when they falsely enter that they did something that they didn’t
 * bet money,using paypal, that they will complete all their habits for a given period of time. If they fail, the money is donated to a charity of their choice.
 
+### Our Website
+http://habit-rabbit.000webhostapp.com/
+
 ### How to use our app
 
 when you first open up our app, you will see the login page pops up. you have 2 opetions here: first login with your existing account. second, creating an account. To create a account you simplly click on the register button and this will lead you to the registration page. there is 2 limits on creating account: for user name it must contain "@" and for passwords it has to have at least 4 characters.
