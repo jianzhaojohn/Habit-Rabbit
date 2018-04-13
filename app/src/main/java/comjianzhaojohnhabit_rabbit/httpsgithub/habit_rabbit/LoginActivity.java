@@ -256,7 +256,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         final String mPassword = password;
 
         // send login request
-        RequestQueue queue = Volley.newRequestQueue(this);
+//        RequestQueue queue = Volley.newRequestQueue(this);
+        RequestQueue queue = VolleySingleton.getInstance(this)
+                .getRequestQueue(this);
 //        String url_login = "https://habit-rabbit.000webhostapp.com/Login.php";
         String url_login = "https://habit-rabbit.000webhostapp.com/Login_encrypt.php";
 

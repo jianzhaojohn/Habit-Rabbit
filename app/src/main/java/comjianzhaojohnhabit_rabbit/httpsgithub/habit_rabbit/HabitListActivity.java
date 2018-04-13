@@ -299,7 +299,9 @@ public class HabitListActivity extends AppCompatActivity {
             final String username = SharedPref.getUser(context);
             final String habit_id = habit.getHabitID()+"";
             // send delete habit request
-            RequestQueue queue = Volley.newRequestQueue(context);
+//            RequestQueue queue = Volley.newRequestQueue(context);
+            RequestQueue queue = VolleySingleton.getInstance(context)
+                    .getRequestQueue(context);
             final String add_habit_url = "https://habit-rabbit.000webhostapp.com/delete_habit.php";
 
             // request server to add this habit to database

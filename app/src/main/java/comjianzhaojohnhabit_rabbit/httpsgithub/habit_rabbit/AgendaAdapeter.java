@@ -168,7 +168,7 @@ public class AgendaAdapeter extends RecyclerView.Adapter<AgendaAdapeter.EventVie
             final String date = dateFormat.format(currentDate);
             Context context = itemView.getContext();
             // send delete habit request
-            RequestQueue queue = Volley.newRequestQueue(context);
+            RequestQueue queue = VolleySingleton.getInstance(context).getRequestQueue(context);
             final String add_record_url = "https://habit-rabbit.000webhostapp.com/add_record.php";
 
             // request server to add this habit to database
