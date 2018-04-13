@@ -29,43 +29,22 @@ public class HabitCheckReciever extends BroadcastReceiver {
         checkHabits();
     }
 
-    public static boolean isTimerOn() {
-        return timerOn;
-    }
+    public static boolean isTimerOn() { return timerOn; }
+    public void setTimerOn(){timerOn = true; }
 
-    public static void initializationCheck(Context context) {
-        timerOn = true;
+    public static void setShared_context(Context context){
         shared_context = context;
         sharedPref = shared_context.getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
         editor = sharedPref.edit();
-
-        Intent intent = new Intent(shared_context, HabitCheckReciever.class);
-        pendingIntent = PendingIntent.getActivity(shared_context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        notificationHelper = new NotificationHelper(context);
-
-        int lastCheckedDay = sharedPref.getInt("DayOfYear", -1);
-
-        Calendar currentCal = Calendar.getInstance();
-        Calendar midnight = Calendar.getInstance();
-        midnight.add(Calendar.DATE,1);
-        midnight.set(Calendar.HOUR, 0);
-        midnight.set(Calendar.MINUTE, 1);
-
-        if (lastCheckedDay != currentCal.get(Calendar.DAY_OF_YEAR)) {
-            checkHabits();
-        }
-
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setInexactRepeating(AlarmManager.RTC, midnight.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-
+        notificationHelper = new NotificationHelper(shared_context);
     }
+
 
     public static boolean rabbitIsAlive() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         int complete = 0;
         Calendar today = Calendar.getInstance();
-        if (HabitList.HABITS_list.size() > 0) {
+        if (HabitList.HABITS_list != null) {
             for (Habit x : HabitList.HABITS_list) {
                 Hashtable<String, Integer> rc = x.getRecords();
                 String period = x.getPeriod();
@@ -125,32 +104,21 @@ public class HabitCheckReciever extends BroadcastReceiver {
 
 
 
-
     public static void checkHabits(){
         editor.putInt("DayOfYear",Calendar.getInstance().get(Calendar.DAY_OF_YEAR));
         editor.apply();
 
-
-        //int numberOfFailures = 0;
-        /*
-        for (Habit habit : HabitList.HABITS_list) {
-            String period = habit.getPeriod();
-            if (period.equals("day") || period.equals("month") && Calendar.DAY_OF_MONTH == 1 || period.equals("week") && Calendar.DAY_OF_WEEK == 1){
-
-
-                if (habit.getStreak() == 0){//I'm not sure if this part is right, getting only two failures
-                    Log.d("alarm","failure"+habit.getName());
-                    numberOfFailures++;
-                }
-
-            }
-        }
-        */
         boolean rabbitAlive = rabbitIsAlive();
+        Log.d("alarm","checking rabbit state");
+        String notificationMessage;
         if (!rabbitAlive){
-            String notificationMessage = "MURDERER. Because you failed to complete your habits for today, your rabbit is going to die. His blood is on your hands!";
-            notificationHelper.sendNotification(notificationMessage);
+            notificationMessage = "MURDERER. Because you failed to complete your habits for today, your rabbit is going to die. His blood is on your hands!";
         }
+        else {
+            notificationMessage = "You done good";
+        }
+        notificationHelper.sendNotification(notificationMessage);
+
         editor.putBoolean("RabbitAlive",rabbitAlive);
         editor.apply();
         //TODO send to notification helper

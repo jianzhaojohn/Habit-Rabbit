@@ -12,7 +12,7 @@ import android.util.Log;
 public class NotificationHelper extends ContextWrapper {
     public static String CHANNEL_ID = "comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit.ANDROID";
     public static String CHANNEL_NAME = "Habit Completion";
-    private boolean oreo = false;
+
     private NotificationManager manager;
     private Context context;
     public NotificationHelper(Context base) {
@@ -49,9 +49,7 @@ public class NotificationHelper extends ContextWrapper {
                 .setContentText(message)
                 .setSmallIcon(R.drawable.icon);
         if (Build.VERSION.SDK_INT > 25 ) {
-            Log.d("alarm","setting channel ID");
             notification.setChannelId(CHANNEL_ID);
-
         }
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);

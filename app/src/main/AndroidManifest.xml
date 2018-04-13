@@ -77,7 +77,7 @@
         <receiver
             android:name=".HabitCheckReciever"
             android:enabled="true"
-            android:exported="true"></receiver>
+            android:exported="true" />
     </application>
 
 </manifest>
