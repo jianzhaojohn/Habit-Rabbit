@@ -53,6 +53,7 @@ public class HabitListActivity extends AppCompatActivity {
      * device.
      */
     private boolean mTwoPane;
+    protected static RecyclerView.Adapter adapter;
 
     /**
      * Called when the activity is starting.
@@ -167,7 +168,9 @@ public class HabitListActivity extends AppCompatActivity {
     //set up the recycleView
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
 //        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, DummyContent.ITEMS, mTwoPane));
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, HabitList.HABITS_list, mTwoPane));
+//        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, HabitList.HABITS_list, mTwoPane));
+        adapter = new SimpleItemRecyclerViewAdapter(this, HabitList.HABITS_list, mTwoPane);
+        recyclerView.setAdapter(adapter);
     }
 
 
@@ -299,7 +302,6 @@ public class HabitListActivity extends AppCompatActivity {
             final String username = SharedPref.getUser(context);
             final String habit_id = habit.getHabitID()+"";
             // send delete habit request
-//            RequestQueue queue = Volley.newRequestQueue(context);
             RequestQueue queue = VolleySingleton.getInstance(context)
                     .getRequestQueue(context);
             final String add_habit_url = "https://habit-rabbit.000webhostapp.com/delete_habit.php";
