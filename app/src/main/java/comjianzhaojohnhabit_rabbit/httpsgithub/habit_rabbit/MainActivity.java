@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    public boolean isRabbitAlive() {
+    public static boolean isRabbitAlive() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         int complete = 0;
         for (Habit x : HabitList.HABITS_list) {

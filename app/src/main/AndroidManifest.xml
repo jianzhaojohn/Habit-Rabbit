@@ -95,6 +95,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit.MainActivity" />
         </activity>
+        <receiver
+            android:name=".HabitCheckReciever"
+            android:enabled="true"
+            android:exported="true" />
     </application>
 
 </manifest>
