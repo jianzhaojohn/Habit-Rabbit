@@ -53,7 +53,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit.MainActivity" />
         </activity>
-        <activity android:name=".ProfileActivity" />
+        <activity android:name=".ProfileActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit.MainActivity" />
+        </activity>
         <activity
             android:name=".RabbitReview"
             android:label="@string/app_name"
