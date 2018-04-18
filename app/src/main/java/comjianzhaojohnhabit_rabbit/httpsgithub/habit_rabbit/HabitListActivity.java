@@ -86,14 +86,6 @@ public class HabitListActivity extends AppCompatActivity {
             }
         });
 
-   /*     FloatingActionButton fab2 = (FloatingActionButton) findViewById(R.id.fab_agenda);
-        fab2.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(HabitListActivity.this, CalendarActivity.class));
-            }
-        });
-*/
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -281,10 +273,10 @@ public class HabitListActivity extends AppCompatActivity {
 
         //deleted the database
         private void deleteHabit(Context mContext, Habit habit) {
+            int currentPosition = HabitList.HABITS_list.indexOf(habit);
             // delete habit locally
             SharedPref.deleteHabit(mContext, habit);
             HabitList.deleteHabit(habit);
-            int currentPosition = HabitList.HABITS_list.indexOf(habit);
             notifyItemRemoved(currentPosition);
             if (currentPosition != mValues.size()) {
                 notifyItemRangeChanged(currentPosition, mValues.size()-currentPosition);
