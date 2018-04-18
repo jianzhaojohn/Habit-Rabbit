@@ -97,12 +97,15 @@
                 android:value="comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit.MainActivity" />
         </activity>
 
+        <activity 
+            android:name=".AboutusActivity"
+            android:label="About Us" />
+        
         <receiver
             android:name=".HabitCheckReciever"
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".AboutusActivity"></activity>
     </application>
 
 </manifest>
