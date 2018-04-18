@@ -183,6 +183,10 @@ public class MainActivity extends AppCompatActivity
             case  R.id.nav_habits:
                 startActivity(new Intent(MainActivity.this, HabitListActivity.class));
                 break;
+            case  R.id.nav_aboutus:
+                startActivity(new Intent(MainActivity.this, AboutusActivity.class));
+                break;
+
             case  R.id.nav_logout:
                 try{
                     File autologin = getApplicationContext().getFileStreamPath("autionloginfile");
