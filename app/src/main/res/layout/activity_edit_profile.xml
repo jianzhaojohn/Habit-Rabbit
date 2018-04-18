@@ -7,7 +7,6 @@
     tools:context="comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit.EditProfileActivity">
 
 
-
     <RelativeLayout
         android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
@@ -60,26 +59,26 @@
         android:layout_height="35dp"
         android:layout_below="@+id/ChangeName_Field"
         android:text="Change your email:"
-        android:textStyle="bold"
         android:textColor="@color/cardview_dark_background"
-        android:textSize="@dimen/activity_vertical_margin" />
+        android:textSize="@dimen/activity_vertical_margin"
+        android:textStyle="bold" />
+
     <EditText
-        android:layout_below="@+id/ChangeEmail"
+        android:id="@+id/ChangeEmail_Field"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/ChangeEmail_Field"
-        android:hint="Enter your new email here"
-        />
+        android:layout_below="@+id/ChangeEmail"
+        android:hint="Enter your new email here" />
 
     <Button
+        android:id="@+id/saveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="62dp"
         android:text="Save"
-        android:textColor="@color/calendar_text_selected"/>
-
+        android:textColor="@color/calendar_text_selected" />
 
 
 </RelativeLayout>
