@@ -118,8 +118,18 @@ public class AgendaAdapeter extends RecyclerView.Adapter<AgendaAdapeter.EventVie
             progressTxt.setText(event.getStreak()+"/"+event.getTimesPerPeriod());
 
             // on click listeners
-            progressDone.setOnClickListener(v -> addRecordRequest(event));
+            // on click listeners
+            if(event.getStreak() < event.getTimesPerPeriod()){
+                progressDone.setOnClickListener(v -> addRecordRequest(event));
+            }
+            //progressDone.setOnClickListener(v -> addRecordRequest(event));
 
+            else {
+
+                progressDone.setOnClickListener(null);
+                Toast.makeText(itemView.getContext(), event.getName() + " Habit Completed", Toast.LENGTH_SHORT).show();
+
+            }
 //            itemView.setOnClickListener(v -> {
 //                Context context = v.getContext();
 //                Intent intent = new Intent(context, HabitDetailActivity.class);
