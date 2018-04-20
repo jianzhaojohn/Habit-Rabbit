@@ -89,7 +89,7 @@ public class RegisterActivity extends Activity {
             mPassword_1View.setError(getString(R.string.error_field_required));
             focusView = mPassword_1View;
             cancel = true;
-        } else if (!isPasswordValid(password1)) {
+        } else if (!isPasswordValid(password1,email)) {
             mPassword_1View.setError(getString(R.string.error_invalid_password));
             focusView = mPassword_1View;
             cancel = true;
@@ -202,9 +202,34 @@ public class RegisterActivity extends Activity {
      * @param password- your passowrd
      * @return true if passwrods is valid, false otherwise
      */
-    private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 3;
+    private boolean isPasswordValid(String password, String email) {
+
+        boolean len=false;
+        boolean uppercase = false;
+        boolean lowercase = false;
+        boolean specialcase = false;
+        //boolean user = false;
+        if(password.equals(email)){
+            //user = true;
+            return false;
+        }
+        int pass_length = password.length();
+        if(pass_length > 8) len=true;
+        for(int i = 0; i< pass_length; i++){
+
+            if(password.charAt(i) >= 65 && password.charAt(i) <=90) {
+                uppercase = true;
+            }
+            else if(password.charAt(i) >= 97 && password.charAt(i) <=122) {
+                lowercase = true;
+            }
+            else if((password.charAt(i) >=33 && password.charAt(i) <= 47) || (password.charAt(i) >=58 && password.charAt(i) <= 64) || (password.charAt(i) >=91 && password.charAt(i) <= 97) || (password.charAt(i) >=123 && password.charAt(i) <= 126))
+            {
+                specialcase = true;
+            }
+
+        }
+        return (len && uppercase && lowercase && specialcase);
     }
 
     //clickListener, which open the login page when clicked
