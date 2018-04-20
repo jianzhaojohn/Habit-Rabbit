@@ -33,7 +33,6 @@ public class RegisterActivity extends Activity {
     private EditText mEmailView;
     private EditText mPassword_1View;
     private EditText mPassword_2View;
-
     /**
      * Called when the activity is starting.
      * generate the view for this page
@@ -89,13 +88,15 @@ public class RegisterActivity extends Activity {
             mPassword_1View.setError(getString(R.string.error_field_required));
             focusView = mPassword_1View;
             cancel = true;
-        } else if (!isPasswordValid(password1)) {
+        } else if (!isPasswordValid(password1,email)) {
             mPassword_1View.setError(getString(R.string.error_invalid_password));
+//            mPasswordMessage.setText("Password cannot be used. Please make a password having at least 8 characters using uppercase,lowercase,special characters");
             focusView = mPassword_1View;
             cancel = true;
         }
 
         // Check for consistent password
+
         if (!password1.equals(password2)) {
             mPassword_2View.setError("Two passwords do not match");
             focusView = mPassword_2View;
@@ -129,10 +130,8 @@ public class RegisterActivity extends Activity {
         // get email and password
         final String mEmail = email;
         final String mPassword = password;
-
         // send login request
-        RequestQueue queue = VolleySingleton.getInstance(this)
-                .getRequestQueue(this);
+        RequestQueue queue = Volley.newRequestQueue(this);
         final String url_reg = "https://habit-rabbit.000webhostapp.com/Register_encrypt.php";
 
         StringRequest loginReq = new StringRequest(Request.Method.POST, url_reg,
@@ -202,9 +201,35 @@ public class RegisterActivity extends Activity {
      * @param password- your passowrd
      * @return true if passwrods is valid, false otherwise
      */
-    private boolean isPasswordValid(String password) {
+    private boolean isPasswordValid(String password, String email) {
         //TODO: Replace this with your own logic
-        return password.length() > 3;
+
+        boolean len=false;
+        boolean uppercase = false;
+        boolean lowercase = false;
+        boolean specialcase = false;
+        //boolean user = false;
+        if(password.equals(email)){
+            //user = true;
+            return false;
+        }
+        int pass_length = password.length();
+        if(pass_length > 8) len=true;
+        for(int i = 0; i< pass_length; i++){
+
+            if(password.charAt(i) >= 65 && password.charAt(i) <=90) {
+                uppercase = true;
+            }
+            else if(password.charAt(i) >= 97 && password.charAt(i) <=122) {
+                lowercase = true;
+            }
+            else if((password.charAt(i) >=33 && password.charAt(i) <= 47) || (password.charAt(i) >=58 && password.charAt(i) <= 64) || (password.charAt(i) >=91 && password.charAt(i) <= 97) || (password.charAt(i) >=123 && password.charAt(i) <= 126))
+            {
+                specialcase = true;
+            }
+
+        }
+        return (len && uppercase && lowercase && specialcase);
     }
 
     //clickListener, which open the login page when clicked
