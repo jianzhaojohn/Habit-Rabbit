@@ -433,7 +433,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     // go to register page
     public void goRegister(View view) {
         Intent intent = new Intent(this, RegisterActivity.class);
-//        getIntent().putExtra("email", mEmailView.getText().toString());
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
 

@@ -235,6 +235,7 @@ public class RegisterActivity extends Activity {
     //clickListener, which open the login page when clicked
     public void goLogin(View view) {
         Intent intent = new Intent(this, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
 }
