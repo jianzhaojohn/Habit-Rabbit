@@ -50,7 +50,7 @@ public class ProfileActivity extends AppCompatActivity {
         switch (item.getItemId()) {
 
             case R.id.nav_Profile:
-                startActivity(new Intent(ProfileActivity.this, ProfileActivity.class));
+//                startActivity(new Intent(ProfileActivity.this, ProfileActivity.class));
                 break;
             case  R.id.nav_agenda:
                 startActivity(new Intent(ProfileActivity.this, CalendarActivity.class));
