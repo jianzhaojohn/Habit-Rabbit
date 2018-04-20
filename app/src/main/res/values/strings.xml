@@ -122,8 +122,9 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="note">NOTE:  \n\tThe Email must contain \'@\' symbol.\n\tThe password should\n\t
-	  * be 8 - 16 characters long\n\t
-	  * contain at least 1 upper case\n\t
-	  * contain at least 1 lower case\n\t
-	  * contain at least 1 special case</string>
+        * not be the same with your Email\n\t
+        * be 8 – 16 characters long\n\t
+        * contain at least 1 upper case\n\t
+        * contain at least 1 lower case\n\t
+        * contain at least 1 special case</string>
 </resources>
