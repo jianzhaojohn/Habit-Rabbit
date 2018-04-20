@@ -33,6 +33,7 @@ public class RegisterActivity extends Activity {
     private EditText mEmailView;
     private EditText mPassword_1View;
     private EditText mPassword_2View;
+
     /**
      * Called when the activity is starting.
      * generate the view for this page
@@ -90,13 +91,11 @@ public class RegisterActivity extends Activity {
             cancel = true;
         } else if (!isPasswordValid(password1,email)) {
             mPassword_1View.setError(getString(R.string.error_invalid_password));
-//            mPasswordMessage.setText("Password cannot be used. Please make a password having at least 8 characters using uppercase,lowercase,special characters");
             focusView = mPassword_1View;
             cancel = true;
         }
 
         // Check for consistent password
-
         if (!password1.equals(password2)) {
             mPassword_2View.setError("Two passwords do not match");
             focusView = mPassword_2View;
@@ -130,8 +129,10 @@ public class RegisterActivity extends Activity {
         // get email and password
         final String mEmail = email;
         final String mPassword = password;
+
         // send login request
-        RequestQueue queue = Volley.newRequestQueue(this);
+        RequestQueue queue = VolleySingleton.getInstance(this)
+                .getRequestQueue(this);
         final String url_reg = "https://habit-rabbit.000webhostapp.com/Register_encrypt.php";
 
         StringRequest loginReq = new StringRequest(Request.Method.POST, url_reg,
@@ -202,7 +203,6 @@ public class RegisterActivity extends Activity {
      * @return true if passwrods is valid, false otherwise
      */
     private boolean isPasswordValid(String password, String email) {
-        //TODO: Replace this with your own logic
 
         boolean len=false;
         boolean uppercase = false;
