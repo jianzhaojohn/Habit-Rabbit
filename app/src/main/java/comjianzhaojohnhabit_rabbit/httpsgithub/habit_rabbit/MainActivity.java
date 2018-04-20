@@ -144,6 +144,14 @@ public class MainActivity extends AppCompatActivity
             case  R.id.nav_agenda:
                 startActivity(new Intent(MainActivity.this, CalendarActivity.class));
                 break;
+            case R.id.nav_bug:
+                Intent Email = new Intent(Intent.ACTION_SEND);
+                Email.setType("text/email");
+                Email.putExtra(Intent.EXTRA_EMAIL, new String[] { "jianzhao@buffalo.edu" });
+                Email.putExtra(Intent.EXTRA_SUBJECT, "[App: Habit Rabbit] - Feedback");
+                Email.putExtra(Intent.EXTRA_TEXT, "To HabitRabbit Dev Team:" + "");
+                startActivity(Intent.createChooser(Email, "Send Feedback:"));
+                return true;
             case  R.id.nav_logout:
                 try{
                     // clear all the data when user logout the app
