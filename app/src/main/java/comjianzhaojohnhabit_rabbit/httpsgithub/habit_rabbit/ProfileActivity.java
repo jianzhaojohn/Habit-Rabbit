@@ -55,6 +55,7 @@ public class ProfileActivity extends AppCompatActivity {
             case  R.id.nav_agenda:
                 startActivity(new Intent(ProfileActivity.this, CalendarActivity.class));
                 break;
+
             case  R.id.nav_logout:
                 try{
                     // getApplicationContext().deleteFile("autionloginfile");
