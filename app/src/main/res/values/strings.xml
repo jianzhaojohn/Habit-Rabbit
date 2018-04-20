@@ -7,7 +7,7 @@
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_invalid_password">This password is invalid</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="Habit_Period">Habit Period: </string>
@@ -121,4 +121,9 @@
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="note">NOTE:  \n\tThe Email must contain \'@\' symbol.\n\tThe password should\n\t
+	  * be 8 - 16 characters long\n\t
+	  * contain at least 1 upper case\n\t
+	  * contain at least 1 lower case\n\t
+	  * contain at least 1 special case</string>
 </resources>
