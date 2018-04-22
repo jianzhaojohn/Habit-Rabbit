@@ -253,8 +253,8 @@ public class HabitListActivity extends AppCompatActivity {
             holder.itemView.setOnClickListener(mOnClickListener);
             holder.itemView.setOnLongClickListener(mOnLongClickListener);
 
-            holder.mDeleteImg.setTag(mValues.get(currentPosition));
-            holder.mDeleteImg.setOnClickListener(v -> {
+            holder.mIdView.setTag(mValues.get(currentPosition));
+            holder.mIdView.setOnClickListener(v -> {
                 // respond the delete button with a dialog box
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle("Edit Habit")
@@ -358,13 +358,13 @@ public class HabitListActivity extends AppCompatActivity {
         class ViewHolder extends RecyclerView.ViewHolder {
             final TextView mIdView;
             final TextView mContentView;
-            final ImageView mDeleteImg;
+//            final ImageView mDeleteImg;
 
             ViewHolder(View view) {
                 super(view);
                 mIdView = (TextView) view.findViewById(R.id.id_text);
                 mContentView = (TextView) view.findViewById(R.id.content);
-                mDeleteImg = (ImageView) view.findViewById(R.id.delete_image);
+//                mDeleteImg = (ImageView) view.findViewById(R.id.delete_image);
 
             }
         }
