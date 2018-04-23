@@ -39,6 +39,7 @@ public class CalendarActivity extends AppCompatActivity {
                 break;
             case  R.id.nav_agenda:
                break;
+
             case  R.id.nav_logout:
                 try{
                     // getApplicationContext().deleteFile("autionloginfile");
