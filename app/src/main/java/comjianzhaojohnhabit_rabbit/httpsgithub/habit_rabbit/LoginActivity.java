@@ -305,11 +305,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             }
                         } catch (JSONException e) {
                             showProgress(false);
-                            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                            builder.setTitle("Response error")
-                                    .setMessage(e.toString())
-                                    .setNegativeButton("OK", null)
-                                    .create()
+                            Snackbar.make(mEmailView, "Response Error. Please try again later.", Snackbar.LENGTH_SHORT)
                                     .show();
                             e.printStackTrace();
                         }
@@ -318,11 +314,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public void onErrorResponse(VolleyError error) {
                 showProgress(false);
-                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                builder.setMessage(error.toString())
-                        .setTitle("Volley Error")
-                        .setNegativeButton("OK", null)
-                        .create()
+                Snackbar.make(mEmailView, "Volley Error! Please check your connection or try again later.", Snackbar.LENGTH_SHORT)
                         .show();
             }
         }) {

@@ -311,22 +311,14 @@ public class HabitListActivity extends AppCompatActivity {
 
                                 if (success) {
                                     deleteHabit(context, habit);
-
+                                    Snackbar.make(recyclerView, "Deleted habit " + habit.getName(), Snackbar.LENGTH_SHORT)
+                                            .show();
                                 } else {
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                                    builder.setTitle("Delete Habit")
-                                            .setMessage("Delete habit failed!")
-                                            .setNegativeButton("Retry", null)
-                                            .setPositiveButton("OK", null)
-                                            .create()
+                                    Snackbar.make(recyclerView, "Failed on deleting habit " + habit.getName(), Snackbar.LENGTH_SHORT)
                                             .show();
                                 }
                             } catch (JSONException e) {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                                builder.setTitle("Response error")
-                                        .setMessage(e.toString())
-                                        .setNegativeButton("OK", null)
-                                        .create()
+                                Snackbar.make(recyclerView, "Response Error: " + e.toString(), Snackbar.LENGTH_SHORT)
                                         .show();
                                 e.printStackTrace();
                             }
@@ -334,11 +326,7 @@ public class HabitListActivity extends AppCompatActivity {
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setTitle("Volley Error")
-                            .setMessage(error.toString())
-                            .setNegativeButton("OK", null)
-                            .create()
+                    Snackbar.make(recyclerView, "Volley Error! Please check your connection or try again later.", Snackbar.LENGTH_SHORT)
                             .show();
                 }
             }) {

@@ -25,12 +25,12 @@ import java.util.Map;
 
 public class AddHabitActivity extends Activity {
 
-    TextView mTitleView, mDesView, mTimesView;
-    Spinner mPeriodView;
-    Switch mReminder;
+    private TextView mTitleView, mDesView, mTimesView;
+    private Spinner mPeriodView;
+    private Switch mReminder;
 
-    String username, title, description, times, period, reminder;
-    int valTimes;
+    private String username, title, description, times, period, reminder;
+    private int valTimes;
     /**
      *
      * Called when the activity is starting. This is where most initialization should go: calling setContentView(int) to inflate the activity's UI, using findViewById(int) to programmatically interact with widgets in the UI, calling managedQuery(android.net.Uri, String[], String, String[], String) to retrieve cursors for data being displayed, etc.
