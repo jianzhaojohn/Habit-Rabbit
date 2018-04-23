@@ -1,0 +1,22 @@
+Meeting date and time: 4-23 at 12 PM
+
+Attendance:
+Alison - absent
+Xiaoyun - present
+Jonathan - present
+John - present
+Sunny - present
+
+Done since last week:
+Alison - 
+Xiaoyun - bug fixes and front end
+Jonathan - rabbits and front end
+John - feature requests
+Sunny - beta video and release
+
+To do next week:
+Alison - 
+Xiaoyun - bug fixes
+Jonathan - front end and UI
+John - feature request
+Sunny - bug fixes
