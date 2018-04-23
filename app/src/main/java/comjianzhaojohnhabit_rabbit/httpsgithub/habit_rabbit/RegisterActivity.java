@@ -145,6 +145,8 @@ public class RegisterActivity extends Activity {
                             Boolean success = jsonRes.getBoolean("success");
 
                             if (success) {
+                                Snackbar.make(mEmailView, "Registration Succeed!", Snackbar.LENGTH_SHORT)
+                                        .show();
                                 // jump to next page
                                 startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                                 finish();
@@ -155,11 +157,7 @@ public class RegisterActivity extends Activity {
                             }
                         } catch (JSONException e) {
                             //display the error message when catch a exception
-                            AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-                            builder.setMessage(e.toString())
-                                    .setTitle("Response error")
-                                    .setNegativeButton("", null)
-                                    .create()
+                            Snackbar.make(mEmailView, "Response Error: " + e.toString(), Snackbar.LENGTH_SHORT)
                                     .show();
                             e.printStackTrace();
                         }
@@ -167,11 +165,7 @@ public class RegisterActivity extends Activity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-                builder.setMessage(error.toString())
-                        .setTitle("Volley Error")
-                        .setNegativeButton("OK", null)
-                        .create()
+                Snackbar.make(mEmailView, "Volley Error! Please check your connection or try again later.", Snackbar.LENGTH_SHORT)
                         .show();
             }
         }) {
@@ -235,6 +229,7 @@ public class RegisterActivity extends Activity {
     //clickListener, which open the login page when clicked
     public void goLogin(View view) {
         Intent intent = new Intent(this, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
 }

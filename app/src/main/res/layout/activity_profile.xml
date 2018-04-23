@@ -2,102 +2,81 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:isScrollContainer="true"
     android:orientation="vertical"
-    tools:context="comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit.ProfileActivity">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    app:layout_scrollFlags="scroll">
 
-    <!--<android.support.design.widget.AppBarLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:theme="@style/AppTheme.AppBarOverlay">-->
-
-    <!--</android.support.design.widget.AppBarLayout>-->
-
-    <RelativeLayout
+    <FrameLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="@dimen/app_bar_height"
+        android:background="@drawable/rabbithouse2"
+        app:layout_constraintBottom_toTopOf="@+id/username"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:id="@+id/coverphoto"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:background="@drawable/rabbithouse2"></LinearLayout>
-
-        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_image"
             android:layout_width="96dp"
             android:layout_height="96dp"
-            android:layout_above="@+id/username"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/profile"
-            />
+            android:layout_gravity="center"
+            android:src="@drawable/profile" />
+    </FrameLayout>
 
-        <TextView
-            android:id="@+id/username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/profile_image"
-            android:layout_alignStart="@+id/profile_image"
-            android:layout_below="@+id/coverphoto"
-            android:text="User Name"
-            android:textColor="@android:color/background_dark"
-            android:textSize="20dp"
-            android:textStyle="bold" />
+    <TextView
+        android:id="@+id/username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="User Name"
+        android:textAlignment="center"
+        android:textColor="@android:color/background_dark"
+        android:textSize="20dp"
+        android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/userbio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/username"
-            android:layout_centerHorizontal="true"
-            android:ems="10"
-            android:hint="User Bio here"
-            android:inputType="textPersonName"
-            android:textAlignment="center" />
+    <EditText
+        android:id="@+id/userbio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="User Bio here"
+        android:inputType="textPersonName"
+        android:textAlignment="center" />
 
-        <Button
-            android:id="@+id/settingButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/userbio"
-            android:background="@android:color/background_light"
-            android:onClick="Set_onClick"
-            android:text="Settings" />
+    <Button
+        android:id="@+id/settingButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/background_light"
+        android:onClick="Set_onClick"
+        android:text="Settings" />
 
-        <Button
-            android:id="@+id/AchievementButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/settingButton"
-            android:background="@android:color/background_light"
-            android:text="Achievements" />
-        <Button
-            android:id="@+id/FriendButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/AchievementButton"
-            android:background="@android:color/background_light"
-            android:text="Friends" />
-        <Button
-            android:id="@+id/EditProfileButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/FriendButton"
-            android:background="@android:color/background_light"
-            android:text="EditProfile"
-            android:onClick="editprofile"/>
+    <Button
+        android:id="@+id/AchievementButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/background_light"
+        android:text="Achievements" />
 
-    </RelativeLayout>
+    <Button
+        android:id="@+id/FriendButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/background_light"
+        android:text="Friends" />
 
-
+    <Button
+        android:id="@+id/EditProfileButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:background="@android:color/background_light"
+        android:onClick="editprofile"
+        android:text="EditProfile" />
 </LinearLayout>
+

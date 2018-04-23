@@ -16,24 +16,21 @@
 
     <!-- This FrameLayout insets its children based on system windows using
          android:fitsSystemWindows. -->
-    <RelativeLayout
+    <FrameLayout
         android:id="@+id/activity_main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/grass">
 
         <ImageButton
             android:id="@+id/hutchbutton"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_centerInParent="true"
-            android:layout_marginBottom="188dp"
-            android:background="@null"
+            android:layout_width="150dp"
+            android:layout_height="170dp"
+            android:layout_gravity="center"
+            android:background="@drawable/mushroom"
             android:onClick="openrabbit"
-            app:srcCompat="@drawable/rabbithouse" />
-<!--
+            android:paddingTop="50dp" />
+        <!--
         <ImageButton
             android:id="@+id/streakbutton"
             android:layout_width="150dp"
@@ -44,17 +41,16 @@
             android:layout_marginBottom="33dp"
             android:background="@drawable/streakbutton" />
     -->
-    </RelativeLayout>
+    </FrameLayout>
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
-        android:layout_height="match_parent"
         android:layout_width="wrap_content"
-        android:fitsSystemWindows="true"
-        app:menu="@menu/navigation_menu"
+        android:layout_height="match_parent"
         android:layout_gravity="start"
-        >
-    </android.support.design.widget.NavigationView>
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/header_layout"
+        app:menu="@menu/navigation_menu"></android.support.design.widget.NavigationView>
 
 
 

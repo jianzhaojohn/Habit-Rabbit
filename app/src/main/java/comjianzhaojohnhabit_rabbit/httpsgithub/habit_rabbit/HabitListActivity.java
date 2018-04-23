@@ -53,6 +53,7 @@ public class HabitListActivity extends AppCompatActivity {
      * device.
      */
     private boolean mTwoPane;
+    protected static RecyclerView recyclerView;
     protected static RecyclerView.Adapter adapter;
 
     /**
@@ -86,14 +87,6 @@ public class HabitListActivity extends AppCompatActivity {
             }
         });
 
-   /*     FloatingActionButton fab2 = (FloatingActionButton) findViewById(R.id.fab_agenda);
-        fab2.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(HabitListActivity.this, CalendarActivity.class));
-            }
-        });
-*/
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -108,7 +101,7 @@ public class HabitListActivity extends AppCompatActivity {
             mTwoPane = true;
         }
 
-        View recyclerView = findViewById(R.id.habit_list);
+        recyclerView = findViewById(R.id.habit_list);
         assert recyclerView != null;
         setupRecyclerView((RecyclerView) recyclerView);
     }
@@ -263,8 +256,8 @@ public class HabitListActivity extends AppCompatActivity {
             holder.itemView.setOnClickListener(mOnClickListener);
             holder.itemView.setOnLongClickListener(mOnLongClickListener);
 
-            holder.mDeleteImg.setTag(mValues.get(currentPosition));
-            holder.mDeleteImg.setOnClickListener(v -> {
+            holder.mIdView.setTag(mValues.get(currentPosition));
+            holder.mIdView.setOnClickListener(v -> {
                 // respond the delete button with a dialog box
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle("Edit Habit")
@@ -283,10 +276,10 @@ public class HabitListActivity extends AppCompatActivity {
 
         //deleted the database
         private void deleteHabit(Context mContext, Habit habit) {
+            int currentPosition = HabitList.HABITS_list.indexOf(habit);
             // delete habit locally
             SharedPref.deleteHabit(mContext, habit);
             HabitList.deleteHabit(habit);
-            int currentPosition = HabitList.HABITS_list.indexOf(habit);
             notifyItemRemoved(currentPosition);
             if (currentPosition != mValues.size()) {
                 notifyItemRangeChanged(currentPosition, mValues.size()-currentPosition);
@@ -320,22 +313,14 @@ public class HabitListActivity extends AppCompatActivity {
 
                                 if (success) {
                                     deleteHabit(context, habit);
-
+                                    Snackbar.make(recyclerView, "Deleted habit " + habit.getName(), Snackbar.LENGTH_SHORT)
+                                            .show();
                                 } else {
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                                    builder.setTitle("Delete Habit")
-                                            .setMessage("Delete habit failed!")
-                                            .setNegativeButton("Retry", null)
-                                            .setPositiveButton("OK", null)
-                                            .create()
+                                    Snackbar.make(recyclerView, "Failed on deleting habit " + habit.getName(), Snackbar.LENGTH_SHORT)
                                             .show();
                                 }
                             } catch (JSONException e) {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                                builder.setTitle("Response error")
-                                        .setMessage(e.toString())
-                                        .setNegativeButton("OK", null)
-                                        .create()
+                                Snackbar.make(recyclerView, "Response Error: " + e.toString(), Snackbar.LENGTH_SHORT)
                                         .show();
                                 e.printStackTrace();
                             }
@@ -343,11 +328,7 @@ public class HabitListActivity extends AppCompatActivity {
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setTitle("Volley Error")
-                            .setMessage(error.toString())
-                            .setNegativeButton("OK", null)
-                            .create()
+                    Snackbar.make(recyclerView, "Volley Error! Please check your connection or try again later.", Snackbar.LENGTH_SHORT)
                             .show();
                 }
             }) {
@@ -368,13 +349,13 @@ public class HabitListActivity extends AppCompatActivity {
         class ViewHolder extends RecyclerView.ViewHolder {
             final TextView mIdView;
             final TextView mContentView;
-            final ImageView mDeleteImg;
+//            final ImageView mDeleteImg;
 
             ViewHolder(View view) {
                 super(view);
                 mIdView = (TextView) view.findViewById(R.id.id_text);
                 mContentView = (TextView) view.findViewById(R.id.content);
-                mDeleteImg = (ImageView) view.findViewById(R.id.delete_image);
+//                mDeleteImg = (ImageView) view.findViewById(R.id.delete_image);
 
             }
         }

@@ -26,11 +26,22 @@
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@android:color/background_light"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right|end"
+            android:background="@color/calendar_bg"
+            app:srcCompat="@drawable/rabbit_water"
+            tools:ignore="RtlHardcoded" />
 
         <include
             layout="@layout/habit_list"
             android:visibility="visible" />
+
     </FrameLayout>
 
     <android.support.design.widget.FloatingActionButton
