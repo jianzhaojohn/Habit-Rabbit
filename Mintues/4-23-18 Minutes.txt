@@ -8,7 +8,7 @@ John - present
 Sunny - present
 
 Done since last week:
-Alison - 
+Alison - clickable notification
 Xiaoyun - bug fixes and front end
 Jonathan - rabbits and front end
 John - feature requests
@@ -17,6 +17,6 @@ Sunny - beta video and release
 To do next week:
 Alison - 
 Xiaoyun - bug fixes
-Jonathan - front end and UI
+Jonathan - front end and UI, about us page fixes with menu
 John - feature request
 Sunny - bug fixes
