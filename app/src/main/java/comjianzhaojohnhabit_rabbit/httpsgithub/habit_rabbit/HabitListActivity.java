@@ -53,6 +53,7 @@ public class HabitListActivity extends AppCompatActivity {
      * device.
      */
     private boolean mTwoPane;
+    protected static RecyclerView recyclerView;
     protected static RecyclerView.Adapter adapter;
 
     /**
@@ -100,7 +101,7 @@ public class HabitListActivity extends AppCompatActivity {
             mTwoPane = true;
         }
 
-        View recyclerView = findViewById(R.id.habit_list);
+        recyclerView = findViewById(R.id.habit_list);
         assert recyclerView != null;
         setupRecyclerView((RecyclerView) recyclerView);
     }
