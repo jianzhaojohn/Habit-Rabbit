@@ -37,6 +37,9 @@ public class CalendarActivity extends AppCompatActivity {
             case R.id.nav_Profile:
                 startActivity(new Intent(CalendarActivity.this, ProfileActivity.class));
                 break;
+            case R.id.nav_aboutus:
+                startActivity(new Intent(CalendarActivity.this, AboutusActivity.class));
+                break;
             case  R.id.nav_agenda:
                break;
 

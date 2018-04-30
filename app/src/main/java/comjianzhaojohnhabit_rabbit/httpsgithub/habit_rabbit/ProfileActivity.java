@@ -55,6 +55,9 @@ public class ProfileActivity extends AppCompatActivity {
             case  R.id.nav_agenda:
                 startActivity(new Intent(ProfileActivity.this, CalendarActivity.class));
                 break;
+            case  R.id.nav_aboutus:
+                startActivity(new Intent(ProfileActivity.this, AboutusActivity.class));
+                break;
 
             case  R.id.nav_logout:
                 try{
