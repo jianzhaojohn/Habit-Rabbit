@@ -59,6 +59,7 @@ public class HabitListActivity extends AppCompatActivity {
     /**
      * Called when the activity is starting.
      * generate the view for this page
+     *
      * @param savedInstanceState If the activity is being re-initialized after previously being shut down then this Bundle contains the data it most recently supplied in onSaveInstanceState(Bundle). Note: Otherwise it is null.
      */
     @Override
@@ -80,7 +81,7 @@ public class HabitListActivity extends AppCompatActivity {
         });
         */
         // jump to newHabitActivity in responding to click the fab
-        fab.setOnClickListener(new View.OnClickListener(){
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(HabitListActivity.this, AddHabitActivity.class));
@@ -108,6 +109,7 @@ public class HabitListActivity extends AppCompatActivity {
 
     /**
      * Initialize the contents of the Activity's standard options menu. You should place your menu items in to menu.
+     *
      * @param menu-The options menu in which you place your items.
      * @return You must return true for the menu to be displayed; if you return false it will not be shown.
      */
@@ -119,7 +121,8 @@ public class HabitListActivity extends AppCompatActivity {
     }
 
     /**
-     *This hook is called whenever an item in your options menu is selected.
+     * This hook is called whenever an item in your options menu is selected.
+     *
      * @param item-The menu item that was selected.
      * @return boolean Return false to allow normal menu processing to proceed, true to consume it here.
      */
@@ -131,28 +134,29 @@ public class HabitListActivity extends AppCompatActivity {
             case R.id.nav_Profile:
                 startActivity(new Intent(HabitListActivity.this, ProfileActivity.class));
                 break;
-            case  R.id.nav_agenda:
+            case R.id.nav_agenda:
                 startActivity(new Intent(HabitListActivity.this, CalendarActivity.class));
                 break;
 
 
-            case  R.id.nav_logout:
-                try{
+            case R.id.nav_logout:
+                try {
                     // getApplicationContext().deleteFile("autionloginfile");
                     File autologin = getApplicationContext().getFileStreamPath("autionloginfile");
                     autologin.delete();
                     // clear and delete data file, then logout
                     SharedPref.clearAll(HabitListActivity.this);
                     String fileName = SharedPref.FILE_NAME;
-                    File file= new File(this.getFilesDir().getParent()+"/shared_prefs/"+fileName+".xml");
+                    File file = new File(this.getFilesDir().getParent() + "/shared_prefs/" + fileName + ".xml");
                     file.delete();
 
                     Intent intent = new Intent(this, LoginActivity.class);
                     intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK | intent.FLAG_ACTIVITY_CLEAR_TOP | intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
-                }catch(Exception e){}
+                } catch (Exception e) {
+                }
                 break;
-            case  R.id.nav_habits:
+            case R.id.nav_habits:
 //                startActivity(new Intent(HabitListActivity.this, HabitListActivity.class));
                 break;
             default:
@@ -201,15 +205,16 @@ public class HabitListActivity extends AppCompatActivity {
         };
 
         //onLongClickListener
-        private  final View.OnLongClickListener mOnLongClickListener = v -> {
+        private final View.OnLongClickListener mOnLongClickListener = v -> {
             // respond the delete button with a dialog box
             final Context context = v.getContext();
             final Habit currentHabit = (Habit) v.getTag();
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            builder.setTitle("Edit Habit")
-                    .setMessage("Do you want to delete this habit?")
+            builder.setTitle("Delete Habit")
+                    .setMessage("Do you want to remove this habit?\nThe bunny will be upset...")
                     .setNegativeButton("NO", null)
                     .setPositiveButton("YES", (dialog, which) -> deleteHabitRequest(context, currentHabit))
+                    .setIcon(R.drawable.ic_delete_forever_black_24dp)
                     .create()
                     .show();
             return true;
@@ -225,8 +230,9 @@ public class HabitListActivity extends AppCompatActivity {
         }
 
         /**
-         *Called when RecyclerView needs a new RecyclerView.ViewHolder of the given type to represent an item.
-         * @param parent The ViewGroup into which the new View will be added after it is bound to an adapter position.
+         * Called when RecyclerView needs a new RecyclerView.ViewHolder of the given type to represent an item.
+         *
+         * @param parent   The ViewGroup into which the new View will be added after it is bound to an adapter position.
          * @param viewType The view type of the new View.
          * @return A new ViewHolder that holds a View of the given view type.
          */
@@ -239,7 +245,8 @@ public class HabitListActivity extends AppCompatActivity {
 
         /**
          * Called by RecyclerView to display the data at the specified position. This method should update the contents of the itemView to reflect the item at the given position.
-         * @param holder-The ViewHolder which should be updated to represent the contents of the item at the given position in the data set.
+         *
+         * @param holder-The   ViewHolder which should be updated to represent the contents of the item at the given position in the data set.
          * @param position-The position of the item within the adapter's data set.
          */
         @Override
@@ -249,7 +256,7 @@ public class HabitListActivity extends AppCompatActivity {
             final Habit currentHabit = HabitList.HABITS_list.get(position);
 
 //            holder.mIdView.setText(mValues.get(position).getHabitID()+"");
-            holder.mIdView.setText(position+1+"");
+            holder.mIdView.setText(position + 1 + "");
             holder.mContentView.setText(mValues.get(position).getName());
 
             holder.itemView.setTag(mValues.get(position));
@@ -260,17 +267,13 @@ public class HabitListActivity extends AppCompatActivity {
             holder.mIdView.setOnClickListener(v -> {
                 // respond the delete button with a dialog box
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle("Edit Habit")
-                    .setMessage("Do you want to delete this habit?")
-                    .setNegativeButton("NO", null)
-                    .setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            deleteHabitRequest(context, currentHabit);
-                        }
-                    })
-                    .create()
-                    .show();
+                builder.setTitle("Delete Habit")
+                        .setMessage("Do you want to remove this habit?\nThe bunny will be upset...")
+                        .setNegativeButton("NO", null)
+                        .setPositiveButton("YES", (dialog, which) -> deleteHabitRequest(context, currentHabit))
+                        .setIcon(R.drawable.ic_delete_forever_black_24dp)
+                        .create()
+                        .show();
             });
         }
 
@@ -282,7 +285,7 @@ public class HabitListActivity extends AppCompatActivity {
             HabitList.deleteHabit(habit);
             notifyItemRemoved(currentPosition);
             if (currentPosition != mValues.size()) {
-                notifyItemRangeChanged(currentPosition, mValues.size()-currentPosition);
+                notifyItemRangeChanged(currentPosition, mValues.size() - currentPosition);
             }
         }
 
@@ -295,7 +298,7 @@ public class HabitListActivity extends AppCompatActivity {
         private void deleteHabitRequest(final Context context, final Habit habit) {
             // get params
             final String username = SharedPref.getUser(context);
-            final String habit_id = habit.getHabitID()+"";
+            final String habit_id = habit.getHabitID() + "";
             // send delete habit request
             RequestQueue queue = VolleySingleton.getInstance(context)
                     .getRequestQueue(context);
@@ -303,7 +306,7 @@ public class HabitListActivity extends AppCompatActivity {
 
             // request server to add this habit to database
             StringRequest loginReq = new StringRequest(Request.Method.POST, add_habit_url,
-                    new Response.Listener<String>(){
+                    new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
                             try {

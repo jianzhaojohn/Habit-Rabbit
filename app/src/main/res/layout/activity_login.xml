@@ -92,7 +92,7 @@
                     android:onClick="goRegister"
                     android:text="Register Here"
                     android:textAlignment="center"
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
 
             </android.support.design.widget.TextInputLayout>
 
