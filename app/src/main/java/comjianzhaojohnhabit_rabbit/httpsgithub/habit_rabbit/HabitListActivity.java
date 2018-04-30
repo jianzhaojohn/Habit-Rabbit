@@ -214,6 +214,7 @@ public class HabitListActivity extends AppCompatActivity {
                     .setMessage("Do you want to remove this habit?\nThe bunny will be upset...")
                     .setNegativeButton("NO", null)
                     .setPositiveButton("YES", (dialog, which) -> deleteHabitRequest(context, currentHabit))
+                    .setIcon(R.drawable.ic_delete_forever_black_24dp)
                     .create()
                     .show();
             return true;
@@ -270,6 +271,7 @@ public class HabitListActivity extends AppCompatActivity {
                         .setMessage("Do you want to remove this habit?\nThe bunny will be upset...")
                         .setNegativeButton("NO", null)
                         .setPositiveButton("YES", (dialog, which) -> deleteHabitRequest(context, currentHabit))
+                        .setIcon(R.drawable.ic_delete_forever_black_24dp)
                         .create()
                         .show();
             });

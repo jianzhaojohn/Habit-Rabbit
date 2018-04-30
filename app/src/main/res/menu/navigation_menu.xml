@@ -21,10 +21,12 @@
             android:icon="@drawable/ic_list_black_24dp"
             android:title="Habits" />
     </group>
-    <item
-        android:id="@+id/nav_aboutus"
-        android:icon="@drawable/ic_list_black_24dp"
-        android:title="About Us" />
+    <group android:id="@+id/g2">
+        <item
+            android:id="@+id/nav_aboutus"
+            android:icon="@drawable/ic_tag_faces_black_24dp"
+            android:title="About Us" />
+    </group>
     <item
         android:id="@+id/nav_logout"
         android:icon="@drawable/ic_exit_to_app_black_24dp"
