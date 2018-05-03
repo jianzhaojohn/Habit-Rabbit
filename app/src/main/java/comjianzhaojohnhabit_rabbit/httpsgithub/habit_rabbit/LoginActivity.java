@@ -146,11 +146,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public void onClick(View view) {
                 attemptLogin();
+                findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
+                if(attemptLogin() == false || attemptLogin()){
+                    findViewById(R.id.loadingPanel).setVisibility(View.GONE);
+                }
             }
         });
 
         mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
+        mProgressView = findViewById(R.id.loadingPanel);
+        findViewById(R.id.loadingPanel).setVisibility(View.GONE);
     }
 
     private void populateAutoComplete() {
@@ -206,7 +211,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-    private void attemptLogin() {
+    private boolean attemptLogin() {
 
         // Reset errors.
         mEmailView.setError(null);
@@ -241,11 +246,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // There was an error; don't attempt login and focus the first
             // form field with an error.
             focusView.requestFocus();
+            return false;
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
             requestLogin(email, password);
+            return true;
         }
     }
 
