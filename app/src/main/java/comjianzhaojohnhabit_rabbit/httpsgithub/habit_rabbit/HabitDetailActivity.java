@@ -209,6 +209,7 @@ public class HabitDetailActivity extends AppCompatActivity {
                                 currentHabit.setReminder(mReminder.isChecked());
                                 currentHabit.setDescription(description);
                                 SharedPref.editHabit(HabitDetailActivity.this, currentHabit);
+                                HabitListActivity.adapter.notifyItemChanged(HabitList.HABITS_list.indexOf(currentHabit));
 
                                 // alert user
                                 Snackbar.make(mTitleView, "Habit has been saved.", Snackbar.LENGTH_SHORT)

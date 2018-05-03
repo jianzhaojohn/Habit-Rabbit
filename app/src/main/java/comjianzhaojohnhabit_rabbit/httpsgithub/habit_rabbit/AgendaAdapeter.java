@@ -1,6 +1,5 @@
 package comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -14,12 +13,10 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,6 +25,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.LinkedList;
 import java.util.Map;
 
 /**
@@ -143,6 +142,10 @@ public class AgendaAdapeter extends RecyclerView.Adapter<AgendaAdapeter.EventVie
                             case R.id.check:
                                 addRecordRequest(event);
                                 break;
+                            case R.id.decrease:
+                                attemptRemoveRecord(event);
+//                                removeRecordRequest(event);
+                                break;
                         }
                         return false;
                     }
@@ -153,8 +156,86 @@ public class AgendaAdapeter extends RecyclerView.Adapter<AgendaAdapeter.EventVie
             });
         }
 
+        private void attemptRemoveRecord(Habit habit) {
+            Date currentDate = new Date();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            final String date = dateFormat.format(currentDate);
+            Context context = itemView.getContext();
+
+            LinkedList<Date> records = habit.getTodayRecords();
+            if(records.size() > 0) {
+                removeRecordRequest(habit, records.peek());
+            } else {
+                Snackbar.make(titleTextView, "No record today to remove!", Snackbar.LENGTH_SHORT)
+                        .show();
+            }
+        }
+
+        private void removeRecordRequest(Habit habit, Date dateTime) {
+            // get params
+            final String username = HabitList.getUserName();
+            final String habit_id = habit.getHabitID() + "";
+//            Date currentDate = new Date();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            final String date = dateFormat.format(dateTime);
+            Context context = itemView.getContext();
+            // send delete habit request
+            RequestQueue queue = VolleySingleton.getInstance(context).getRequestQueue(context);
+            final String remove_record_url = "https://habit-rabbit.000webhostapp.com/remove_record.php";
+
+            ProgressDialog progress = new ProgressDialog(context);
+            progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progress.setMessage("Decrementing records of habit: " + habit.getName());
+            progress.show();
+
+            // request server to add a new record to this habit to database
+            StringRequest recordReq = new StringRequest(Request.Method.POST, remove_record_url,
+                    response -> {
+                        progress.dismiss();
+                        try {
+                            // parse the response
+                            JSONObject jsonRes = new JSONObject(response);
+                            Boolean success = jsonRes.getBoolean("success");
+
+                            if (success) {
+                                // update local records
+                                habit.updateStreaks(dateTime, -1);
+                                SharedPref.saveRecords(context, jsonRes.getJSONArray("records"));
+                                notifyItemChanged(mList.indexOf(habit));
+
+                                Snackbar.make(titleTextView, "Decremented records of \""+habit.getName()+"\" by 1!", Snackbar.LENGTH_SHORT)
+                                        .show();
+                            } else {
+                                //show message when fails
+                                Snackbar.make(titleTextView, "Decrementing records of \""+habit.getName()+"\" failed!", Snackbar.LENGTH_SHORT)
+                                        .show();
+                            }
+                        } catch (JSONException e) {
+                            //show message when catch exception
+                            Snackbar.make(titleTextView, "Decrementing records of \""+habit.getName()+"\" failed! Please retry later.", Snackbar.LENGTH_SHORT)
+                                    .show();
+                            e.printStackTrace();
+                        }
+                    }, error -> {
+                progress.dismiss();
+                Snackbar.make(titleTextView, "Decrementing record failed! Please check your network and try again.", Snackbar.LENGTH_SHORT)
+                        .show();
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("username", username);
+                    params.put("habit_id", habit_id);
+                    params.put("date", date);
+                    return params;
+                }
+            };
+
+            queue.add(recordReq);
+        }
+
         /**
-         * update the local change to dtatbase
+         * update the local change to database
          *
          * @param habit- user habbit
          */
@@ -176,8 +257,8 @@ public class AgendaAdapeter extends RecyclerView.Adapter<AgendaAdapeter.EventVie
             progress.setMessage("Checking habit: " + habit.getName());
             progress.show();
 
-            // request server to add this habit to database
-            StringRequest loginReq = new StringRequest(Request.Method.POST, add_record_url,
+            // request server to add a new record to this habit to database
+            StringRequest recordReq = new StringRequest(Request.Method.POST, add_record_url,
                     response -> {
                         progress.dismiss();
                         try {
@@ -219,7 +300,7 @@ public class AgendaAdapeter extends RecyclerView.Adapter<AgendaAdapeter.EventVie
                 }
             };
 
-            queue.add(loginReq);
+            queue.add(recordReq);
         }
 
 

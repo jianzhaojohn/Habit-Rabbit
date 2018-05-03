@@ -3,7 +3,6 @@ package comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -19,9 +18,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
+
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -29,7 +31,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,8 +40,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static android.app.PendingIntent.getActivity;
-import static android.support.v4.app.NavUtils.navigateUpFromSameTask;
 
 /**
  * An activity representing a list of Habits. This activity

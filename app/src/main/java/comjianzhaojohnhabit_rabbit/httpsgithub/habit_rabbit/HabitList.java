@@ -4,8 +4,6 @@ import android.content.Context;
 
 import com.google.gson.annotations.SerializedName;
 
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Hashtable;
