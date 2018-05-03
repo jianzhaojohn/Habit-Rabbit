@@ -139,7 +139,9 @@ public class HabitListActivity extends AppCompatActivity {
             case R.id.nav_agenda:
                 startActivity(new Intent(HabitListActivity.this, CalendarActivity.class));
                 break;
-
+            case R.id.nav_aboutus:
+                startActivity(new Intent(HabitListActivity.this, AboutusActivity.class));
+                break;
 
             case R.id.nav_logout:
                 try {
