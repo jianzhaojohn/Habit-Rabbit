@@ -46,6 +46,15 @@
         app:layout_anchorGravity="top|end"
         app:srcCompat="@android:drawable/ic_menu_save" />
 
+    <ProgressBar
+        android:id="@+id/edit_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone" />
+
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/habit_detail_container"
         android:layout_width="match_parent"

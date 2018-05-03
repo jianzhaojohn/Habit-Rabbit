@@ -1,8 +1,12 @@
 package comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -40,6 +44,8 @@ public class HabitDetailActivity extends AppCompatActivity {
     private TextView mTitleView, mDesView, mTimesView;
     private Spinner mPeriodView;
     private Switch mReminder;
+    private View mProgressView;
+    private View mDetailView;
 
     private Habit currentHabit;
     private String username, title, description, times, period, reminder, habit_id;
@@ -99,6 +105,9 @@ public class HabitDetailActivity extends AppCompatActivity {
                     .add(R.id.habit_detail_container, fragment)
                     .commit();
         }
+
+        mDetailView = (View) findViewById(R.id.habit_detail_container);
+        mProgressView = (View) findViewById(R.id.edit_progress);
     }
 
     @Override
@@ -168,6 +177,7 @@ public class HabitDetailActivity extends AppCompatActivity {
         if(cancel) {
             focusView.requestFocus();
         } else {
+            showProgress(true);
             editHabitRequest();
             Snackbar.make(mTitleView, "Saving changes...", Snackbar.LENGTH_SHORT)
                     .show();
@@ -185,6 +195,7 @@ public class HabitDetailActivity extends AppCompatActivity {
                 new Response.Listener<String>(){
                     @Override
                     public void onResponse(String response) {
+                        showProgress(false);
                         try {
                             // parse the response
                             JSONObject jsonRes = new JSONObject(response);
@@ -218,6 +229,7 @@ public class HabitDetailActivity extends AppCompatActivity {
             //On errorResponse
             @Override
             public void onErrorResponse(VolleyError error) {
+                showProgress(false);
                 Snackbar.make(mTitleView, "Volley Error! Please check your connection or try again later.", Snackbar.LENGTH_SHORT)
                         .show();
             }
@@ -238,6 +250,39 @@ public class HabitDetailActivity extends AppCompatActivity {
         };
 
         queue.add(loginReq);
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    private void showProgress(final boolean show) {
+        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
+        // for very easy animations. If available, use these APIs to fade-in
+        // the progress spinner.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+
+            mDetailView.setVisibility(show ? View.GONE : View.VISIBLE);
+            mDetailView.animate().setDuration(shortAnimTime).alpha(
+                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    mDetailView.setVisibility(show ? View.GONE : View.VISIBLE);
+                }
+            });
+
+            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            mProgressView.animate().setDuration(shortAnimTime).alpha(
+                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+                }
+            });
+        } else {
+            // The ViewPropertyAnimator APIs are not available, so simply show
+            // and hide the relevant UI components.
+            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            mDetailView.setVisibility(show ? View.GONE : View.VISIBLE);
+        }
     }
 
 }

@@ -1,6 +1,7 @@
 package comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -294,6 +296,11 @@ public class HabitListActivity extends AppCompatActivity {
 
         //update the deletion to the database
         private void deleteHabitRequest(final Context context, final Habit habit) {
+            ProgressDialog progress = new ProgressDialog(context);
+            progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progress.setMessage("Removing the habit: " + habit.getName());
+            progress.show();
+
             // get params
             final String username = SharedPref.getUser(context);
             final String habit_id = habit.getHabitID() + "";
@@ -307,6 +314,7 @@ public class HabitListActivity extends AppCompatActivity {
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
+                            progress.dismiss();
                             try {
                                 // parse the response
                                 JSONObject jsonRes = new JSONObject(response);
@@ -329,6 +337,7 @@ public class HabitListActivity extends AppCompatActivity {
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    progress.dismiss();
                     Snackbar.make(recyclerView, "Volley Error! Please check your connection or try again later.", Snackbar.LENGTH_SHORT)
                             .show();
                 }

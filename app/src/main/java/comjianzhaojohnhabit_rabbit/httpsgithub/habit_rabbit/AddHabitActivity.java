@@ -1,7 +1,11 @@
 package comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
@@ -28,6 +32,8 @@ public class AddHabitActivity extends Activity {
     private TextView mTitleView, mDesView, mTimesView;
     private Spinner mPeriodView;
     private Switch mReminder;
+    private View mAddHabitView;
+    private View mProgressView;
 
     private String username, title, description, times, period, reminder;
     private int valTimes;
@@ -55,6 +61,8 @@ public class AddHabitActivity extends Activity {
         mTimesView = (TextView)findViewById(R.id.editText_times);
         mPeriodView = (Spinner)findViewById(R.id.spinner_f);
         mReminder = (Switch)findViewById(R.id.switch_reminder);
+        mAddHabitView = (View) findViewById(R.id.new_habit_form);
+        mProgressView = (View) findViewById(R.id.add_progress);
 
         Button ok_button = (Button) findViewById(R.id.button_habit_ok);
         Button cancel_btn = (Button) findViewById(R.id.button_habit_cancel);
@@ -123,6 +131,7 @@ public class AddHabitActivity extends Activity {
         if(cancel) {
             focusView.requestFocus();
         } else {
+            showProgress(true);
             addHabitRequest();
             Snackbar.make(mTitleView, "Adding new habit...", Snackbar.LENGTH_SHORT)
                     .show();
@@ -198,4 +207,38 @@ public class AddHabitActivity extends Activity {
 
         queue.add(addHabitReq);
     }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    private void showProgress(final boolean show) {
+        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
+        // for very easy animations. If available, use these APIs to fade-in
+        // the progress spinner.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+
+            mAddHabitView.setVisibility(show ? View.GONE : View.VISIBLE);
+            mAddHabitView.animate().setDuration(shortAnimTime).alpha(
+                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    mAddHabitView.setVisibility(show ? View.GONE : View.VISIBLE);
+                }
+            });
+
+            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            mProgressView.animate().setDuration(shortAnimTime).alpha(
+                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+                }
+            });
+        } else {
+            // The ViewPropertyAnimator APIs are not available, so simply show
+            // and hide the relevant UI components.
+            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            mAddHabitView.setVisibility(show ? View.GONE : View.VISIBLE);
+        }
+    }
+
 }

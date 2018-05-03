@@ -1,8 +1,10 @@
 package comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -32,25 +34,24 @@ import java.util.Map;
  * Created by john on 2018/3/22.
  */
 
-public class AgendaAdapeter extends RecyclerView.Adapter<AgendaAdapeter.EventViewHolder>{
+public class AgendaAdapeter extends RecyclerView.Adapter<AgendaAdapeter.EventViewHolder> {
 
     private ArrayList<Habit> mList;
     private int mNumItems;
 
-    public AgendaAdapeter( ArrayList<Habit> list){
+    public AgendaAdapeter(ArrayList<Habit> list) {
         mList = list;
         mNumItems = list.size();
     }
 
     /**
-     *
      * Called when RecyclerView needs a new RecyclerView.ViewHolder of the given type to represent an item.
-
-     This new ViewHolder should be constructed with a new View that can represent the items of the given type. You can either create a new View manually or inflate it from an XML layout file.
-
-     The new ViewHolder will be used to display items of the adapter using onBindViewHolder(ViewHolder, int, List). Since it will be re-used to display different items in the data set, it is a good idea to cache references to sub views of the View to avoid unnecessary findViewById(int) calls.
+     * <p>
+     * This new ViewHolder should be constructed with a new View that can represent the items of the given type. You can either create a new View manually or inflate it from an XML layout file.
+     * <p>
+     * The new ViewHolder will be used to display items of the adapter using onBindViewHolder(ViewHolder, int, List). Since it will be re-used to display different items in the data set, it is a good idea to cache references to sub views of the View to avoid unnecessary findViewById(int) calls.
      *
-     * @param parent-The ViewGroup into which the new View will be added after it is bound to an adapter position.
+     * @param parent-The   ViewGroup into which the new View will be added after it is bound to an adapter position.
      * @param viewType-The view type of the new View.
      * @return A new ViewHolder that holds a View of the given view type.
      */
@@ -67,10 +68,9 @@ public class AgendaAdapeter extends RecyclerView.Adapter<AgendaAdapeter.EventVie
     }
 
     /**
-     *
      * Called by RecyclerView to display the data at the specified position. This method should update the contents of the itemView to reflect the item at the given position.
      *
-     * @param holder-The ViewHolder which should be updated to represent the contents of the item at the given position in the data set.
+     * @param holder-The   ViewHolder which should be updated to represent the contents of the item at the given position in the data set.
      * @param position-The position of the item within the adapter's data set.
      */
     @Override
@@ -84,7 +84,7 @@ public class AgendaAdapeter extends RecyclerView.Adapter<AgendaAdapeter.EventVie
     }
 
 
-    class EventViewHolder extends RecyclerView.ViewHolder{
+    class EventViewHolder extends RecyclerView.ViewHolder {
 
         TextView titleTextView;
         TextView detailTextView;
@@ -93,29 +93,28 @@ public class AgendaAdapeter extends RecyclerView.Adapter<AgendaAdapeter.EventVie
         ImageView progressDone;
 
         //constructor
-        public EventViewHolder(View itemView){
+        public EventViewHolder(View itemView) {
             super(itemView);
-            titleTextView = (TextView)itemView.findViewById(R.id.tv_event_name);
-            detailTextView=(TextView)itemView.findViewById(R.id.tv_event_detail);
-            mProgress=(ProgressBar)itemView.findViewById(R.id.completion_progressBar);
-            progressTxt=itemView.findViewById(R.id.progress_txt);
-            progressDone =itemView.findViewById(R.id.done_img);
+            titleTextView = (TextView) itemView.findViewById(R.id.tv_event_name);
+            detailTextView = (TextView) itemView.findViewById(R.id.tv_event_detail);
+            mProgress = (ProgressBar) itemView.findViewById(R.id.completion_progressBar);
+            progressTxt = itemView.findViewById(R.id.progress_txt);
+            progressDone = itemView.findViewById(R.id.done_img);
         }
 
         /**
-         *
          * bind the information to the view and display them in the fragement
          *
          * @param event- user habbit
          */
-        void bind(Habit event){
+        void bind(Habit event) {
             titleTextView.setText(event.getName());
             detailTextView.setText(event.getDescription());
 
             // set progress
             mProgress.setMax(event.getTimesPerPeriod());
             mProgress.setProgress(event.getStreak());
-            progressTxt.setText(event.getStreak()+"/"+event.getTimesPerPeriod());
+            progressTxt.setText(event.getStreak() + "/" + event.getTimesPerPeriod());
 
             // on click listeners
             progressDone.setOnClickListener(v -> addRecordRequest(event));
@@ -135,16 +134,16 @@ public class AgendaAdapeter extends RecyclerView.Adapter<AgendaAdapeter.EventVie
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                            switch (item.getItemId()) {
-                                case R.id.detail:
-                                    Intent intent = new Intent(context, HabitDetailActivity.class);
-                                    intent.putExtra(HabitDetailFragment.ARG_ITEM_ID, event.getHabitID()+"");
-                                    context.startActivity(intent);
-                                    break;
-                                case R.id.check:
-                                    addRecordRequest(event);
-                                    break;
-                            }
+                        switch (item.getItemId()) {
+                            case R.id.detail:
+                                Intent intent = new Intent(context, HabitDetailActivity.class);
+                                intent.putExtra(HabitDetailFragment.ARG_ITEM_ID, event.getHabitID() + "");
+                                context.startActivity(intent);
+                                break;
+                            case R.id.check:
+                                addRecordRequest(event);
+                                break;
+                        }
                         return false;
                     }
                 });
@@ -160,9 +159,10 @@ public class AgendaAdapeter extends RecyclerView.Adapter<AgendaAdapeter.EventVie
          * @param habit- user habbit
          */
         private void addRecordRequest(Habit habit) {
+
             // get params
             final String username = HabitList.getUserName();
-            final String habit_id = habit.getHabitID()+"";
+            final String habit_id = habit.getHabitID() + "";
             Date currentDate = new Date();
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
             final String date = dateFormat.format(currentDate);
@@ -171,9 +171,15 @@ public class AgendaAdapeter extends RecyclerView.Adapter<AgendaAdapeter.EventVie
             RequestQueue queue = VolleySingleton.getInstance(context).getRequestQueue(context);
             final String add_record_url = "https://habit-rabbit.000webhostapp.com/add_record.php";
 
+            ProgressDialog progress = new ProgressDialog(context);
+            progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progress.setMessage("Checking habit: " + habit.getName());
+            progress.show();
+
             // request server to add this habit to database
             StringRequest loginReq = new StringRequest(Request.Method.POST, add_record_url,
                     response -> {
+                        progress.dismiss();
                         try {
                             // parse the response
                             JSONObject jsonRes = new JSONObject(response);
@@ -182,38 +188,27 @@ public class AgendaAdapeter extends RecyclerView.Adapter<AgendaAdapeter.EventVie
                             if (success) {
                                 // update local records
                                 habit.updateStreaks(currentDate, 1);
-                                SharedPref.saveRecords(context,jsonRes.getJSONArray("records"));
+                                SharedPref.saveRecords(context, jsonRes.getJSONArray("records"));
                                 notifyItemChanged(mList.indexOf(habit));
-//                                mProgress.setProgress(habit.getStreak());
-//                                progressTxt.setText(habit.getStreak()+"/"+habit.getTimesPerPeriod());
+
+                                Snackbar.make(titleTextView, "New record added!", Snackbar.LENGTH_SHORT)
+                                        .show();
                             } else {
                                 //show message when fails
-                                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                                builder.setTitle("Adding Record")
-                                        .setMessage("Adding record failed!")
-                                        .setNegativeButton("Retry", null)
-                                        .setPositiveButton("OK", null)
-                                        .create()
+                                Snackbar.make(titleTextView, "Checking the habit failed!", Snackbar.LENGTH_SHORT)
                                         .show();
                             }
                         } catch (JSONException e) {
                             //show message when catch exception
-                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                            builder.setTitle("Response error")
-                                    .setMessage(e.toString())
-                                    .setNegativeButton("OK", null)
-                                    .create()
+                            Snackbar.make(titleTextView, "Checking the habit failed! Please retry later.", Snackbar.LENGTH_SHORT)
                                     .show();
                             e.printStackTrace();
                         }
                     }, error -> {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                        builder.setTitle("Volley Error")
-                                .setMessage(error.toString())
-                                .setNegativeButton("OK", null)
-                                .create()
-                                .show();
-                    }) {
+                progress.dismiss();
+                Snackbar.make(titleTextView, "Checking failed! Please check your network and try again.", Snackbar.LENGTH_SHORT)
+                        .show();
+            }) {
                 @Override
                 protected Map<String, String> getParams() {
                     Map<String, String> params = new HashMap<>();
