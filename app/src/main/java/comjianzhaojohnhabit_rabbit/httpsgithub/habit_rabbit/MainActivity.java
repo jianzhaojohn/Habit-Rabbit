@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity
         TextView username = header.findViewById(R.id.user);
         username.setText(HabitList.getUserName());
 
-        Toast.makeText(MainActivity.this, "Thanks for using our app!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(MainActivity.this, "Welcome! The bunny is missing you!", Toast.LENGTH_SHORT).show();
     }
 
     public static boolean isRabbitAlive() {
