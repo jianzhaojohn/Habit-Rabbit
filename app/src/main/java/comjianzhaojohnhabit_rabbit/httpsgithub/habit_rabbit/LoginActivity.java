@@ -96,7 +96,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         catch(Exception e){
 
         }
-
+        /*
         if (!HabitCheckReciever.isTimerOn()){
             Context context = getApplicationContext();
             HabitCheckReciever.setShared_context(context);
@@ -122,7 +122,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         if (lastCheckedDay != Calendar.getInstance().get(Calendar.DAY_OF_YEAR)) {
             HabitCheckReciever.checkHabits();
         }
-
+        */
 
 
 
