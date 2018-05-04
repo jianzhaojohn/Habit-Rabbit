@@ -31,14 +31,20 @@ public class EditProfileActivity extends AppCompatActivity {
         userName = (TextView) findViewById(R.id.change_prof_pic);
 
         saveButton.setOnClickListener(new View.OnClickListener() {
-                                          @Override
-                                          public void onClick(View v) {
-                                              userName.setText(change.getText().toString());
-                                          }
-                                      }
+            @Override
+            public void onClick(View v) {
+                userName.setText(change.getText().toString());
+            }
+        }
+
 
 
         );
+    }
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        userName.setText(change.getText().toString());
     }
 
 }
