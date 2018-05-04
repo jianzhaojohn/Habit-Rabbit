@@ -15,9 +15,8 @@
 ## Landing Page
 https://habit-rabbit.000webhostapp.com/
 
-## Beta Release
-https://youtu.be/Xox4mv7I9XQ
-
+## Official Release
+https://youtu.be/j23T9routSI
 
 ## Project Description:
 
@@ -82,4 +81,7 @@ https://youtu.be/g607Lzud3Ss
 
 ## Alpha Release
 https://youtu.be/jdsvigK7bPs
+
+## Beta Release
+https://youtu.be/Xox4mv7I9XQ
 
