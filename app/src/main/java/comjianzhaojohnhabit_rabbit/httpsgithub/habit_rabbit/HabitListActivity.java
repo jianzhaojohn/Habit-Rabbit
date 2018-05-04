@@ -1,9 +1,10 @@
 package comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -17,7 +18,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
+
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -25,7 +31,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,8 +40,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static android.app.PendingIntent.getActivity;
-import static android.support.v4.app.NavUtils.navigateUpFromSameTask;
 
 /**
  * An activity representing a list of Habits. This activity
@@ -53,11 +56,13 @@ public class HabitListActivity extends AppCompatActivity {
      * device.
      */
     private boolean mTwoPane;
+    protected static RecyclerView recyclerView;
     protected static RecyclerView.Adapter adapter;
 
     /**
      * Called when the activity is starting.
      * generate the view for this page
+     *
      * @param savedInstanceState If the activity is being re-initialized after previously being shut down then this Bundle contains the data it most recently supplied in onSaveInstanceState(Bundle). Note: Otherwise it is null.
      */
     @Override
@@ -70,30 +75,16 @@ public class HabitListActivity extends AppCompatActivity {
         toolbar.setTitle(getTitle());
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        /*fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        */
+        final MediaPlayer mp = MediaPlayer.create(this, R.raw.button);
         // jump to newHabitActivity in responding to click the fab
-        fab.setOnClickListener(new View.OnClickListener(){
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mp.start();
                 startActivity(new Intent(HabitListActivity.this, AddHabitActivity.class));
             }
         });
 
-   /*     FloatingActionButton fab2 = (FloatingActionButton) findViewById(R.id.fab_agenda);
-        fab2.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(HabitListActivity.this, CalendarActivity.class));
-            }
-        });
-*/
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -108,13 +99,14 @@ public class HabitListActivity extends AppCompatActivity {
             mTwoPane = true;
         }
 
-        View recyclerView = findViewById(R.id.habit_list);
+        recyclerView = findViewById(R.id.habit_list);
         assert recyclerView != null;
         setupRecyclerView((RecyclerView) recyclerView);
     }
 
     /**
      * Initialize the contents of the Activity's standard options menu. You should place your menu items in to menu.
+     *
      * @param menu-The options menu in which you place your items.
      * @return You must return true for the menu to be displayed; if you return false it will not be shown.
      */
@@ -126,7 +118,8 @@ public class HabitListActivity extends AppCompatActivity {
     }
 
     /**
-     *This hook is called whenever an item in your options menu is selected.
+     * This hook is called whenever an item in your options menu is selected.
+     *
      * @param item-The menu item that was selected.
      * @return boolean Return false to allow normal menu processing to proceed, true to consume it here.
      */
@@ -138,26 +131,31 @@ public class HabitListActivity extends AppCompatActivity {
             case R.id.nav_Profile:
                 startActivity(new Intent(HabitListActivity.this, ProfileActivity.class));
                 break;
-            case  R.id.nav_agenda:
+            case R.id.nav_agenda:
                 startActivity(new Intent(HabitListActivity.this, CalendarActivity.class));
                 break;
-            case  R.id.nav_logout:
-                try{
+            case R.id.nav_aboutus:
+                startActivity(new Intent(HabitListActivity.this, AboutusActivity.class));
+                break;
+
+            case R.id.nav_logout:
+                try {
                     // getApplicationContext().deleteFile("autionloginfile");
                     File autologin = getApplicationContext().getFileStreamPath("autionloginfile");
                     autologin.delete();
                     // clear and delete data file, then logout
                     SharedPref.clearAll(HabitListActivity.this);
                     String fileName = SharedPref.FILE_NAME;
-                    File file= new File(this.getFilesDir().getParent()+"/shared_prefs/"+fileName+".xml");
+                    File file = new File(this.getFilesDir().getParent() + "/shared_prefs/" + fileName + ".xml");
                     file.delete();
 
                     Intent intent = new Intent(this, LoginActivity.class);
                     intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK | intent.FLAG_ACTIVITY_CLEAR_TOP | intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
-                }catch(Exception e){}
+                } catch (Exception e) {
+                }
                 break;
-            case  R.id.nav_habits:
+            case R.id.nav_habits:
 //                startActivity(new Intent(HabitListActivity.this, HabitListActivity.class));
                 break;
             default:
@@ -206,15 +204,16 @@ public class HabitListActivity extends AppCompatActivity {
         };
 
         //onLongClickListener
-        private  final View.OnLongClickListener mOnLongClickListener = v -> {
+        private final View.OnLongClickListener mOnLongClickListener = v -> {
             // respond the delete button with a dialog box
             final Context context = v.getContext();
             final Habit currentHabit = (Habit) v.getTag();
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            builder.setTitle("Edit Habit")
-                    .setMessage("Do you want to delete this habit?")
+            builder.setTitle("Delete Habit")
+                    .setMessage("Do you want to remove this habit?\nThe bunny will be upset...")
                     .setNegativeButton("NO", null)
                     .setPositiveButton("YES", (dialog, which) -> deleteHabitRequest(context, currentHabit))
+                    .setIcon(R.drawable.ic_delete_forever_black_24dp)
                     .create()
                     .show();
             return true;
@@ -230,8 +229,9 @@ public class HabitListActivity extends AppCompatActivity {
         }
 
         /**
-         *Called when RecyclerView needs a new RecyclerView.ViewHolder of the given type to represent an item.
-         * @param parent The ViewGroup into which the new View will be added after it is bound to an adapter position.
+         * Called when RecyclerView needs a new RecyclerView.ViewHolder of the given type to represent an item.
+         *
+         * @param parent   The ViewGroup into which the new View will be added after it is bound to an adapter position.
          * @param viewType The view type of the new View.
          * @return A new ViewHolder that holds a View of the given view type.
          */
@@ -244,7 +244,8 @@ public class HabitListActivity extends AppCompatActivity {
 
         /**
          * Called by RecyclerView to display the data at the specified position. This method should update the contents of the itemView to reflect the item at the given position.
-         * @param holder-The ViewHolder which should be updated to represent the contents of the item at the given position in the data set.
+         *
+         * @param holder-The   ViewHolder which should be updated to represent the contents of the item at the given position in the data set.
          * @param position-The position of the item within the adapter's data set.
          */
         @Override
@@ -254,40 +255,36 @@ public class HabitListActivity extends AppCompatActivity {
             final Habit currentHabit = HabitList.HABITS_list.get(position);
 
 //            holder.mIdView.setText(mValues.get(position).getHabitID()+"");
-            holder.mIdView.setText(position+1+"");
+            holder.mIdView.setText(position + 1 + "");
             holder.mContentView.setText(mValues.get(position).getName());
 
             holder.itemView.setTag(mValues.get(position));
             holder.itemView.setOnClickListener(mOnClickListener);
             holder.itemView.setOnLongClickListener(mOnLongClickListener);
 
-            holder.mDeleteImg.setTag(mValues.get(currentPosition));
-            holder.mDeleteImg.setOnClickListener(v -> {
+            holder.mIdView.setTag(mValues.get(currentPosition));
+            holder.mIdView.setOnClickListener(v -> {
                 // respond the delete button with a dialog box
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle("Edit Habit")
-                    .setMessage("Do you want to delete this habit?")
-                    .setNegativeButton("NO", null)
-                    .setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            deleteHabitRequest(context, currentHabit);
-                        }
-                    })
-                    .create()
-                    .show();
+                builder.setTitle("Delete Habit")
+                        .setMessage("Do you want to remove this habit?\nThe bunny will be upset...")
+                        .setNegativeButton("NO", null)
+                        .setPositiveButton("YES", (dialog, which) -> deleteHabitRequest(context, currentHabit))
+                        .setIcon(R.drawable.ic_delete_forever_black_24dp)
+                        .create()
+                        .show();
             });
         }
 
         //deleted the database
         private void deleteHabit(Context mContext, Habit habit) {
+            int currentPosition = HabitList.HABITS_list.indexOf(habit);
             // delete habit locally
             SharedPref.deleteHabit(mContext, habit);
             HabitList.deleteHabit(habit);
-            int currentPosition = HabitList.HABITS_list.indexOf(habit);
             notifyItemRemoved(currentPosition);
             if (currentPosition != mValues.size()) {
-                notifyItemRangeChanged(currentPosition, mValues.size()-currentPosition);
+                notifyItemRangeChanged(currentPosition, mValues.size() - currentPosition);
             }
         }
 
@@ -298,9 +295,14 @@ public class HabitListActivity extends AppCompatActivity {
 
         //update the deletion to the database
         private void deleteHabitRequest(final Context context, final Habit habit) {
+            ProgressDialog progress = new ProgressDialog(context);
+            progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progress.setMessage("Removing the habit: " + habit.getName());
+            progress.show();
+
             // get params
             final String username = SharedPref.getUser(context);
-            final String habit_id = habit.getHabitID()+"";
+            final String habit_id = habit.getHabitID() + "";
             // send delete habit request
             RequestQueue queue = VolleySingleton.getInstance(context)
                     .getRequestQueue(context);
@@ -308,9 +310,10 @@ public class HabitListActivity extends AppCompatActivity {
 
             // request server to add this habit to database
             StringRequest loginReq = new StringRequest(Request.Method.POST, add_habit_url,
-                    new Response.Listener<String>(){
+                    new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
+                            progress.dismiss();
                             try {
                                 // parse the response
                                 JSONObject jsonRes = new JSONObject(response);
@@ -318,22 +321,14 @@ public class HabitListActivity extends AppCompatActivity {
 
                                 if (success) {
                                     deleteHabit(context, habit);
-
+                                    Snackbar.make(recyclerView, "Deleted habit " + habit.getName(), Snackbar.LENGTH_SHORT)
+                                            .show();
                                 } else {
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                                    builder.setTitle("Delete Habit")
-                                            .setMessage("Delete habit failed!")
-                                            .setNegativeButton("Retry", null)
-                                            .setPositiveButton("OK", null)
-                                            .create()
+                                    Snackbar.make(recyclerView, "Failed on deleting habit " + habit.getName(), Snackbar.LENGTH_SHORT)
                                             .show();
                                 }
                             } catch (JSONException e) {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                                builder.setTitle("Response error")
-                                        .setMessage(e.toString())
-                                        .setNegativeButton("OK", null)
-                                        .create()
+                                Snackbar.make(recyclerView, "Response Error: " + e.toString(), Snackbar.LENGTH_SHORT)
                                         .show();
                                 e.printStackTrace();
                             }
@@ -341,11 +336,8 @@ public class HabitListActivity extends AppCompatActivity {
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setTitle("Volley Error")
-                            .setMessage(error.toString())
-                            .setNegativeButton("OK", null)
-                            .create()
+                    progress.dismiss();
+                    Snackbar.make(recyclerView, "Volley Error! Please check your connection or try again later.", Snackbar.LENGTH_SHORT)
                             .show();
                 }
             }) {
@@ -366,13 +358,13 @@ public class HabitListActivity extends AppCompatActivity {
         class ViewHolder extends RecyclerView.ViewHolder {
             final TextView mIdView;
             final TextView mContentView;
-            final ImageView mDeleteImg;
+//            final ImageView mDeleteImg;
 
             ViewHolder(View view) {
                 super(view);
                 mIdView = (TextView) view.findViewById(R.id.id_text);
                 mContentView = (TextView) view.findViewById(R.id.content);
-                mDeleteImg = (ImageView) view.findViewById(R.id.delete_image);
+//                mDeleteImg = (ImageView) view.findViewById(R.id.delete_image);
 
             }
         }

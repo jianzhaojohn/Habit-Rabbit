@@ -52,6 +52,4 @@ public class AgendaItem_Fragment extends Fragment {
         return rootView;
     }
 
-
-
 }

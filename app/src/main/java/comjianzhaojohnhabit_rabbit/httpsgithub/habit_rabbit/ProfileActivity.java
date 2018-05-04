@@ -8,11 +8,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import java.io.File;
 
 public class ProfileActivity extends AppCompatActivity {
     public Button editproflebutton;
+    TextView email;
 
     /**
      * Called when the activity is starting.
@@ -23,6 +26,8 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        email = (TextView) findViewById(R.id.username);
+        email.setText(HabitList.getUserName());
     }
 
     /**
@@ -55,6 +60,10 @@ public class ProfileActivity extends AppCompatActivity {
             case  R.id.nav_agenda:
                 startActivity(new Intent(ProfileActivity.this, CalendarActivity.class));
                 break;
+            case  R.id.nav_aboutus:
+                startActivity(new Intent(ProfileActivity.this, AboutusActivity.class));
+                break;
+
             case  R.id.nav_logout:
                 try{
                     // getApplicationContext().deleteFile("autionloginfile");
@@ -85,16 +94,16 @@ public class ProfileActivity extends AppCompatActivity {
         startActivity(intent);
     }
     //another clickListener
-    public void editprofile(View view){
-        editproflebutton = (Button) findViewById(R.id.EditProfileButton);
-        editproflebutton.setOnClickListener(new View.OnClickListener(){
-
-
-            @Override
-            public void onClick(View v) {
-                Intent showEditProfile = new Intent(ProfileActivity.this, EditProfileActivity.class);
-                startActivity(showEditProfile);
-            }
-        });
-    }
+//    public void editprofile(View view){
+//        editproflebutton = (Button) findViewById(R.id.EditProfileButton);
+//        editproflebutton.setOnClickListener(new View.OnClickListener(){
+//
+//
+//            @Override
+//            public void onClick(View v) {
+//                Intent showEditProfile = new Intent(ProfileActivity.this, EditProfileActivity.class);
+//                startActivity(showEditProfile);
+//            }
+//        });
+//    }
 }

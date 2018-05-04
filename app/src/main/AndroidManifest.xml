@@ -53,7 +53,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit.MainActivity" />
         </activity>
-        <activity android:name=".ProfileActivity"
+        <activity
+            android:name=".ProfileActivity"
             android:label="@string/app_name"
             android:parentActivityName=".MainActivity">
             <meta-data
@@ -68,7 +69,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit.MainActivity" />
         </activity>
-        <activity android:name=".RegisterActivity" />
+        <activity
+            android:name=".RegisterActivity"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
@@ -89,16 +92,28 @@
             android:name=".DeadRabbitActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
-            android:theme="@style/FullscreenTheme"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/FullscreenTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit.MainActivity" />
+        </activity>
+
+
+        <activity
+            android:name=".AboutusActivity"
+            android:label="About Us"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit.MainActivity" />
         </activity>
+
         <receiver
             android:name=".HabitCheckReciever"
             android:enabled="true"
             android:exported="true" />
+
     </application>
 
 </manifest>

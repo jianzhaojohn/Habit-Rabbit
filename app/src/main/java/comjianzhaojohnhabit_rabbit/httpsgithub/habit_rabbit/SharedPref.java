@@ -230,7 +230,6 @@ public class SharedPref {
         return res;
     }
 
-    //use for testing purposes
     public static void saveRecords(Context mContext, JSONArray jsonArray) {
         SharedPreferences mPref = mContext.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = mPref.edit();

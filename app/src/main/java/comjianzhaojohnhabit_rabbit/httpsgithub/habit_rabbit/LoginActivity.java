@@ -96,7 +96,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         catch(Exception e){
 
         }
-
+        /*
         if (!HabitCheckReciever.isTimerOn()){
             Context context = getApplicationContext();
             HabitCheckReciever.setShared_context(context);
@@ -122,7 +122,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         if (lastCheckedDay != Calendar.getInstance().get(Calendar.DAY_OF_YEAR)) {
             HabitCheckReciever.checkHabits();
         }
-
+        */
 
 
 
@@ -266,6 +266,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 new Response.Listener<String>(){
                     @Override
                     public void onResponse(String response) {
+                        showProgress(false);
 
                         try {
                             // parse the response
@@ -299,17 +300,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                 finish();
 
                             } else {
-                                showProgress(false);
+//                                showProgress(false);
                                 mPasswordView.setError("Email and password do not match");
                                 mPasswordView.requestFocus();
                             }
                         } catch (JSONException e) {
-                            showProgress(false);
-                            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                            builder.setTitle("Response error")
-                                    .setMessage(e.toString())
-                                    .setNegativeButton("OK", null)
-                                    .create()
+//                            showProgress(false);
+                            Snackbar.make(mEmailView, "Response Error. Please try again later.", Snackbar.LENGTH_SHORT)
                                     .show();
                             e.printStackTrace();
                         }
@@ -318,11 +315,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public void onErrorResponse(VolleyError error) {
                 showProgress(false);
-                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                builder.setMessage(error.toString())
-                        .setTitle("Volley Error")
-                        .setNegativeButton("OK", null)
-                        .create()
+                Snackbar.make(mEmailView, "Volley Error! Please check your connection or try again later.", Snackbar.LENGTH_SHORT)
                         .show();
             }
         }) {
@@ -433,7 +426,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     // go to register page
     public void goRegister(View view) {
         Intent intent = new Intent(this, RegisterActivity.class);
-//        getIntent().putExtra("email", mEmailView.getText().toString());
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
 

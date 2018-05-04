@@ -16,28 +16,64 @@ import java.util.Hashtable;
 
 
 public class HabitCheckReciever extends BroadcastReceiver {
-    private static boolean timerOn = false;
     private static SharedPreferences sharedPref;
     private static SharedPreferences.Editor editor;
-    private static Context shared_context;
-    private static PendingIntent pendingIntent;
+    private Calendar midnight;
     private static NotificationHelper notificationHelper;
 
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.d("alarm", "reciever");
-        checkHabits();
+        setAlarm(context);
+        setEditorAndSharedPref(context);
+        initializeNotificationHelper(context);
+        if (haveNotCheckedHabitsToday()){
+            checkHabits();
+            changeLastDayCheckedToToday();
+        }
     }
 
-    public static boolean isTimerOn() { return timerOn; }
-    public void setTimerOn(){timerOn = true; }
-
-    public static void setShared_context(Context context){
-        shared_context = context;
-        sharedPref = shared_context.getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
-        editor = sharedPref.edit();
-        notificationHelper = new NotificationHelper(shared_context);
+    private void initializeNotificationHelper(Context context){
+        if (notificationHelper==null){
+            notificationHelper = new NotificationHelper(context);
+        }
     }
+
+    private void changeLastDayCheckedToToday() {
+        int today = Calendar.getInstance().get(Calendar.DAY_OF_YEAR);
+        editor.putInt("DayOfYear",today);
+    }
+
+    private boolean haveNotCheckedHabitsToday(){
+        return Calendar.getInstance().get(Calendar.DAY_OF_YEAR) != sharedPref.getInt("DayOfYear",-1);
+    }
+
+    private void setAlarm(Context context) {
+        Intent intent = new Intent(context,HabitCheckReciever.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context,0,intent,0);
+
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC,getMidnight().getTimeInMillis(),pendingIntent);
+    }
+
+    private Calendar getMidnight() {
+        if (midnight==null){
+            midnight = Calendar.getInstance();
+            midnight.add(Calendar.DATE,1);
+            midnight.set(Calendar.HOUR, 0);
+            midnight.set(Calendar.MINUTE, 1);
+        }
+        return midnight;
+    }
+
+    private void setEditorAndSharedPref(Context context) {
+        if (sharedPref==null){
+            sharedPref = context.getSharedPreferences("UserInfo",Context.MODE_PRIVATE);
+            editor = sharedPref.edit();
+        }
+    }
+
+
 
 
     public static boolean rabbitIsAlive() {
@@ -121,7 +157,6 @@ public class HabitCheckReciever extends BroadcastReceiver {
 
         editor.putBoolean("RabbitAlive",rabbitAlive);
         editor.apply();
-        //TODO send to notification helper
-
     }
+
 }

@@ -1,13 +1,19 @@
 package comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,6 +41,15 @@ import java.util.Map;
  * in a {@link HabitListActivity}.
  */
 public class HabitDetailActivity extends AppCompatActivity {
+    private TextView mTitleView, mDesView, mTimesView;
+    private Spinner mPeriodView;
+    private Switch mReminder;
+    private View mProgressView;
+    private View mDetailView;
+
+    private Habit currentHabit;
+    private String username, title, description, times, period, reminder, habit_id;
+    private int valTimes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +66,12 @@ public class HabitDetailActivity extends AppCompatActivity {
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(HabitDetailActivity.this);
                 builder.setTitle("Edit Habit")
-                        .setMessage("Do you want to save your change on this habit?")
+                        .setMessage("Do you want to save your changes on this habit?")
                         .setNegativeButton("NO", null)
                         .setPositiveButton("YES", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                editHabitRequest();
+                                preRequest();
                             }
                         })
                         .create()
@@ -90,6 +105,9 @@ public class HabitDetailActivity extends AppCompatActivity {
                     .add(R.id.habit_detail_container, fragment)
                     .commit();
         }
+
+        mDetailView = (View) findViewById(R.id.habit_detail_container);
+        mProgressView = (View) findViewById(R.id.edit_progress);
     }
 
     @Override
@@ -108,27 +126,65 @@ public class HabitDetailActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void editHabitRequest() {
+    private void preRequest(){
         // get params
-        final Habit habit = HabitList.Habit_table.get(getIntent().getStringExtra(HabitDetailFragment.ARG_ITEM_ID));
-        TextView mTitleView = (TextView)findViewById(R.id.title_txt);
-        TextView mDesView = (TextView)findViewById(R.id.detail_txt);
-        TextView mTimesView = (TextView)findViewById(R.id.times_txt);
-        Spinner mPeriodView = (Spinner)findViewById(R.id.period_spinner);
-        final Switch mReminder = (Switch)findViewById(R.id.reminder_switch);
 
-        final String username = SharedPref.getUser(HabitDetailActivity.this);
-        final String habit_id = habit.getHabitID()+"";
-        final String title = mTitleView.getText().toString();
-        final String description = mDesView.getText().toString();
-        final String times;
-        if(Integer.parseInt(mTimesView.getText().toString()) > 0){
-            times = mTimesView.getText().toString();
-        }else{
-            times = "1";
+        mTitleView = findViewById(R.id.title_txt);
+        mDesView = findViewById(R.id.detail_txt);
+        mTimesView = findViewById(R.id.times_txt);
+        mPeriodView = (Spinner)findViewById(R.id.period_spinner);
+        mReminder = (Switch)findViewById(R.id.reminder_switch);
+
+        username = SharedPref.getUser(HabitDetailActivity.this);
+        currentHabit = HabitList.Habit_table.get(getIntent().getStringExtra(HabitDetailFragment.ARG_ITEM_ID));
+        habit_id = currentHabit.getHabitID()+"";
+        description = mDesView.getText().toString();
+        title = mTitleView.getText().toString();
+        times = mTimesView.getText().toString();
+        period = mPeriodView.getSelectedItem().toString();
+        reminder = mReminder.isChecked()?"1":"0";
+
+        boolean cancel = false;
+        View focusView = null;
+
+        // check the validation of times
+        if(TextUtils.isEmpty(times)){
+            mTimesView.setError("Enter a non-zero repeat times.");
+            focusView = mTimesView;
+            cancel = true;
+        } else {
+            try {
+                valTimes = Integer.parseInt(times);
+                if (valTimes == 0){
+                    mTimesView.setError("Enter a non-zero integer.");
+                    focusView = mTimesView;
+                    cancel = true;
+                }
+            } catch (NumberFormatException e){
+                mTimesView.setError("Enter a non-zero integer.");
+                focusView = mTimesView;
+                cancel = true;
+            }
         }
-        final String period = mPeriodView.getSelectedItem().toString();
-        final String reminder = mReminder.isChecked()?"1":"0";
+
+        // check the validation of title
+        if(TextUtils.isEmpty(title) || title == "") {
+            mTitleView.setError("Habit title cannot be empty.");
+            focusView = mTitleView;
+            cancel = true;
+        }
+
+        if(cancel) {
+            focusView.requestFocus();
+        } else {
+            showProgress(true);
+            editHabitRequest();
+            Snackbar.make(mTitleView, "Saving changes...", Snackbar.LENGTH_SHORT)
+                    .show();
+        }
+    }
+
+    private void editHabitRequest() {
 
         // send edit habit request
         RequestQueue queue = VolleySingleton.getInstance(this).getRequestQueue(this);
@@ -139,6 +195,7 @@ public class HabitDetailActivity extends AppCompatActivity {
                 new Response.Listener<String>(){
                     @Override
                     public void onResponse(String response) {
+                        showProgress(false);
                         try {
                             // parse the response
                             JSONObject jsonRes = new JSONObject(response);
@@ -146,37 +203,25 @@ public class HabitDetailActivity extends AppCompatActivity {
 
                             if (success) {
                                 // update local file
-                                habit.setName(title);
-                                habit.setTimesPerPeriod(Integer.parseInt(times));
-                                habit.setPeriod(period);
-                                habit.setReminder(mReminder.isChecked());
-                                habit.setDescription(description);
-                                SharedPref.editHabit(HabitDetailActivity.this, habit);
+                                currentHabit.setName(title);
+                                currentHabit.setTimesPerPeriod(valTimes);
+                                currentHabit.setPeriod(period);
+                                currentHabit.setReminder(mReminder.isChecked());
+                                currentHabit.setDescription(description);
+                                SharedPref.editHabit(HabitDetailActivity.this, currentHabit);
+                                HabitListActivity.adapter.notifyItemChanged(HabitList.HABITS_list.indexOf(currentHabit));
 
                                 // alert user
-                                AlertDialog.Builder builder = new AlertDialog.Builder(HabitDetailActivity.this);
-                                builder.setTitle("Edit Habit")
-                                        .setMessage("Changes have been saved!")
-                                        .setPositiveButton("OK", null)
-                                        .create()
+                                Snackbar.make(mTitleView, "Habit has been saved.", Snackbar.LENGTH_SHORT)
                                         .show();
                             } else {
                                 //show message when fails
-                                AlertDialog.Builder builder = new AlertDialog.Builder(HabitDetailActivity.this);
-                                builder.setTitle("Edit Habit")
-                                        .setMessage("Edit habit failed!")
-                                        .setNegativeButton("Retry", null)
-                                        .setPositiveButton("OK", null)
-                                        .create()
+                                Snackbar.make(mTitleView, "Failed on Saving this habit!", Snackbar.LENGTH_SHORT)
                                         .show();
                             }
                         } catch (JSONException e) {
                             //show message when catch exception
-                            AlertDialog.Builder builder = new AlertDialog.Builder(HabitDetailActivity.this);
-                            builder.setTitle("Response error")
-                                    .setMessage(e.toString())
-                                    .setNegativeButton("OK", null)
-                                    .create()
+                            Snackbar.make(mTitleView, "Response Error: " + e.toString(), Snackbar.LENGTH_SHORT)
                                     .show();
                             e.printStackTrace();
                         }
@@ -185,11 +230,8 @@ public class HabitDetailActivity extends AppCompatActivity {
             //On errorResponse
             @Override
             public void onErrorResponse(VolleyError error) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(HabitDetailActivity.this);
-                builder.setTitle("Volley Error")
-                        .setMessage(error.toString())
-                        .setNegativeButton("OK", null)
-                        .create()
+                showProgress(false);
+                Snackbar.make(mTitleView, "Volley Error! Please check your connection or try again later.", Snackbar.LENGTH_SHORT)
                         .show();
             }
         }) {
@@ -209,6 +251,39 @@ public class HabitDetailActivity extends AppCompatActivity {
         };
 
         queue.add(loginReq);
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    private void showProgress(final boolean show) {
+        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
+        // for very easy animations. If available, use these APIs to fade-in
+        // the progress spinner.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+
+            mDetailView.setVisibility(show ? View.GONE : View.VISIBLE);
+            mDetailView.animate().setDuration(shortAnimTime).alpha(
+                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    mDetailView.setVisibility(show ? View.GONE : View.VISIBLE);
+                }
+            });
+
+            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            mProgressView.animate().setDuration(shortAnimTime).alpha(
+                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+                }
+            });
+        } else {
+            // The ViewPropertyAnimator APIs are not available, so simply show
+            // and hide the relevant UI components.
+            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            mDetailView.setVisibility(show ? View.GONE : View.VISIBLE);
+        }
     }
 
 }
