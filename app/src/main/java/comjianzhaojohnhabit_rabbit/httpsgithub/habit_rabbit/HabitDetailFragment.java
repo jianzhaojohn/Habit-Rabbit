@@ -93,10 +93,10 @@ public class HabitDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.habit_detail, container, false);
         GraphView graph = (GraphView) rootView.findViewById(R.id.graph);
-        Log.e("DetailFragment", "CreatedView");
+//        Log.e("DetailFragment", "CreatedView");
         // Show habit details
         if (mItem != null) {
-            Log.e("DetailFragment_mItem", mItem.getName());
+//            Log.d("DetailFragment_mItem", mItem.getName());
             ((TextView) rootView.findViewById(R.id.title_txt)).setText(mItem.getName());
             ((TextView) rootView.findViewById(R.id.times_txt)).setText(mItem.getTimesPerPeriod() + "");
             Spinner spinner = rootView.findViewById(R.id.period_spinner);
@@ -112,6 +112,7 @@ public class HabitDetailFragment extends Fragment {
 
     // show habit history in graph as line
     private void drawLineGraph(GraphView graph, Habit habit) {
+//        Log.d("HabitDetail", "Draw Line Graph");
         String period = habit.getPeriod();
         // draw expected points
         List<DataPoint> expectedPoints = getExpectedPoints(habit);

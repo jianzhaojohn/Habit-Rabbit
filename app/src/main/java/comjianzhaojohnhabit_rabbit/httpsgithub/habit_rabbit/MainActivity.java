@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -58,6 +59,8 @@ public class MainActivity extends AppCompatActivity
         View header=navigationView.getHeaderView(0);
         TextView username = header.findViewById(R.id.user);
         username.setText(HabitList.getUserName());
+
+        Toast.makeText(MainActivity.this, "Welcome! The bunny is missing you!", Toast.LENGTH_SHORT).show();
     }
 
     public static boolean isRabbitAlive() {

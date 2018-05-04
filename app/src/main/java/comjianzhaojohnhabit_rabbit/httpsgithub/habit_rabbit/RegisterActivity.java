@@ -1,9 +1,13 @@
 package comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
@@ -33,6 +37,8 @@ public class RegisterActivity extends Activity {
     private EditText mEmailView;
     private EditText mPassword_1View;
     private EditText mPassword_2View;
+    private View mProgressView;
+    private View mRegisterView;
 
     /**
      * Called when the activity is starting.
@@ -47,6 +53,8 @@ public class RegisterActivity extends Activity {
         mEmailView = (EditText) findViewById(R.id.email);
         mPassword_1View = (EditText) findViewById(R.id.password_1);
         mPassword_2View = (EditText) findViewById(R.id.password2);
+        mProgressView = (View) findViewById(R.id.register_progress);
+        mRegisterView = (View) findViewById(R.id.register_form);
 
         //cretae a editorActionListener
         mPassword_2View.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -120,6 +128,7 @@ public class RegisterActivity extends Activity {
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
+            showProgress(true);
             requestRegister(email, password1);
         }
     }
@@ -139,6 +148,7 @@ public class RegisterActivity extends Activity {
                 new Response.Listener<String>(){
                     @Override
                     public void onResponse(String response) {
+                        showProgress(false);
                         try {
                             // parse the response
                             JSONObject jsonRes = new JSONObject(response);
@@ -165,6 +175,7 @@ public class RegisterActivity extends Activity {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                showProgress(false);
                 Snackbar.make(mEmailView, "Volley Error! Please check your connection or try again later.", Snackbar.LENGTH_SHORT)
                         .show();
             }
@@ -231,5 +242,41 @@ public class RegisterActivity extends Activity {
         Intent intent = new Intent(this, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
+    }
+
+    /**
+     * Shows the progress UI and hides the login form.
+     */
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    private void showProgress(final boolean show) {
+        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
+        // for very easy animations. If available, use these APIs to fade-in
+        // the progress spinner.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+
+            mRegisterView.setVisibility(show ? View.GONE : View.VISIBLE);
+            mRegisterView.animate().setDuration(shortAnimTime).alpha(
+                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    mRegisterView.setVisibility(show ? View.GONE : View.VISIBLE);
+                }
+            });
+
+            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            mProgressView.animate().setDuration(shortAnimTime).alpha(
+                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+                }
+            });
+        } else {
+            // The ViewPropertyAnimator APIs are not available, so simply show
+            // and hide the relevant UI components.
+            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            mRegisterView.setVisibility(show ? View.GONE : View.VISIBLE);
+        }
     }
 }

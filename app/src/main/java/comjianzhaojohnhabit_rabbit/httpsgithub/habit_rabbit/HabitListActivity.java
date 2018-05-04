@@ -1,9 +1,10 @@
 package comjianzhaojohnhabit_rabbit.httpsgithub.habit_rabbit;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -17,7 +18,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
+
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -25,7 +31,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,8 +40,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static android.app.PendingIntent.getActivity;
-import static android.support.v4.app.NavUtils.navigateUpFromSameTask;
 
 /**
  * An activity representing a list of Habits. This activity
@@ -72,18 +75,12 @@ public class HabitListActivity extends AppCompatActivity {
         toolbar.setTitle(getTitle());
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        /*fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        */
+        final MediaPlayer mp = MediaPlayer.create(this, R.raw.button);
         // jump to newHabitActivity in responding to click the fab
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mp.start();
                 startActivity(new Intent(HabitListActivity.this, AddHabitActivity.class));
             }
         });
@@ -298,6 +295,11 @@ public class HabitListActivity extends AppCompatActivity {
 
         //update the deletion to the database
         private void deleteHabitRequest(final Context context, final Habit habit) {
+            ProgressDialog progress = new ProgressDialog(context);
+            progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progress.setMessage("Removing the habit: " + habit.getName());
+            progress.show();
+
             // get params
             final String username = SharedPref.getUser(context);
             final String habit_id = habit.getHabitID() + "";
@@ -311,6 +313,7 @@ public class HabitListActivity extends AppCompatActivity {
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
+                            progress.dismiss();
                             try {
                                 // parse the response
                                 JSONObject jsonRes = new JSONObject(response);
@@ -333,6 +336,7 @@ public class HabitListActivity extends AppCompatActivity {
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    progress.dismiss();
                     Snackbar.make(recyclerView, "Volley Error! Please check your connection or try again later.", Snackbar.LENGTH_SHORT)
                             .show();
                 }

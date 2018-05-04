@@ -266,6 +266,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 new Response.Listener<String>(){
                     @Override
                     public void onResponse(String response) {
+                        showProgress(false);
 
                         try {
                             // parse the response
@@ -299,12 +300,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                 finish();
 
                             } else {
-                                showProgress(false);
+//                                showProgress(false);
                                 mPasswordView.setError("Email and password do not match");
                                 mPasswordView.requestFocus();
                             }
                         } catch (JSONException e) {
-                            showProgress(false);
+//                            showProgress(false);
                             Snackbar.make(mEmailView, "Response Error. Please try again later.", Snackbar.LENGTH_SHORT)
                                     .show();
                             e.printStackTrace();
