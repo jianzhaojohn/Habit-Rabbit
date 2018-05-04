@@ -33,20 +33,11 @@
         android:id="@+id/username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="User Name"
+        android:text="Email"
         android:textAlignment="center"
         android:textColor="@android:color/background_dark"
         android:textSize="20dp"
         android:textStyle="bold" />
-
-    <EditText
-        android:id="@+id/userbio"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="User Bio here"
-        android:inputType="textPersonName"
-        android:textAlignment="center" />
 
     <Button
         android:id="@+id/settingButton"
@@ -70,13 +61,5 @@
         android:background="@android:color/background_light"
         android:text="Friends" />
 
-    <Button
-        android:id="@+id/EditProfileButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:background="@android:color/background_light"
-        android:onClick="editprofile"
-        android:text="EditProfile" />
 </LinearLayout>
 
